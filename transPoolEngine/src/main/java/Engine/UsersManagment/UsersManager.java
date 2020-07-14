@@ -1,29 +1,35 @@
 package Engine.UsersManagment;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UsersManager {
 
-    private final Map<String, String> usersHashMap;
+    private final List<User> users;
 
     public UsersManager() {
-        usersHashMap = new HashMap<>();
+        users = new ArrayList<>();
     }
 
-    public synchronized void addUser(String username, String userType) {
-        usersHashMap.put(username,userType);
+    public synchronized void addUser(User user) {
+        users.add(user);
     }
 
     public synchronized void removeUser(String username) {
-        usersHashMap.remove(username);
+        users.remove(username);
     }
 
-    public synchronized Map<String, String> getUsers() {
-        return usersHashMap;
+    public synchronized List<String> getUsersNames() {
+        return users.stream().map(User::getUserName).collect(Collectors.toList());
     }
 
     public boolean isUserExists(String username) {
-        return usersHashMap.containsKey(username);
+        for(User user : users) {
+            if(user.getUserName().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
