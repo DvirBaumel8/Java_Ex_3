@@ -1,6 +1,7 @@
 package manager.utils;
 
-import manager.UserManager;
+import Engine.UsersManagment.UsersManager;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,15 +19,15 @@ public class ServletUtils {
     private static final Object userManagerLock = new Object();
     //private static final Object chatManagerLock = new Object();
 
-    public static UserManager getUserManager(ServletContext servletContext) {
-        UserManager userManager = new UserManager();
+    public static UsersManager getUserManager(ServletContext servletContext) {
+        UsersManager userManager = new UsersManager();
         try {
             synchronized (userManagerLock) {
                 if (servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null) {
-                    servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UserManager());
+                    servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UsersManager());
                 }
             }
-            userManager = (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
+            userManager = (UsersManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

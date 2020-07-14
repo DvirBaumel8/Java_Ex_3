@@ -1,12 +1,13 @@
-package manager;
+package Engine.UsersManagment;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class UserManager {
+public class UsersManager {
 
     private final Map<String, String> usersHashMap;
 
-    public UserManager() {
+    public UsersManager() {
         usersHashMap = new HashMap<>();
     }
 
