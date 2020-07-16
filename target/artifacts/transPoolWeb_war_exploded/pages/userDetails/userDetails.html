@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="userDetails" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TransPool</title>
+    <link rel="stylesheet" href="../../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="userDetailsCSS.css">
+
+
+</head>
+<body>
+<div class="container" ng-controller="userDetailsCtrl">
+    <h1>Welcome to the User Details Page</h1>
+    <br/>
+    <form method="GET" action="login">
+
+        <h3>Please Select a file to upload..</h3>
+        <form action="../upload" enctype="multipart/form-data" method="POST">
+            <input  type='file' accept='text/plain' onchange='openFile(event)'><br>
+            <div id='output'>
+                ...
+            </div>
+        </form>
+
+
+        <br>
+        <br>
+        <h3>
+        Map details arrange in the system:
+        </h3>
+        <table id="totalMapsInTheSystem">
+            <thead>
+            <tr align="center">
+                <th>User Name</th>
+                <th>Map Name</th>
+                <th>Total stations</th>
+                <th>Total Routes</th>
+                <th>Total trips in this map</th>
+                <th>Total trips requests in this map </th>
+                <!--
+                <th>Admin Account</th>
+                -->
+            </tr>
+            </thead>
+            <tfoot>
+            <tr ng-repeat="map in totalMapsInTheSystem">
+                <td class="noBorder"> {{map.userName}}</td>
+                <td class="noBorder">{{map.mapName}}</td>
+                <td class="noBorder">{{map.totalStations}}</td>
+                <td class="noBorder">{{map.totalRoutes}}</td>
+                <td class="noBorder">{{map.totalMapTrips}}</td>
+                <td class="noBorder">{{map.totalTripsRequests}}</td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+
+<!-- Load the JS Module -->
+<script src="userDetails.js"></script>
+</body>
+</html>
