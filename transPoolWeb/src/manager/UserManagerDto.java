@@ -3,11 +3,11 @@ package manager;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManager {
+public class UserManagerDto {
 
     private final Map<String, String> usersHashMap;
 
-    public UserManager() {
+    public UserManagerDto() {
         usersHashMap = new HashMap<>();
     }
 

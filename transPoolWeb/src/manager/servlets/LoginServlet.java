@@ -1,6 +1,6 @@
 package manager.servlets;
 
-import manager.UserManager;
+import manager.UserManagerDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 import manager.utils.SessionUtils;
@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String userName = SessionUtils.getUsername(request);
         String userType = request.getParameter(Constants.USER_TYPE);
-        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        UserManagerDto userManager = ServletUtils.getUserManager(getServletContext());
 
                 synchronized (this) {
                     if (userManager.isUserExists(userName)) {
