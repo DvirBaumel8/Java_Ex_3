@@ -1,8 +1,6 @@
 package manager.servlets;
 
-import Engine.UsersManagment.Account;
-import Engine.UsersManagment.User;
-import Engine.UsersManagment.UsersManager;
+import manager.UserManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 import manager.utils.SessionUtils;
@@ -37,7 +35,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String userName = SessionUtils.getUsername(request);
         String userType = request.getParameter(Constants.USER_TYPE);
-        UsersManager userManager = ServletUtils.getUserManager(getServletContext());
+        UserManager userManager = ServletUtils.getUserManager(getServletContext());
 
                 synchronized (this) {
                     if (userManager.isUserExists(userName)) {
@@ -45,12 +43,12 @@ public class LoginServlet extends HttpServlet {
                         request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
                         getServletContext().getRequestDispatcher(LOGIN_ERROR_URL).forward(request, response);
                     } else {
-                        User user = new User(userName, userType);
-                        userManager.addUser(user);
+                        userManager.addUser(userName, userType);
+                        request.getSession(true).setAttribute(USERNAME, userName);
                         request.getSession(true).setAttribute(USERNAME, userName);
                         System.out.println("On login, request URI is: " + request.getRequestURI());
                         response.sendRedirect(USER_DETAILS_URL);
-                    }
+            }
         }
     }
 
