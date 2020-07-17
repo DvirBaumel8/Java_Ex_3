@@ -1,6 +1,9 @@
 package Engine.MapsTableManager;
 
+import Engine.XML.XMLLoading.jaxb.schema.generated.MapDescriptor;
+
 public class MapElement {
+    private MapDescriptor mapDescriptor;
     private String userNameOwner;
     private String mapName;
     private int stationsQuantity;
@@ -8,6 +11,17 @@ public class MapElement {
     private int tripSuggestsQuantity;
     private int tripRequestQuantity;
     private int matchedTripRequestQuantity;
+
+    public MapElement(MapDescriptor mapDescriptor, String userNameOwner, String mapName) {
+        this.mapDescriptor = mapDescriptor;
+        this.userNameOwner = userNameOwner;
+        this.mapName = mapName;
+        stationsQuantity = mapDescriptor.getStops().getStop().size();
+        roadsQuantity = mapDescriptor.getPaths().getPath().size();
+        tripSuggestsQuantity = 0;
+        tripRequestQuantity = 0;
+        matchedTripRequestQuantity = 0;
+    }
 
     public String getUserNameOwner() {
         return userNameOwner;

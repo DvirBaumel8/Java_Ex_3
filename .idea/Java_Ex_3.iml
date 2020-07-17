@@ -34,5 +34,18 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" name="Java EE 6-Java EE 6 (2)" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/google-gson-2.1" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/google-gson-2.1" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/lib/google-gson-2.1" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/lib/google-gson-2.1" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
   </component>
 </module>
