@@ -26,7 +26,7 @@ public class ServletUtils {
         }
         return (UserManagerDto) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
     }
-
+/*
     public static Engine.manager.EngineManager getEngineManager(ServletContext servletContext) {
         synchronized (engineLock) {
             if (servletContext.getAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME) == null) {
@@ -35,6 +35,8 @@ public class ServletUtils {
         }
         return (Engine.manager.EngineManager) servletContext.getAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME);
     }
+
+ */
 
 
 

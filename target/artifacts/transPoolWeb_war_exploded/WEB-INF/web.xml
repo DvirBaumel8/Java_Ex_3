@@ -8,8 +8,8 @@
         <servlet-class>manager.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UsersListServlet</servlet-name>
-        <servlet-class>manager.servlets.UsersListServlet</servlet-class>
+        <servlet-name>UserMapDetailsServlet</servlet-name>
+        <servlet-class>manager.servlets.UserMapDetailsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MapsTableElementsDetailsServlet</servlet-name>
@@ -20,11 +20,12 @@
         <url-pattern>/pages/signup/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UsersListServlet</servlet-name>
+        <servlet-name>UserMapDetailsServlet</servlet-name>
         <url-pattern>/pages/userDetails/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MapsTableElementsDetailsServlet</servlet-name>
         <url-pattern>/mapsTable/getMapsTableElements</url-pattern>
     </servlet-mapping>
+
 </web-app>

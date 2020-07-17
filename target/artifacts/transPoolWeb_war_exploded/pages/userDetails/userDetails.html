@@ -14,12 +14,10 @@
     <br/>
     <form method="GET" action="login">
 
-        <h3>Please Select a file to upload..</h3>
+        <h3>Select a File:</h3>
         <form action="../upload" enctype="multipart/form-data" method="POST">
-            <input  type='file' accept='text/plain' onchange='openFile(event)'><br>
-            <div id='output'>
-                ...
-            </div>
+            <input type="file" name="file1"><br>
+            <input type="Submit" value="Upload File"><br>
         </form>
 
 
@@ -31,8 +29,7 @@
         <table id="totalMapsInTheSystem">
             <thead>
             <tr align="center">
-                <th>User Name</th>
-                <th>Map Name</th>
+                <th>Map Unique Name</th>
                 <th>Total stations</th>
                 <th>Total Routes</th>
                 <th>Total trips in this map</th>
@@ -44,8 +41,7 @@
             </thead>
             <tfoot>
             <tr ng-repeat="map in totalMapsInTheSystem">
-                <td class="noBorder"> {{map.userName}}</td>
-                <td class="noBorder">{{map.mapName}}</td>
+                <td class="noBorder">{{map.mapUniqueName}}</td>
                 <td class="noBorder">{{map.totalStations}}</td>
                 <td class="noBorder">{{map.totalRoutes}}</td>
                 <td class="noBorder">{{map.totalMapTrips}}</td>

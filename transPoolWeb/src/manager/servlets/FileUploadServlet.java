@@ -1,10 +1,6 @@
 package manager.servlets;
 //taken from: http://www.servletworld.com/servlet-tutorials/servlet3/multipartconfig-file-upload-example.html
 // and http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
-import manager.constans.Constants;
-import manager.utils.ServletUtils;
-import manager.utils.SessionUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -25,7 +21,7 @@ public class FileUploadServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doPost(request, response);
+        response.sendRedirect("pages/userDetails/userDetails.html");
     }
 
     @Override
@@ -33,11 +29,13 @@ public class FileUploadServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         Collection<Part> parts = request.getParts();
+
         out.println("<h2> Total parts : " + parts.size() + "</h2>");
+
         StringBuilder fileContent = new StringBuilder();
+
         for (Part part : parts) {
             printPart(part, out);
-
             //to write the content of the file to an actual file in the system (will be created at c:\samplefile)
             part.write("samplefile");
 
@@ -45,10 +43,7 @@ public class FileUploadServlet extends HttpServlet {
             fileContent.append(readFromInputStream(part.getInputStream()));
         }
 
-        String userName = SessionUtils.getAttribute(request, Constants.USER_NAME);
-        String mapName = SessionUtils.getAttribute(request, Constants.MAP_NAME);
-        Engine.manager.EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        engine.handleFileUploadProcess(fileContent.toString(), userName, mapName);
+        printFileContent(fileContent.toString(), out);
     }
 
     private void printPart(Part part, PrintWriter out) {
