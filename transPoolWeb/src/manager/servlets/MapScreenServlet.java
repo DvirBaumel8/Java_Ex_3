@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class MapsTableElementsDetailsServlet extends HttpServlet {
+public class MapScreenServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,7 +25,7 @@ public class MapsTableElementsDetailsServlet extends HttpServlet {
             /*
             Gson gson = new Gson();
             EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
-            List<MapsTableElementDetails> mapsTableElements =  engineManager.getAllMapsTableElementsDetails();
+            List<MapsTableElementDetails> mapsTableElements = engineManager.getAllMapsTableElementsDetails();
             String json = gson.toJson(mapsTableElements);
             out.println(json);
             out.flush();

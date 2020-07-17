@@ -1,23 +1,44 @@
 package Engine.maps;
 
+import Engine.trips.TripRequest;
+import Engine.trips.TripSuggest;
 import Engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class MapsManager {
-    private List<Map> maps;
+    private HashMap<Integer, MapEntity> mapEntities;
+    private static Integer index;
 
     public MapsManager() {
-        maps = new ArrayList<>();
+        mapEntities = new HashMap<>();
+        index = 1;
     }
 
     public void createNewMap(MapDescriptor mapDescriptor, String userName, String mapName) {
-        Map map = new Map(mapDescriptor, userName, mapName);
+        MapEntity mapEntity = new MapEntity(mapDescriptor, userName, mapName);
+        mapEntities.put(index, mapEntity);
+        index++;
     }
 
     public List<MapsTableElementDetails> getAllMapsTableElementsDetails() {
-        return maps.stream().map(Map::getMapsTableElementDetails).collect(Collectors.toList());
+        List<MapsTableElementDetails> detailsList = new ArrayList<>();
+        for(Map.Entry<Integer, MapEntity> entry : mapEntities.entrySet()) {
+            detailsList.add(entry.getValue().getMapsTableElementDetails());
+        }
+        return detailsList;
+    }
+
+    public void addTripRequestByMapId(Integer mapId, TripRequest tripRequest) {
+        MapEntity mapEntity = mapEntities.get(mapId);
+        mapEntity.addNewTripRequest(tripRequest);
+    }
+
+    public void addTripSuggestByMapId(Integer mapId, TripSuggest tripSuggest) {
+        MapEntity mapEntity = mapEntities.get(mapId);
+        mapEntity.addNewTripSuggest(tripSuggest);
     }
 }

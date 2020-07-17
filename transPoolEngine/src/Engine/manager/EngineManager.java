@@ -2,6 +2,9 @@ package Engine.manager;
 
 import Engine.maps.MapsManager;
 import Engine.maps.MapsTableElementDetails;
+import Engine.trips.TripSuggest;
+import Engine.validations.RequestValidator;
+import Engine.validations.SuggestValidator;
 import Engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.TransPool;
 import Engine.maps.MapsTableElementDetailsManager;
 import Engine.xmlLoading.SchemaBasedJAXBMain;
@@ -26,7 +29,7 @@ public class EngineManager {
     }
 
     public void getUsersMap() {
-
+        
     }
 
     public void handleFileUploadProcess(String fileContent, String userName, String mapName) throws FileNotFoundException {
@@ -42,6 +45,30 @@ public class EngineManager {
 
     public List<MapsTableElementDetails> getAllMapsTableElementsDetails() {
             return mapsManager.getAllMapsTableElementsDetails();
+    }
+
+    public void createNewTripRequest(Integer mapId, String[] inputsArr) {
+        RequestValidator requestValidator = new RequestValidator();
+        if(requestValidator.validateTripRequestInput(inputsArr)) {
+            mapsManager.addTripRequestByMapId(mapId, inputsArr);
+        }
+        else {
+            String errorMessage = requestValidator.getAddNewTripRequestErrorMessage();
+            //Todo - handle error input
+        }
+    }
+
+
+    public void createNewTripSuggest(Integer mapId, String[] inputsArr) {
+        SuggestValidator suggestValidator = new SuggestValidator();
+            if(suggestValidator.validateTripSuggestInput(inputsArr, )) {
+                TripSuggest tripSuggest = buildNewSuggest(inputsArr);
+                mapsManager.addTripSuggestByMapId(mapId, tripSuggest)
+            }
+    }
+
+    private TripSuggest buildNewSuggest(String[] inputsArr) {
+            return null;
     }
 
 }

@@ -12,8 +12,8 @@
         <servlet-class>manager.servlets.UserMapDetailsServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>MapsTableElementsDetailsServlet</servlet-name>
-        <servlet-class>manager.servlets.MapsTableElementsDetailsServlet</servlet-class>
+        <servlet-name>MapScreenServlet</servlet-name>
+        <servlet-class>manager.servlets.MapScreenServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -24,8 +24,8 @@
         <url-pattern>/pages/userDetails/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>MapsTableElementsDetailsServlet</servlet-name>
-        <url-pattern>/mapsTable/getMapsTableElements</url-pattern>
+        <servlet-name>MapScreenServlet</servlet-name>
+        <url-pattern>/map</url-pattern>
     </servlet-mapping>
 
 </web-app>
