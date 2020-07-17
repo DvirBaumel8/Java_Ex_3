@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static manager.constans.Constants.USERNAME;
+import static manager.constans.Constants.USER_NAME;
 
 
 public class LoginServlet extends HttpServlet {
@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String userName = SessionUtils.getUsername(request);
+        String userName = SessionUtils.getAttribute(request, Constants.USER_NAME);
         String userType = request.getParameter(Constants.USER_TYPE);
         UserManagerDto userManagerDto = ServletUtils.getUserManager(getServletContext());
         validateUserType(userType);
@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
                         getServletContext().getRequestDispatcher(LOGIN_ERROR_URL).forward(request, response);
                     } else {
                         userManagerDto.addUser(userName, userType);
-                        request.getSession(true).setAttribute(USERNAME, userName);
+                        request.getSession(true).setAttribute(USER_NAME, userName);
                         System.out.println("On login, request URI is: " + request.getRequestURI());
                         response.sendRedirect(USER_DETAILS_URL);
             }
@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void validateUserType(String userType) {
-        if(userType.isEmpty()) {
+        if(userType.equals("requestPassenger") || userType.equals("suggestPassenger")) {
             //Handle user without role
         }
     }

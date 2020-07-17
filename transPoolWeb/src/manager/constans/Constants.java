@@ -1,8 +1,9 @@
 package manager.constans;
 
 public class Constants {
-    public static final String USERNAME = "username";
+    public static final String USER_NAME = "username";
     public static final String USER_TYPE = "userType";
+    public static final String MAP_NAME = "mapName";
     public static final String USER_NAME_ERROR = "username_error";
 
     //public static final String CHAT_PARAMETER = "userstring";

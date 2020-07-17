@@ -26,17 +26,17 @@ public class ServletUtils {
         }
         return (UserManagerDto) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
     }
-/*
-    public static EngineManager getEngineManager(ServletContext servletContext) {
+
+    public static Engine.manager.EngineManager getEngineManager(ServletContext servletContext) {
         synchronized (engineLock) {
             if (servletContext.getAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME) == null) {
-                servletContext.setAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME, EngineManager.getEngineManagerInstance());
+                servletContext.setAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME, Engine.manager.EngineManager.getEngineManagerInstance());
             }
         }
-        return (EngineManager) servletContext.getAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME);
+        return (Engine.manager.EngineManager) servletContext.getAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME);
     }
 
- */
+
 
     public static int getIntParameter(HttpServletRequest request, String name) {
         String value = request.getParameter(name);

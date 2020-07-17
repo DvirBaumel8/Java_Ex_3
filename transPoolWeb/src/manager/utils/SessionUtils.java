@@ -7,9 +7,9 @@ import javax.servlet.http.HttpSession;
 
 public class SessionUtils {
 
-    public static String getUsername (HttpServletRequest request) {
+    public static String getAttribute (HttpServletRequest request, String param) {
         HttpSession session = request.getSession(true);
-        Object sessionAttribute = session != null ? request.getParameter(Constants.USERNAME) : null;
+        Object sessionAttribute = session != null ? request.getParameter(param) : null;
         return sessionAttribute != null ? sessionAttribute.toString() : null;
     }
 

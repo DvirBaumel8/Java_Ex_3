@@ -10,8 +10,10 @@
       <root url="jar://$PROJECT_DIR$/lib/javax.resource.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
+      <root url="file://$PROJECT_DIR$/lib/google-gson-2.1" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/google-gson-2.1" recursive="false" />
   </library>
 </component>
