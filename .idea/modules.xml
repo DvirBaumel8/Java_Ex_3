@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Java_Ex_3.iml" filepath="$PROJECT_DIR$/.idea/Java_Ex_3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../transpoolEx3/transPoolEngine/transPoolEngine.iml" filepath="$PROJECT_DIR$/../../transpoolEx3/transPoolEngine/transPoolEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/transPoolWeb/transPoolWeb.iml" filepath="$PROJECT_DIR$/transPoolWeb/transPoolWeb.iml" />
     </modules>
   </component>
 </project>

@@ -1,10 +1,5 @@
 package manager.servlets;
 
-import Engine.Manager.EngineManager;
-import Engine.UsersManagment.UserManager;
-import com.google.gson.Gson;
-import manager.utils.ServletUtils;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -31,12 +26,15 @@ public class UsersListServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
+            /*
             Gson gson = new Gson();
             UserManager userManager = ServletUtils.getUserManager(getServletContext());
             Map<String, String> usersList = userManager.getUsers();
             String json = gson.toJson(usersList);
             out.println(json);
             out.flush();
+
+             */
         }
     }
 

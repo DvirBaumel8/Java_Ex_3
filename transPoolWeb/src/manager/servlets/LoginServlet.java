@@ -1,6 +1,6 @@
 package manager.servlets;
 
-import Engine.UsersManagment.UserManager;
+import manager.UserManagerDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 import manager.utils.SessionUtils;
@@ -35,15 +35,15 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String userName = SessionUtils.getUsername(request);
         String userType = request.getParameter(Constants.USER_TYPE);
-        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        UserManagerDto userManagerDto = ServletUtils.getUserManager(getServletContext());
         validateUserType(userType);
                 synchronized (this) {
-                    if (userManager.isUserExists(userName)) {
+                    if (userManagerDto.isUserExists(userName)) {
                         String errorMessage = "Username " + userName + " already exists. Please enter a different username.";
                         request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
                         getServletContext().getRequestDispatcher(LOGIN_ERROR_URL).forward(request, response);
                     } else {
-                        userManager.addUser(userName, userType);
+                        userManagerDto.addUser(userName, userType);
                         request.getSession(true).setAttribute(USERNAME, userName);
                         System.out.println("On login, request URI is: " + request.getRequestURI());
                         response.sendRedirect(USER_DETAILS_URL);

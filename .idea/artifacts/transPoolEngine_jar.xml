@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="transPoolEngine:jar">
+    <output-path>$PROJECT_DIR$/target/artifacts/transPoolEngine_jar</output-path>
+    <root id="archive" name="transPoolEngine.jar">
+      <element id="module-output" name="transPoolEngine" />
+    </root>
+  </artifact>
+</component>

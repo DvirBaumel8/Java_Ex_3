@@ -1,14 +1,13 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="transPoolWeb_war_exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/transPoolWeb_war_exploded</output-path>
+  <artifact type="exploded-war" name="transPoolWeb:war exploded">
+    <output-path>$PROJECT_DIR$/target/artifacts/transPoolWeb_war_exploded</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="Java_Ex_3" />
+          <element id="module-output" name="transPoolWeb" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="Java_Ex_3/web/Web2" />
-      <element id="javaee-facet-resources" facet="Java_Ex_3/web/Web" />
+      <element id="javaee-facet-resources" facet="transPoolWeb/web/Web" />
     </root>
   </artifact>
 </component>
