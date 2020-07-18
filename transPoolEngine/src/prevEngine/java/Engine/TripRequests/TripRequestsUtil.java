@@ -33,11 +33,6 @@ public class TripRequestsUtil {
         return requestTrips;
     }
 
-    public void addRequestTrip(TripRequest requestTrip) {
-        requestTrip.setRequestID(nextRequestID);
-        requestTrips.put(nextRequestID, requestTrip);
-        nextRequestID++;
-    }
 
     public boolean isRequestIDExist(Integer requestID) {
         return requestTrips.containsKey(requestID);

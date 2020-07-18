@@ -1,9 +1,8 @@
 package Engine.trips;
 
 
-import prevEngine.java.Engine.MatchingUtil.RoadTrip;
+import Engine.matching.RoadTrip;
 
-import java.sql.Time;
 
 public class TripRequest {
     private int RequestID;

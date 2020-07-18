@@ -6,39 +6,70 @@ import Engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 public class MapsManager {
-    private HashMap<Integer, MapEntity> mapEntities;
-    private static Integer index;
+    private HashMap<String, MapEntity> mapNameToEntity;
 
     public MapsManager() {
-        mapEntities = new HashMap<>();
-        index = 1;
+        mapNameToEntity = new HashMap<>();
     }
 
-    public void createNewMap(MapDescriptor mapDescriptor, String userName, String mapName) {
+    public void createNewMap(MapDescriptor mapDescriptor, String userName, String mapName) throws Exception {
+        if(mapNameToEntity.containsKey(mapName)) {
+            throw new Exception();
+        }
         MapEntity mapEntity = new MapEntity(mapDescriptor, userName, mapName);
-        mapEntities.put(index, mapEntity);
-        index++;
+        mapNameToEntity.put(mapName, mapEntity);
     }
 
     public List<MapsTableElementDetails> getAllMapsTableElementsDetails() {
         List<MapsTableElementDetails> detailsList = new ArrayList<>();
-        for(Map.Entry<Integer, MapEntity> entry : mapEntities.entrySet()) {
+        for(Map.Entry<String, MapEntity> entry : mapNameToEntity.entrySet()) {
             detailsList.add(entry.getValue().getMapsTableElementDetails());
         }
         return detailsList;
     }
 
-    public void addTripRequestByMapId(Integer mapId, TripRequest tripRequest) {
-        MapEntity mapEntity = mapEntities.get(mapId);
+    public void addTripRequestByMapName(String mapName, TripRequest tripRequest) {
+        MapEntity mapEntity = mapNameToEntity.get(mapName);
         mapEntity.addNewTripRequest(tripRequest);
     }
 
-    public void addTripSuggestByMapId(Integer mapId, TripSuggest tripSuggest) {
-        MapEntity mapEntity = mapEntities.get(mapId);
+    public void addTripSuggestByMapName(String mapName, TripSuggest tripSuggest) {
+        MapEntity mapEntity = mapNameToEntity.get(mapName);
         mapEntity.addNewTripSuggest(tripSuggest);
+    }
+
+    public HashSet<String> getAllLogicStationsByMapName(String mapName) {
+        MapEntity mapEntity = mapNameToEntity.get(mapName);
+        return mapEntity.getAllLogicStations();
+    }
+
+
+    public TripRequest getMapTripRequestByMapNameAndRequestId(String mapName, Integer requestId) {
+        return mapNameToEntity.get(mapName).getTripRequestById(requestId);
+    }
+
+    public TripSuggest getMapTripSuggestByMapNameAndSuggestId(String mapName, Integer suggestId) {
+        return mapNameToEntity.get(mapName).getTripSuggestById(suggestId);
+    }
+
+    public void addMatchTripRequestToMapByMap(String mapName) {
+        mapNameToEntity.get(mapName).addNewMatchTripRequest();
+    }
+
+    public MapsTableElementDetails getMapTableElementDetailsByMapName(String mapName) {
+        return mapNameToEntity.get(mapName).getMapsTableElementDetails();
+    }
+
+    public MapDescriptor getMapDescriptorByMapName(String mapName) {
+        return mapNameToEntity.get(mapName).getMapDescriptor();
+    }
+
+    public List<TripSuggest> getTripSuggestsByMapName(String mapName) {
+        return mapNameToEntity.get(mapName).getTripSuggests();
     }
 }

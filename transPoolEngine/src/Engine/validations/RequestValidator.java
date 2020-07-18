@@ -1,5 +1,7 @@
 package Engine.validations;
 
+import Engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
+
 public class RequestValidator extends ActionValidator {
     private StringBuilder addNewTripRequestErrorMessage;
     private StringBuilder chooseRequestAndAmountOfSuggestedTripsErrorMessage;

@@ -16,34 +16,33 @@ public class ActionValidator {
     }
 
     public boolean validateOwnerName(String input) {
-//        if(!validateOwnerNameUnique(input)) {
-//            generalErrorMessage.append("Owner name should be unique\n");
-//            return false;
-//        }
-//        try {
-//            if (input.isEmpty()) {
-//                generalErrorMessage.append("Request owner name is empty\n");
-//                return false;
-//            }
-//            Integer.parseInt(input);
-//            generalErrorMessage.append("Owner name can't contains only numbers\n");
-//            return false;
-//        }
-//        catch(Exception e) {
-//            return true;
-//        }
-        return true;
+        if(!validateOwnerNameUnique(input)) {
+            generalErrorMessage.append("Owner name should be unique\n");
+            return false;
+        }
+        try {
+            if (input.isEmpty()) {
+                generalErrorMessage.append("Request owner name is empty\n");
+                return false;
+            }
+            Integer.parseInt(input);
+            generalErrorMessage.append("Owner name can't contains only numbers\n");
+            return false;
+        }
+        catch(Exception e) {
+            return true;
+        }
     }
-//
-//    private boolean validateOwnerNameUnique(String input) {
+
+    private boolean validateOwnerNameUnique(String input) {
 //        List<String> currentOwnerNamesInSystem = EngineManager.getEngineManagerInstance().getAllPlannedTripsOwnerNames();
 //        for(String ownerName : currentOwnerNamesInSystem) {
 //            if(ownerName.equals(input)) {
 //                return false;
 //            }
 //        }
-//        return true;
-//    }
+        return true;
+    }
 
     public boolean validateTime (String time, int index) {
         final String TIME24HOURS_PATTERN =
@@ -98,6 +97,5 @@ public class ActionValidator {
     public void setGeneralErrorMessage(StringBuilder generalErrorMessage) {
         this.generalErrorMessage = generalErrorMessage;
     }
-
 
 }

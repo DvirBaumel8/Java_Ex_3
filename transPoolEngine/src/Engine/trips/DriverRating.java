@@ -1,4 +1,4 @@
-package prevEngine.java.Engine.TripSuggestUtil;
+package Engine.trips;
 
 import java.util.ArrayList;
 import java.util.List;

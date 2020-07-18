@@ -1,15 +1,15 @@
 package Engine.users;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Transaction {
     private TransactionType transactionType;
-    private Date transactionDate;
+    private LocalDate transactionDate;
     private double amountOfTransfer;
     private double balanceBeforeTransaction;
     private double balanceAfterTransaction;
 
-    public Transaction(TransactionType transactionType, Date transactionDate, double amountOfTransfer, double balanceBeforeTransaction, double balanceAfterTransaction) {
+    public Transaction(TransactionType transactionType, LocalDate transactionDate, double amountOfTransfer, double balanceBeforeTransaction, double balanceAfterTransaction) {
         this.transactionType = transactionType;
         this.transactionDate = transactionDate;
         this.amountOfTransfer = amountOfTransfer;

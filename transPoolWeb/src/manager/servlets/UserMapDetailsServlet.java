@@ -1,5 +1,10 @@
 package manager.servlets;
 
+import Engine.manager.EngineManager;
+import Engine.maps.MapsTableElementDetails;
+import com.google.gson.Gson;
+import manager.utils.ServletUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -7,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
@@ -26,15 +32,12 @@ public class UserMapDetailsServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            /*
             Gson gson = new Gson();
-            UserManagerDto userManager = ServletUtils.getUserManager(getServletContext());
-            Map<String, String> usersList = userManager.getUsers();
-            String json = gson.toJson(usersList);
+            EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
+            List<MapsTableElementDetails> mapsTableElements = engineManager.getAllMapsTableElementsDetails();
+            String json = gson.toJson(mapsTableElements);
             out.println(json);
             out.flush();
-
-             */
         }
     }
 }

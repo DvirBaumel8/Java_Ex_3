@@ -76,4 +76,16 @@ public class MapsTableElementDetails {
     public void setMatchedTripRequestQuantity(int matchedTripRequestQuantity) {
         this.matchedTripRequestQuantity = matchedTripRequestQuantity;
     }
+
+    public void addTripRequest() {
+        tripRequestQuantity++;
+    }
+
+    public void addTripSuggest() {
+        tripSuggestsQuantity++;
+    }
+
+    public void addMatchTripRequest() {
+        matchedTripRequestQuantity++;
+    }
 }

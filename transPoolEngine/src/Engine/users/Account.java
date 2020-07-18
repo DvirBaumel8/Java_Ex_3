@@ -1,13 +1,15 @@
 package Engine.users;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 public class Account {
     private double money;
-    private List<Transaction> allTransactions;
+    private List<Transaction> accountTransactions;
 
     public void addTransaction(Transaction transaction) {
-        allTransactions.add(transaction);
+        accountTransactions.add(transaction);
     }
 
     public void addMoney(double amountToAdd) {
@@ -16,5 +18,14 @@ public class Account {
 
     public void takeMoney(double amountToTake) {
         this.money -= amountToTake;
+    }
+
+    public String getAccountTransactions() {
+        Gson gson = new Gson();
+        return gson.toJson(accountTransactions);
+    }
+
+    public double getCurrentCash() {
+        return money;
     }
 }
