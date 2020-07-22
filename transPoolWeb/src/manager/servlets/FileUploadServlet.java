@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-@WebServlet("/upload")
+@WebServlet(name = "FileUpload", urlPatterns = {"/pages/userDetails/FileUpload"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadServlet extends HttpServlet {
 
@@ -48,8 +48,8 @@ public class FileUploadServlet extends HttpServlet {
             fileContent.append(readFromInputStream(part.getInputStream()));
         }
 
-        String userName = SessionUtils.getAttribute(request, Constants.USER_NAME);
-        String userType = SessionUtils.getAttribute(request, Constants.USER_TYPE);
+        String userName = request.getParameter(Constants.USER_NAME);
+        String userType = request.getParameter(Constants.USER_TYPE);
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
         engineManager.handleFileUploadProcess(fileContent.toString(), userName, userType);
     }

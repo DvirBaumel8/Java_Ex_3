@@ -12,14 +12,12 @@
 <div class="container" ng-controller="userDetailsCtrl">
     <h1>Welcome to the User Details Page</h1>
     <br/>
-    <form method="GET" action="login">
 
         <h3>Select a File:</h3>
-        <form action="../upload" enctype="multipart/form-data" method="POST">
-            <input type="file" name="file1"><br>
-            <input type="Submit" value="Upload File"><br>
-        </form>
-
+    <form method="POST" action="FileUpload" enctype="multipart/form-data">
+    <input type="file" name="file1" id="xml" name="xml" accept="xml/*" onchange='openFile(event)'><br>
+        <input  type="submit" value="submit" style="width: 80px; height:40px"/>
+    </form>
 
         <br>
         <br>
@@ -49,9 +47,10 @@
             </tr>
             </tfoot>
         </table>
-    </form>
+
 
 </div>
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>

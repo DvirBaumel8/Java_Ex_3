@@ -45,8 +45,8 @@ public class EngineManager {
         return engineManagerInstance;
     }
 
-    public void getUsersMap() {
-        
+    public UsersManager getUsersManager() {
+        return usersManager;
     }
 
     public void handleFileUploadProcess(String fileContent, String userName, String mapName) throws FileNotFoundException {

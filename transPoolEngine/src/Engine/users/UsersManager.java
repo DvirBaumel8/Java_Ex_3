@@ -1,12 +1,17 @@
 package Engine.users;
 
+import Engine.validations.UsersValidations;
+
 import java.util.HashMap;
 
 public class UsersManager {
     private static HashMap<String, User> users;
+    private static UsersValidations usersValidations;
+
 
     public UsersManager() {
         users = new HashMap<>();
+        usersValidations = new UsersValidations();
     }
 
     public void addNewUser(String userName, User user) {
@@ -28,5 +33,9 @@ public class UsersManager {
 
     public double getCurrentUserCashByUserName(String userName) {
         return users.get(userName).getCurrentCash();
+    }
+
+    public boolean isUserExistInTheSystem(String userToCheck) {
+        return usersValidations.isUserExistInTheSystem(users, userToCheck);
     }
 }

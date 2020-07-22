@@ -3,29 +3,5 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>manager.servlets.LoginServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UserMapDetailsServlet</servlet-name>
-        <servlet-class>manager.servlets.UserMapDetailsServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>MapScreenServlet</servlet-name>
-        <servlet-class>manager.servlets.MapScreenServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/pages/signup/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UserMapDetailsServlet</servlet-name>
-        <url-pattern>/pages/userDetails/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MapScreenServlet</servlet-name>
-        <url-pattern>/map</url-pattern>
-    </servlet-mapping>
 
 </web-app>

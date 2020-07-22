@@ -6,14 +6,16 @@ import manager.utils.ServletUtils;
 import manager.utils.SessionUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 import static manager.constans.Constants.USER_NAME;
 
-
+@WebServlet(name = "LoginServlet", urlPatterns = {"/pages/signup/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
     private final String USER_DETAILS_URL = "../userDetails/userDetails.html";
@@ -33,30 +35,40 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String userName = SessionUtils.getAttribute(request, Constants.USER_NAME);
+        String userName = request.getParameter(Constants.USER_NAME);
         String userType = request.getParameter(Constants.USER_TYPE);
         UserManagerDto userManagerDto = ServletUtils.getUserManager(getServletContext());
-        validateUserType(userType);
+        String errorMessage = validateUserLoginInputs(userType, userName);
+
                 synchronized (this) {
-                    if (userManagerDto.isUserExists(userName)) {
-                        String errorMessage = "Username " + userName + " already exists. Please enter a different username.";
-                        request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
-                        getServletContext().getRequestDispatcher(LOGIN_ERROR_URL).forward(request, response);
-                    } else {
-                        userManagerDto.addUser(userName, userType);
-                        request.getSession(true).setAttribute(USER_NAME, userName);
-                        System.out.println("On login, request URI is: " + request.getRequestURI());
-                        response.sendRedirect(USER_DETAILS_URL);
+                    try {
+                        if(errorMessage == null) {
+                            userManagerDto.addUser(userName, userType);
+                            request.getSession(true).setAttribute(USER_NAME, userName);
+                            System.out.println("On login, request URI is: " + request.getRequestURI());
+                            response.sendRedirect(USER_DETAILS_URL);
+                        }
+                        else {
+                            System.out.println(errorMessage);
+                            response.sendRedirect(SIGN_UP_URL);
+                        }
+                    }
+                    catch (Exception exception) {
+                        System.out.println(errorMessage);
+                        response.sendRedirect(SIGN_UP_URL);
+                    }
             }
-        }
+
     }
 
-    private void validateUserType(String userType) {
-        if(userType.equals("requestPassenger") || userType.equals("suggestPassenger")) {
-            //Handle user without role
-        }
-    }
-
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -77,4 +89,21 @@ public class LoginServlet extends HttpServlet {
         processRequest(request, response);
     }
 
+    private String validateUserLoginInputs(String userType, String userName)
+            throws IOException {
+        StringBuilder errorMessageSb = null;
+        //EngineManager engineManager = EngineManager.getEngineManagerInstance();
+
+        try {
+            if(userType.equals("requestPassenger") || userType.equals("suggestPassenger")) {
+                errorMessageSb = new StringBuilder();
+                errorMessageSb.append("User Typ not chosen. please choose one");
+            }
+        }
+        catch (Exception exception) {
+            return null;
+        }
+
+        return null;
+    }
 }

@@ -31,7 +31,8 @@ public class ServletUtils {
     public static EngineManager getEngineManager(ServletContext servletContext) {
         synchronized (engineLock) {
             if (servletContext.getAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME) == null) {
-                servletContext.setAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME, EngineManager.getEngineManagerInstance());
+                EngineManager engineManager = EngineManager.getEngineManagerInstance();
+                servletContext.setAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME, engineManager);
             }
         }
         return (EngineManager) servletContext.getAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME);

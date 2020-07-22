@@ -9,25 +9,29 @@
 </head>
 <body>
 <div class="container">
+    <form method="GET" action="LoginServlet">
     <h1>Welcome to the TransPool App</h1>
 
     <h2>Please insert the following details to sign in:</h2>
-    <form enctype="multipart/form-data"  method="GET" action="login">
         Please enter a unique user name:
-        <input type="text" id="username" value="" name="username" class=""/>
+        <input type="text" id="userName" name="userName" class=""/>
         <br>
         <br>
         Please choose a passenger type: &nbsp;
         <select id="userType" name="userType"  selected="selected" style="width:150px; ">
-            <option ng-selected="true" value="">Passenger type</option>
+            <option ng-selected="true">Passenger type</option>
             <option value="requestPassenger">request passenger</option>
             <option value="suggestPassenger">suggest passenger</option>
         </select>
         <br>
         <br>
-        <input href="userDetails/userDetails.html" style="width: 80px; height:40px" type="submit" value="Login"/>
-        <br>
+
+
+
+        <input  type="submit" value="Login" style="width: 80px; height:40px"/>
     </form>
+    <br>
+
 
 </div>
 </body>
