@@ -27,11 +27,13 @@
         <table id="totalMapsInTheSystem">
             <thead>
             <tr align="center">
+                <th>User Name </th>
                 <th>Map Unique Name</th>
-                <th>Total stations</th>
-                <th>Total Routes</th>
-                <th>Total trips in this map</th>
-                <th>Total trips requests in this map </th>
+                <th>Total Stations</th>
+                <th>Total Roads</th>
+                <th>Total Trips Suggests Per Map</th>
+                <th>Total Trips Requests Per Map</th>
+                <th>Matched Trip Request Quantity</th>
                 <!--
                 <th>Admin Account</th>
                 -->
@@ -39,15 +41,16 @@
             </thead>
             <tfoot>
             <tr ng-repeat="map in totalMapsInTheSystem">
-                <td class="noBorder">{{map.mapUniqueName}}</td>
-                <td class="noBorder">{{map.totalStations}}</td>
-                <td class="noBorder">{{map.totalRoutes}}</td>
-                <td class="noBorder">{{map.totalMapTrips}}</td>
-                <td class="noBorder">{{map.totalTripsRequests}}</td>
+                <td class="noBorder">{{map.userNameOwner}}</td>
+                <td class="noBorder">{{map.mapName}}</td>
+                <td class="noBorder">{{map.stationsQuantity}}</td>
+                <td class="noBorder">{{map.roadsQuantity}}</td>
+                <td class="noBorder">{{map.tripSuggestsQuantity}}</td>
+                <td class="noBorder">{{map.tripRequestQuantity}}</td>
+                <td class="noBorder">{{map.matchedTripRequestQuantity}}</td>
             </tr>
             </tfoot>
         </table>
-
 
 </div>
 

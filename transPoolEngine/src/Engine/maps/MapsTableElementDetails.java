@@ -21,6 +21,9 @@ public class MapsTableElementDetails {
         matchedTripRequestQuantity = 0;
     }
 
+    public MapsTableElementDetails() {
+    }
+
     public String getUserNameOwner() {
         return userNameOwner;
     }
