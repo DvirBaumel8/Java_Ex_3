@@ -8,7 +8,7 @@ import java.io.*;
 
 public class SchemaBasedJAXBMain {
 
-    private final static String JAXB_XML_GAME_PACKAGE_NAME = "XML.XMLLoading.jaxb.schema.generated";
+    private final static String JAXB_XML_GAME_PACKAGE_NAME = "Engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated";
     private String errorMessage;
 
     public TransPool init(String pathToXMLFile) throws FileNotFoundException {

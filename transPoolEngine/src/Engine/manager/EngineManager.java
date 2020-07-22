@@ -22,36 +22,32 @@ import Engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.TransPool;
 import Engine.xmlLoading.xmlValidation.XMLValidationsImpl;
 import com.fxgraph.graph.Graph;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class EngineManager {
-    private static EngineManager engineManagerInstance;
-    private static MapsManager mapsManager;
-    private static UsersManager usersManager;
-    private static List<RoadTrip> potentialCacheList;
+    private MapsManager mapsManager;
+    private UsersManager usersManager;
+    private List<RoadTrip> potentialCacheList;
 
-
-    public static EngineManager getEngineManagerInstance() {
-        if (engineManagerInstance == null) {
-            engineManagerInstance = new EngineManager();
-            mapsManager = new MapsManager();
-            usersManager = new UsersManager();
-        }
-        return engineManagerInstance;
+    public EngineManager() {
+        mapsManager = new MapsManager();
+        usersManager = new UsersManager();
     }
 
     public UsersManager getUsersManager() {
         return usersManager;
     }
 
-    public void handleFileUploadProcess(String fileContent, String userName, String mapName) throws FileNotFoundException {
+    public void handleFileUploadProcess(String fileContent, String userName, String mapName) {
         SchemaBasedJAXBMain schemaBasedJAXBMain = new SchemaBasedJAXBMain();
-        TransPool transPool = schemaBasedJAXBMain.deserializeFrom(new FileInputStream(fileContent));
+        InputStream stream = new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8));
+        TransPool transPool = schemaBasedJAXBMain.deserializeFrom(stream);
         XMLValidationsImpl xmlValidator = new XMLValidationsImpl(transPool);
         List<String> validationErrors = new ArrayList<>();
         if(!xmlValidator.validateXmlFile(validationErrors)) {
