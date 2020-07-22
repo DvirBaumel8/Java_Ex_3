@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 
-@WebServlet("/UserMapDetailsServlet")
+@WebServlet(name = "UserMapDetailsServlet", urlPatterns = {"/pages/userDetails/UserMapDetailsServlet"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class UserMapDetailsServlet extends HttpServlet {
     private final String USER_DETAILS_URL = "../userDetails/userDetails.html";
