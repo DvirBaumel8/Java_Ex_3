@@ -12,10 +12,9 @@ app1.controller('userDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
                 method: 'GET',
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserMapDetailsServlet',
                 headers: {'Content-Type': 'application/json'},
-                data:  $scope.totalMapsInTheSystem
-            }).success(function (data)
-            {
-                $scope.status=data;
+            }).success(function (response) {
+                $scope.totalMapsInTheSystem = response;
+                return response;
             });
              var k = $scope.totalMapsInTheSystem;
             var x = 4;

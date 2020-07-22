@@ -1,10 +1,9 @@
 package manager.servlets;
 //taken from: http://www.servletworld.com/servlet-tutorials/servlet3/multipartconfig-file-upload-example.html
 // and http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
-import Engine.manager.EngineManager;
+import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
-import manager.utils.SessionUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,7 +67,6 @@ public class FileUploadServlet extends HttpServlet {
         }
         sb.append("</p>");
         out.println(sb.toString());
-
     }
 
     private String readFromInputStream(InputStream inputStream) {

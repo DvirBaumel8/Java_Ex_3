@@ -1,11 +1,8 @@
 package manager.servlets;
 
-import Engine.manager.EngineManager;
-import Engine.users.User;
 import manager.UserManagerDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
-import manager.utils.SessionUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 
 import static manager.constans.Constants.USER_NAME;
 
