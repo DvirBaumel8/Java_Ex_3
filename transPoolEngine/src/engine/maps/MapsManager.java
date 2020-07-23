@@ -4,11 +4,7 @@ import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MapsManager {
     private HashMap<String, MapEntity> mapNameToEntity;
@@ -71,5 +67,20 @@ public class MapsManager {
 
     public List<TripSuggest> getTripSuggestsByMapName(String mapName) {
         return mapNameToEntity.get(mapName).getTripSuggests();
+    }
+
+    public List<MapsTableElementDetails> getAllMapsTableElementsDetailsCheck() {
+        List<MapsTableElementDetails> res = new LinkedList<>();
+        MapsTableElementDetails mapsTableElementDetails = new MapsTableElementDetails();
+        mapsTableElementDetails.setMatchedTripRequestQuantity(3);
+        mapsTableElementDetails.setUserNameOwner("check");
+        mapsTableElementDetails.setMapName("x");
+        mapsTableElementDetails.setStationsQuantity(3);
+        mapsTableElementDetails.setRoadsQuantity(4);
+        mapsTableElementDetails.setTripSuggestsQuantity(2);
+        mapsTableElementDetails.setTripRequestQuantity(4);
+        mapsTableElementDetails.setMatchedTripRequestQuantity(1);
+        res.add(mapsTableElementDetails);
+        return res;
     }
 }

@@ -1,0 +1,75 @@
+
+#tripRequestListPerMap {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 70%;
+}
+
+#tripRequestListPerMap td, #tripRequestListPerMap th {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tripRequestListPerMap tr:nth-child(even){background-color: #f2f2f2;}
+
+#tripRequestListPerMap tr:hover {background-color: #ddd;}
+
+#tripRequestListPerMap th {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #deca13;
+    color: white;
+}
+
+
+
+#tripSuggestListPerMap {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 70%;
+}
+
+#tripSuggestListPerMap td, #tripSuggestListPerMap th {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tripSuggestListPerMap tr:nth-child(even){background-color: #f2f2f2;}
+
+#tripSuggestListPerMap tr:hover {background-color: #ddd;}
+
+#tripSuggestListPerMap th {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #17d46c;
+    color: white;
+}
+
+
+body {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    background-color: lightblue;
+    padding-left: 30px;
+}
+
+h1 {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color: #ffffff;
+    text-align: center;
+    padding-left: 30px;
+}
+
+p {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    padding-left: 30px;
+}
+
+h3 {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color: #f6f6f6;
+}

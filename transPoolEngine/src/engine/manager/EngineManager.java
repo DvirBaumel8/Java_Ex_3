@@ -62,6 +62,10 @@ public class EngineManager {
 
     }
 
+    public MapsManager getMapsManager() {
+        return mapsManager;
+    }
+
     public List<MapsTableElementDetails> getAllMapsTableElementsDetails() {
             return mapsManager.getAllMapsTableElementsDetails();
     }

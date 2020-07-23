@@ -38,7 +38,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="transPoolEngine" exported="" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -48,5 +47,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="transPoolEngine" exported="" scope="PROVIDED" />
   </component>
 </module>

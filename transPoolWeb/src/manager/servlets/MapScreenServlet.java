@@ -1,13 +1,21 @@
 package manager.servlets;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+
+@WebServlet(name = "MapScreenServlet", urlPatterns = {"/pages/mapDetails/MapScreenServlet"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class MapScreenServlet extends HttpServlet {
+
+    private final String MAP_DETAILS_URL = "../mapDetails/mapDetails.html";
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -20,17 +28,7 @@ public class MapScreenServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
-            /*
-            Gson gson = new Gson();
-            EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
-            List<MapsTableElementDetails> mapsTableElements = engineManager.getAllMapsTableElementsDetails();
-            String json = gson.toJson(mapsTableElements);
-            out.println(json);
-            out.flush();
-
-             */
-        }
+        response.setContentType("text/html;charset=UTF-8");
+        response.sendRedirect(MAP_DETAILS_URL);
     }
 }

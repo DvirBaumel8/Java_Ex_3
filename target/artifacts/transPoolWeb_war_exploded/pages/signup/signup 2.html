@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TransPool</title>
+    <link rel="stylesheet" href="../../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="signup.css">
+
+</head>
+<body>
+<div class="container">
+    <form method="GET" action="LoginServlet">
+    <h1>Welcome to the TransPool App</h1>
+
+    <h2>Please insert the following details to sign in:</h2>
+        Please enter a unique user name:
+        <input type="text" id="userName" name="userName" class=""/>
+        <br>
+        <br>
+        Please choose a passenger type: &nbsp;
+        <select id="userType" name="userType"  selected="selected" style="width:150px; ">
+            <option ng-selected="true">Passenger type</option>
+            <option value="requestPassenger">request passenger</option>
+            <option value="suggestPassenger">suggest passenger</option>
+        </select>
+        <br>
+        <br>
+
+
+
+        <input  type="submit" value="Login" style="width: 80px; height:40px"/>
+    </form>
+    <br>
+
+
+</div>
+</body>
+</html>

@@ -1,8 +1,7 @@
 
 var app1 = angular.module('userDetails', []);
 
-app1.controller('userDetailsCtrl',[ '$scope', '$http', '$location',
-    function($scope, $http, $location) {
+app1.controller('userDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
 
     function init() {
         $scope.totalMapsInTheSystem = {};
@@ -12,31 +11,24 @@ app1.controller('userDetailsCtrl',[ '$scope', '$http', '$location',
             console.log("I've been pressed!");
             $http.get('http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserMapDetailsServlet').then(
                 function successCallback(response) {
+                    $scope.response = response.data;
                     $scope.totalMapsInTheSystem = response.data;
                 },
                 function errorCallback(response) {
                     console.log("Unable to perform get request");
                 }
             );
+             var k = $scope.totalMapsInTheSystem;
+            var x = 4;
+            var j = 0;
         };
     }
 
 
 
     $scope.redirectToMapPageApi = function () {
-        console.log("I've been pressed!");
-        $http.get('http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MapScreenServlet').then(
-            function successCallback(response) {
-                $scope.totalMapsInTheSystem = response.data;
-                var link = $location.protocol() + $location.host() + '/transPoolWeb_war_exploded/pages/mapDetails/mapDetail.html';
-                $location.path(link);
-            },
-            function errorCallback(response) {
-                console.log("Unable to perform get request");
-            }
-        );
-    }
 
+    }
 
     init();
 
