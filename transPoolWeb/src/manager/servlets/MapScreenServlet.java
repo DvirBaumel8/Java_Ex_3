@@ -1,5 +1,7 @@
 package manager.servlets;
 
+import manager.constans.Constants;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +29,14 @@ public class MapScreenServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String mapName = request.getParameter(Constants.MAP_NAME);
+
+
+
+
+
+
+
         response.setContentType("text/html;charset=UTF-8");
         response.sendRedirect(MAP_DETAILS_URL);
     }

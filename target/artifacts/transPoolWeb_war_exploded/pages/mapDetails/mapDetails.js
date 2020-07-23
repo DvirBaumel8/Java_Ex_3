@@ -1,7 +1,7 @@
 
-var app1 = angular.module('mapDetails', []);
+var appMapDetails = angular.module('mapDetails', []);
 
-app1.controller('mapDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
+appMapDetails.controller('mapDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
 
     function initMapDetailsPage() {
         $scope.totalMapsInTheSystem = {};
@@ -18,6 +18,14 @@ app1.controller('mapDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
                 }
             );
         };
+
+        $scope.tripSuggestListPerMap = [
+            { suggestID: '2', passengerNames: ' ', destinationStation: ' ', isMatched: 'yes', matchTrip:'a' },
+            { suggestID: '1', passengerNames: ' ', destinationStation: ' ', isMatched: 'yes', matchTrip:'a' },
+            { suggestID: '3', passengerNames: ' ', destinationStation: ' ', isMatched: 'yes', matchTrip:'a' }
+        ];
+
+
     }
 
     $scope.addNewSuggestTrip = function () {
@@ -47,19 +55,6 @@ app1.controller('mapDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
 
     $scope.displayAllPassengersDetailsPerTripRequest = function () {
 
-    }
-
-
-    $scope.redirectToMapPageApi = function () {
-        console.log("I've been pressed!");
-        $http.get('http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/MapScreenServlet').then(
-            function successCallback(response) {
-                $scope.totalMapsInTheSystem = response.data;
-            },
-            function errorCallback(response) {
-                console.log("Unable to perform get request");
-            }
-        );
     }
 
 

@@ -39,10 +39,13 @@
             <tfoot>
             <tr ng-repeat="map in totalMapsInTheSystem">
                 <td class="noBorder">{{map.userNameOwner}}</td>
-                <td class="noBorder">
-                    <a href="../mapDetails/mapDetails.html" ng-click="redirectToMapPageApi()"
-                       class="btn btn-info btn-lg active" role="button">{{map.mapName}}</a>
+
+                <td class="block">
+                        <button ng-click="redirectToMapPageApi(map.mapName)" style="color:#0000FF;">
+                            {{map.mapName}}
+                        </button>
                 </td>
+
 
                 <td class="noBorder">{{map.stationsQuantity}}</td>
                 <td class="noBorder">{{map.roadsQuantity}}</td>
@@ -52,6 +55,8 @@
             </tr>
             </tfoot>
         </table>
+
+
 
 </div>
 

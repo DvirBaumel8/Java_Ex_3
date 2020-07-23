@@ -1,8 +1,8 @@
 
-var app1 = angular.module('userDetails', []);
+var appUserDetails = angular.module('userDetails', []);
 
-app1.controller('userDetailsCtrl',[ '$scope', '$http', '$location',
-    function($scope, $http, $location) {
+appUserDetails.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$window',
+    function($scope, $http, $location, $window) {
 
     function init() {
         $scope.totalMapsInTheSystem = {};
@@ -23,13 +23,16 @@ app1.controller('userDetailsCtrl',[ '$scope', '$http', '$location',
 
 
 
-    $scope.redirectToMapPageApi = function () {
+    $scope.redirectToMapPageApi = function (mapName) {
         console.log("I've been pressed!");
-        $http.get('http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MapScreenServlet').then(
+        $http({
+            url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MapScreenServlet',
+            method: "GET",
+            params: {mapName: mapName}
+        }).get().then(
             function successCallback(response) {
                 $scope.totalMapsInTheSystem = response.data;
-                var link = $location.protocol() + $location.host() + '/transPoolWeb_war_exploded/pages/mapDetails/mapDetail.html';
-                $location.path(link);
+                $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
             },
             function errorCallback(response) {
                 console.log("Unable to perform get request");
