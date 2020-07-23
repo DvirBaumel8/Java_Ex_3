@@ -1,7 +1,7 @@
 
-var app1 = angular.module('userDetails', []);
+var appUserDetails = angular.module('userDetails', []);
 
-app1.controller('userDetailsCtrl',[ '$scope', '$http', '$location',
+appUserDetails.controller('userDetailsCtrl',[ '$scope', '$http', '$location',
     function($scope, $http, $location) {
 
     function init() {

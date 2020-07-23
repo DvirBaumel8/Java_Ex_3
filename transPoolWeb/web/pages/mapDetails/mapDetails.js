@@ -1,7 +1,7 @@
 
-var app1 = angular.module('mapDetails', []);
+var appMapDetails = angular.module('mapDetails', []);
 
-app1.controller('mapDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
+appMapDetails.controller('mapDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
 
     function initMapDetailsPage() {
         $scope.totalMapsInTheSystem = {};
