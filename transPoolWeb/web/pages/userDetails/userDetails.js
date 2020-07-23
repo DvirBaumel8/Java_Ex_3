@@ -29,7 +29,7 @@ appUserDetails.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$
             url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MapScreenServlet',
             method: "GET",
             params: {mapName: mapName}
-        }).get().then(
+        }).then(
             function successCallback(response) {
                 $scope.totalMapsInTheSystem = response.data;
                 $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
