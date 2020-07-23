@@ -50,7 +50,13 @@ public class FileUploadServlet extends HttpServlet {
         String userName = request.getParameter(Constants.USER_NAME);
         String mapName = request.getParameter(Constants.MAP_NAME);
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
-        engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapName);
+        try {
+            engineManager.handleFileUploadProcess(fileContent.toString(), "dvir", "map1");
+        }
+        catch (Exception ex) {
+            //problems with upload file
+        }
+
     }
 
     private void printPart(Part part, PrintWriter out) {

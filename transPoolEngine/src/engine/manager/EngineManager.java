@@ -1,5 +1,8 @@
 package engine.manager;
 
+import com.sun.xml.internal.ws.api.pipe.Engine;
+import engine.maps.MapEntity;
+import engine.maps.MapRepresentation;
 import engine.notifications.MatchNotificationsDetails;
 import engine.maps.MapsManager;
 import engine.maps.MapsTableElementDetails;
@@ -44,14 +47,14 @@ public class EngineManager {
         return usersManager;
     }
 
-    public void handleFileUploadProcess(String fileContent, String userName, String mapName) {
+    public void handleFileUploadProcess(String fileContent, String userName, String mapName) throws Exception {
         SchemaBasedJAXBMain schemaBasedJAXBMain = new SchemaBasedJAXBMain();
         InputStream stream = new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8));
         TransPool transPool = schemaBasedJAXBMain.deserializeFrom(stream);
         XMLValidationsImpl xmlValidator = new XMLValidationsImpl(transPool);
         List<String> validationErrors = new ArrayList<>();
         if(!xmlValidator.validateXmlFile(validationErrors)) {
-            //handle file error content
+            throw new Exception();
         }
         try {
             mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName);
@@ -125,6 +128,11 @@ public class EngineManager {
 
     public void loadMoneyIntoAccount(String userName, double moneyToLoad) {
         usersManager.loadMoneyIntoUserAccount(userName, moneyToLoad);
+    }
+
+    public MapRepresentation getMapDetailsByMapName(String mapName) {
+        MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
+        return new MapRepresentation(entity.getTripRequests(), entity.getTripSuggests(), entity.getGraph());
     }
 
     private void transferMoneyFromRequesterToSuggester(int totalCost, Integer requestId, Integer suggestId, String mapName) {

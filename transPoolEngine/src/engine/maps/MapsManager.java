@@ -69,6 +69,10 @@ public class MapsManager {
         return mapNameToEntity.get(mapName).getTripSuggests();
     }
 
+    public MapEntity getMapEntityByMapName(String mapName) {
+        return mapNameToEntity.get(mapName);
+    }
+
     public List<MapsTableElementDetails> getAllMapsTableElementsDetailsCheck() {
         List<MapsTableElementDetails> res = new LinkedList<>();
         MapsTableElementDetails mapsTableElementDetails = new MapsTableElementDetails();

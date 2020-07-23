@@ -1,5 +1,6 @@
 package engine.maps;
 
+import com.fxgraph.graph.Graph;
 import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
@@ -14,13 +15,17 @@ public class MapEntity {
     private MapDescriptor mapDescriptor;
     private List<TripRequest> tripRequests;
     private List<TripSuggest> tripSuggests;
-    //private Graph graph;
+    private Graph graph;
 
     public MapEntity(MapDescriptor mapDescriptor, String userName, String mapName) {
         tripRequests = new ArrayList<>();
         tripSuggests = new ArrayList<>();
         this.mapDescriptor = mapDescriptor;
         mapsTableElementDetails = new MapsTableElementDetails(mapDescriptor, userName, mapName);
+    }
+
+    public Graph getGraph() {
+        return graph;
     }
 
     public MapsTableElementDetails getMapsTableElementDetails() {
