@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="transPoolWeb:war">
-    <output-path>$PROJECT_DIR$/target/artifacts/transPoolWeb_war</output-path>
-    <root id="archive" name="transPoolWeb_war.war">
-      <element id="artifact" artifact-name="transPoolWeb:war exploded" />
-    </root>
-  </artifact>
-</component>

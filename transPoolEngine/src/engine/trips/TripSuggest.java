@@ -20,7 +20,7 @@ public class TripSuggest {
     private int staticCapacity;
     private int tripPrice;
     private DriverRating driverRating;
-    private List<Integer> passengers;
+    private List<String> passengers;
     private int requiredFuel;
     private Time startingTime;
     private Time arrivalTime;
@@ -80,8 +80,12 @@ public class TripSuggest {
         return ppk;
     }
 
-    public List<Integer> getPassengers() {
+    public List<String> getPassengers() {
         return passengers;
+    }
+
+    public void addPassenger(String passengerName) {
+        passengers.add(passengerName);
     }
 
     public int getTripPrice() {

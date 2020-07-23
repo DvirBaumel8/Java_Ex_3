@@ -1,9 +1,10 @@
 package engine.manager;
 
-import com.sun.xml.internal.ws.api.pipe.Engine;
+import com.fxgraph.graph.Graph;
+import engine.dto.MapRepresentation;
+import engine.dto.TripRequestDto;
+import engine.dto.TripSuggestDto;
 import engine.maps.MapEntity;
-import engine.maps.MapRepresentation;
-import engine.notifications.MatchNotificationsDetails;
 import engine.maps.MapsManager;
 import engine.maps.MapsTableElementDetails;
 import engine.maps.graph.GraphBuilder;
@@ -11,6 +12,7 @@ import engine.matching.MatchUtil;
 import engine.matching.MatchingHelper;
 import engine.matching.RoadTrip;
 import engine.matching.SubTrip;
+import engine.notifications.MatchNotificationsDetails;
 import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
 import engine.users.Transaction;
@@ -23,7 +25,6 @@ import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Route;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.TransPool;
 import engine.xmlLoading.xmlValidation.XMLValidationsImpl;
-import com.fxgraph.graph.Graph;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -56,12 +57,15 @@ public class EngineManager {
         if(!xmlValidator.validateXmlFile(validationErrors)) {
             throw new Exception();
         }
-        try {
-            mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName);
+        else {
+            try {
+                mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName);
+            }
+            catch (Exception ex) {
+                //TODO - handle new map name already exist
+            }
         }
-        catch (Exception ex) {
-            //TODO - handle new map name already exist
-        }
+
 
     }
 
@@ -132,7 +136,49 @@ public class EngineManager {
 
     public MapRepresentation getMapDetailsByMapName(String mapName) {
         MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
-        return new MapRepresentation(entity.getTripRequests(), entity.getTripSuggests(), entity.getGraph());
+        return new MapRepresentation(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntity(entity), entity.getGraph());
+    }
+
+    private List<TripSuggestDto> createSuggestDtoListFromMapEntity(MapEntity entity) {
+        List<TripSuggestDto> suggestsDto = new ArrayList<>();
+        List<TripSuggest> tripSuggests = entity.getTripSuggests();
+        for(TripSuggest suggest : tripSuggests) {
+            int suggestId = suggest.getSuggestID();
+            List<String> passengersNames = suggest.getPassengers();
+            int tripDay = suggest.getStartingDay();
+            String sourceStation = suggest.getFirstStation().getName();
+            String destinationStation = suggest.getLastStation().getName();
+            double avgRating = suggest.getDriverRating().getRatingAVG();
+            int numOfRaters = suggest.getDriverRating().getNumOfRatings();
+            List<String> literalRatings = suggest.getDriverRating().getLiterallyRatings();
+
+            TripSuggestDto tripSuggestDto = new TripSuggestDto(suggestId, passengersNames, tripDay, sourceStation, destinationStation, avgRating, numOfRaters, literalRatings);
+            suggestsDto.add(tripSuggestDto);
+        }
+        return suggestsDto;
+    }
+
+    private List<TripRequestDto> createRequestDtoListFromMapEntity(MapEntity entity) {
+        List<TripRequestDto> requestDto = new ArrayList<>();
+        List<TripRequest> tripRequests = entity.getTripRequests();
+        for(TripRequest request : tripRequests) {
+            int requestId = request.getRequestID();
+            String tripOwnerName = request.getNameOfOwner();
+            String sourceStation = request.getSourceStation();
+            String destinationStation = request.getDestinationStation();
+            boolean isMatched;
+            String roadStory = String.valueOf("");
+            if(request.isMatched()) {
+                isMatched = request.isMatched();
+                roadStory = request.getMatchTrip().getRoadStory();
+            }
+            else {
+                isMatched = false;
+            }
+            TripRequestDto tripRequestDto = new TripRequestDto(requestId, tripOwnerName, sourceStation, destinationStation, isMatched, roadStory);
+            requestDto.add(tripRequestDto);
+        }
+        return requestDto;
     }
 
     private void transferMoneyFromRequesterToSuggester(int totalCost, Integer requestId, Integer suggestId, String mapName) {
@@ -211,7 +257,11 @@ public class EngineManager {
 
     public void makeMatch(RoadTrip roadTrip, String mapName, Integer requestId, Integer suggestId) throws Exception {
         TripRequest tripRequest = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId);
+        TripSuggest suggest = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName,suggestId);
+        suggest.addPassenger(tripRequest.getNameOfOwner());
         tripRequest.setMatched(true);
+        tripRequest.setMatchTrip(roadTrip);
+
         if(tripRequest.isRequestByStartTime()) {
             tripRequest.setArrivalTime(roadTrip.getArrivalTime());
         }
@@ -219,7 +269,6 @@ public class EngineManager {
             tripRequest.setStartTime(roadTrip.getStartTime());
         }
 
-        tripRequest.setMatchTrip(roadTrip);
         if(!isRequesterHaveEnoughCash(roadTrip.getTotalCost(), mapName, requestId)) {
             throw new Exception("Not enough money exception");
         }

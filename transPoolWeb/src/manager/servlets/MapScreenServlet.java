@@ -1,7 +1,7 @@
 package manager.servlets;
 
 import engine.manager.EngineManager;
-import engine.maps.MapRepresentation;
+import engine.dto.MapRepresentation;
 import manager.constans.Constants;
 
 import manager.utils.ServletUtils;

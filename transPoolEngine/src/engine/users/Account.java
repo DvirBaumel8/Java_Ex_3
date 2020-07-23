@@ -1,9 +1,6 @@
 package engine.users;
 
 
-
-import com.google.gson.Gson;
-
 import java.util.List;
 
 public class Account {
@@ -22,9 +19,8 @@ public class Account {
         this.money -= amountToTake;
     }
 
-    public String getAccountTransactions() {
-        Gson gson = new Gson();
-        return gson.toJson(accountTransactions);
+    public List<Transaction> getAccountTransactions() {
+        return accountTransactions;
     }
 
     public double getCurrentCash() {

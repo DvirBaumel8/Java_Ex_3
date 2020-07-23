@@ -1,6 +1,7 @@
 package engine.users;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class User {
     private String userName;
@@ -50,7 +51,7 @@ public class User {
         Suggester
     }
 
-    public String getUserTransactions() {
+    public List<Transaction> getUserTransactions() {
         return userAccount.getAccountTransactions();
     }
 
