@@ -2,6 +2,9 @@ package manager.servlets;
 
 
 import com.google.gson.Gson;
+import engine.dto.MapsTableElementDetailsDto;
+import engine.manager.EngineManager;
+import manager.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -31,18 +34,10 @@ public class UserMapDetailsServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
-        List<MapsTableElementDetailsCheck> res = new LinkedList<>();
-        MapsTableElementDetailsCheck mapsTableElementDetails = new MapsTableElementDetailsCheck();
-        mapsTableElementDetails.setMatchedTripRequestQuantity(3);
-        mapsTableElementDetails.setUserNameOwner("check");
-        mapsTableElementDetails.setMapName("x");
-        mapsTableElementDetails.setStationsQuantity(3);
-        mapsTableElementDetails.setRoadsQuantity(4);
-        mapsTableElementDetails.setTripSuggestsQuantity(2);
-        mapsTableElementDetails.setTripRequestQuantity(4);
-        mapsTableElementDetails.setMatchedTripRequestQuantity(1);
-        res.add(mapsTableElementDetails);
-        String json = new Gson().toJson(res);
+        EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+        List<MapsTableElementDetailsDto> mapsTableElementDetailsListDto =
+                engine.getMapsManager().getAllMapsTableElementsDetailsCheck();
+        String json = new Gson().toJson(mapsTableElementDetailsListDto);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

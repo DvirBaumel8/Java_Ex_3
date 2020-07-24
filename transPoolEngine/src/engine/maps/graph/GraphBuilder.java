@@ -1,23 +1,13 @@
+
 package engine.maps.graph;
 
-import engine.maps.graph.components.coordinate.CoordinateNode;
-import engine.maps.graph.components.coordinate.CoordinatesManager;
-import engine.maps.graph.components.road.ArrowEdge;
-import engine.maps.graph.components.station.StationManager;
-import engine.maps.graph.components.station.StationNode;
-import engine.maps.graph.layout.MapGridLayout;
+
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Path;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Stop;
-import com.fxgraph.graph.Graph;
-import com.fxgraph.graph.Model;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-
+/*
 public class GraphBuilder {
     private MapDescriptor mapDescriptor;
 
@@ -27,7 +17,7 @@ public class GraphBuilder {
 
     private static StationManager stationManager = null;
 
-    private static Model model = null;
+    //private static Model model = null;
 
     public GraphBuilder(MapDescriptor mapDescriptor) {
         this.mapDescriptor = mapDescriptor;
@@ -56,10 +46,15 @@ public class GraphBuilder {
                 }
             }
         }
+
+
+
+
     }
 
+
     public Graph setAndGetGraphByCurrentTripSuggest(String currentTripSuggestDetails) {
-        // mark path station in unique color plus mark the path in uniqe color
+         mark path station in unique color plus mark the path in uniqe color
 
         String[] inputs = currentTripSuggestDetails.split(",");
         String suggestId = inputs[1];
@@ -82,6 +77,8 @@ public class GraphBuilder {
 
         return null;
     }
+
+
 
     private List<Stop> getSuggestRoadTripStationsFromPathArr(String[] currRoute) {
         List<Stop> suggestRoadTripStations = new LinkedList<>();
@@ -132,12 +129,14 @@ public class GraphBuilder {
         //List<Stop> stopStations = transPool.getMapDescriptor().getStops().getStop();
         int mapLength = mapDescriptor.getMapBoundries().getLength();
         int mapWidth = mapDescriptor.getMapBoundries().getWidth();
-
+/*
         for (int i=0; i<mapLength; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 model.addCell(coordinatesManager.getOrCreate(i+1, j+1));
             }
         }
+
+
 
     }
 
@@ -150,6 +149,8 @@ public class GraphBuilder {
             node.setName(station.getName());
             model.addCell(node);
         }
+
+
     }
 
     private StationManager markSuggestTripStationsAndCurrStation(List<Stop> suggestRoadTripStations, Stop currStation,
@@ -171,6 +172,8 @@ public class GraphBuilder {
             index++;
         }
 
+
+
         return stationManager;
     }
 
@@ -178,7 +181,7 @@ public class GraphBuilder {
 
         List<Node> onlyEdges = new ArrayList<>();
 
-        // finds all edge nodes and remove them from the beginning of list
+         finds all edge nodes and remove them from the beginning of list
         ObservableList<Node> nodes = graph.getCanvas().getChildren();
         while (nodes.get(0).getClass().getSimpleName().equals("EdgeGraphic")) {
             onlyEdges.add(nodes.remove(0));
@@ -205,4 +208,7 @@ public class GraphBuilder {
         //graph.getViewportGestures().setZoomSpeed(1);
         return graph;
     }
+
+
 }
+*/

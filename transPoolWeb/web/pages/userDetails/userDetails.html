@@ -13,11 +13,19 @@
     <br>
     <h1>Welcome to the User Details Page</h1>
 
+    <h2>UserName: {{userLoginName}} </h2>
+
+    <div>
         <h3>Select a File:</h3>
-    <form method="POST" action="FileUpload" enctype="multipart/form-data">
-    <input type="file" name="file1" id="xml" name="xml" accept="xml/*" onchange='openFile(event)'><br>
-        <input  type="submit" value="submit" style="width: 80px; height:40px"/>
-    </form>
+    <input type="file" name="mapUploadName" accept="xml/*" onchange='openFile(event)'><br>
+
+        <button ng-click="redirectToFileUploadedApi(mapUploadName,userName)" style="color:#0000FF;">
+            Submit
+        </button>
+    </div>
+
+
+
 
         <br>
         <br>
@@ -38,7 +46,7 @@
             </thead>
             <tfoot>
             <tr ng-repeat="map in totalMapsInTheSystem">
-                <td class="noBorder">{{map.userNameOwner}}</td>
+                <td class="noBorder">{{map.userName}}</td>
 
                 <td class="block">
                         <button ng-click="redirectToMapPageApi(map.mapName)" style="color:#0000FF;">

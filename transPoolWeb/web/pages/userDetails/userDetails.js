@@ -40,6 +40,26 @@ appUserDetails.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$
         );
     }
 
+        $scope.redirectToFileUploadedApi = function () {
+            var mapUploadName = document.getElementsByName("mapUploadName")[0].value;
+            //let userName = document.getElementsByName("userLoginName")[0].value;
+            let userName = 'x';
+            console.log("I've been pressed!");
+            $http({
+                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/FileUpload',
+                method: "POST",
+                params: {mapUploadName: mapUploadName,
+                        userName: userName}
+            }).then(
+                function successCallback(response) {
+                    //$scope.totalMapsInTheSystem = response.data;
+                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
+                },
+                function errorCallback(response) {
+                    console.log("Unable to perform get request");
+                }
+            );
+        }
 
     init();
 

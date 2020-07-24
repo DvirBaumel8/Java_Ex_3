@@ -1,5 +1,6 @@
 package engine.maps;
 
+import engine.dto.MapsTableElementDetailsDto;
 import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
@@ -21,8 +22,8 @@ public class MapsManager {
         mapNameToEntity.put(mapName, mapEntity);
     }
 
-    public List<MapsTableElementDetails> getAllMapsTableElementsDetails() {
-        List<MapsTableElementDetails> detailsList = new ArrayList<>();
+    public List<MapsTableElementDetailsDto> getAllMapsTableElementsDetails() {
+        List<MapsTableElementDetailsDto> detailsList = new ArrayList<>();
         for(Map.Entry<String, MapEntity> entry : mapNameToEntity.entrySet()) {
             detailsList.add(entry.getValue().getMapsTableElementDetails());
         }
@@ -57,7 +58,7 @@ public class MapsManager {
         mapNameToEntity.get(mapName).addNewMatchTripRequest();
     }
 
-    public MapsTableElementDetails getMapTableElementDetailsByMapName(String mapName) {
+    public MapsTableElementDetailsDto getMapTableElementDetailsByMapName(String mapName) {
         return mapNameToEntity.get(mapName).getMapsTableElementDetails();
     }
 
@@ -73,11 +74,11 @@ public class MapsManager {
         return mapNameToEntity.get(mapName);
     }
 
-    public List<MapsTableElementDetails> getAllMapsTableElementsDetailsCheck() {
-        List<MapsTableElementDetails> res = new LinkedList<>();
-        MapsTableElementDetails mapsTableElementDetails = new MapsTableElementDetails();
+    public List<MapsTableElementDetailsDto> getAllMapsTableElementsDetailsCheck() {
+        List<MapsTableElementDetailsDto> res = new LinkedList<>();
+        MapsTableElementDetailsDto mapsTableElementDetails = new MapsTableElementDetailsDto();
         mapsTableElementDetails.setMatchedTripRequestQuantity(3);
-        mapsTableElementDetails.setUserNameOwner("check");
+        mapsTableElementDetails.setUserName("check");
         mapsTableElementDetails.setMapName("x");
         mapsTableElementDetails.setStationsQuantity(3);
         mapsTableElementDetails.setRoadsQuantity(4);

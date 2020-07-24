@@ -30,6 +30,8 @@ public class FileUploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String mapPathName = request.getParameter(Constants.MAP_UPLOAD_NAME);
+        //String userName = request.getParameter(Constants.USER_NAME);
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         Collection<Part> parts = request.getParts();
@@ -47,8 +49,6 @@ public class FileUploadServlet extends HttpServlet {
             fileContent.append(readFromInputStream(part.getInputStream()));
         }
 
-        String userName = request.getParameter(Constants.USER_NAME);
-        String mapName = request.getParameter(Constants.MAP_NAME);
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
         try {
             engineManager.handleFileUploadProcess(fileContent.toString(), "dvir", "map1");

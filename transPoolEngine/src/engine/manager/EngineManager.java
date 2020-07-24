@@ -1,13 +1,11 @@
 package engine.manager;
 
-import com.fxgraph.graph.Graph;
-import engine.dto.MapRepresentation;
+import engine.dto.MapPageRepresentation;
+import engine.dto.MapsTableElementDetailsDto;
 import engine.dto.TripRequestDto;
 import engine.dto.TripSuggestDto;
 import engine.maps.MapEntity;
 import engine.maps.MapsManager;
-import engine.maps.MapsTableElementDetails;
-import engine.maps.graph.GraphBuilder;
 import engine.matching.MatchUtil;
 import engine.matching.MatchingHelper;
 import engine.matching.RoadTrip;
@@ -21,7 +19,6 @@ import engine.users.UsersManager;
 import engine.validations.RequestValidator;
 import engine.validations.SuggestValidator;
 import engine.xmlLoading.SchemaBasedJAXBMain;
-import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Route;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.TransPool;
 import engine.xmlLoading.xmlValidation.XMLValidationsImpl;
@@ -73,7 +70,7 @@ public class EngineManager {
         return mapsManager;
     }
 
-    public List<MapsTableElementDetails> getAllMapsTableElementsDetails() {
+    public List<MapsTableElementDetailsDto> getAllMapsTableElementsDetails() {
             return mapsManager.getAllMapsTableElementsDetails();
     }
 
@@ -134,9 +131,11 @@ public class EngineManager {
         usersManager.loadMoneyIntoUserAccount(userName, moneyToLoad);
     }
 
-    public MapRepresentation getMapDetailsByMapName(String mapName) {
-        MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
-        return new MapRepresentation(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntity(entity), entity.getGraph());
+    public MapPageRepresentation getMapDetailsByMapName(String mapName) {
+        //MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
+        //Graph graph = entity.getGraph();
+        //MapRepresentation mapRepresentation = new MapRepresentation(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntity(entity),null);
+        return null;
     }
 
     private List<TripSuggestDto> createSuggestDtoListFromMapEntity(MapEntity entity) {
@@ -204,7 +203,7 @@ public class EngineManager {
     }
 
     private void sendNotificationToSuggester(String mapName, Integer requestId, Integer suggestId, double totalPayment) {
-        MapsTableElementDetails mapsTableElementDetails = mapsManager.getMapTableElementDetailsByMapName(mapName);
+        MapsTableElementDetailsDto mapsTableElementDetails = mapsManager.getMapTableElementDetailsByMapName(mapName);
         MatchNotificationsDetails matchNotificationsDetails = new MatchNotificationsDetails(mapsTableElementDetails, requestId, totalPayment);
         sendNotification(suggestId, matchNotificationsDetails);
     }
@@ -216,12 +215,14 @@ public class EngineManager {
     public String getRatingsToSuggest(String mapName, Integer suggestId) {
         return mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId).getDriverRating().getDriverRatingInfo();
     }
-
+/*
     public Graph getGraph(String mapName) {
         MapDescriptor mapDescriptor = mapsManager.getMapDescriptorByMapName(mapName);
         GraphBuilder graphBuilder = new GraphBuilder(mapDescriptor);
         return graphBuilder.createGraph();
     }
+
+ */
 
     public void rankDriver(String mapName, Integer requestId, Integer suggestId, String[] inputs) {
         TripSuggest suggest = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId);

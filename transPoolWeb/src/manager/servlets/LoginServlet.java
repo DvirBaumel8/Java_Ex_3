@@ -4,11 +4,13 @@ import manager.UserManagerDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static manager.constans.Constants.USER_NAME;
@@ -44,6 +46,8 @@ public class LoginServlet extends HttpServlet {
                             userManagerDto.addUser(userName, userType);
                             request.getSession(true).setAttribute(USER_NAME, userName);
                             System.out.println("On login, request URI is: " + request.getRequestURI());
+                            HttpSession session = request.getSession(false);
+                            session.setAttribute("userName", userName);
                             response.sendRedirect(USER_DETAILS_URL);
                         }
                         else {

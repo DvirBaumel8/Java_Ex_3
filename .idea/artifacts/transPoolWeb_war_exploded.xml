@@ -8,7 +8,8 @@
           <element id="module-output" name="transPoolEngine" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="gson-2.8.2" />
+          <element id="file-copy" path="$PROJECT_DIR$/transPoolWeb/web/WEB-INF/lib/gson-2.8.6.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/transPoolWeb/web/WEB-INF/lib/json-20200518.jar" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="transPoolWeb/web/Web" />

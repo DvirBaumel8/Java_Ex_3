@@ -1,9 +1,9 @@
-package engine.maps;
+package engine.dto;
 
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 
-public class MapsTableElementDetails {
-    private String userNameOwner;
+public class MapsTableElementDetailsDto {
+    private String userName;
     private String mapName;
     private int stationsQuantity;
     private int roadsQuantity;
@@ -11,8 +11,8 @@ public class MapsTableElementDetails {
     private int tripRequestQuantity;
     private int matchedTripRequestQuantity;
 
-    public MapsTableElementDetails(MapDescriptor mapDescriptor, String userNameOwner, String mapName) {
-        this.userNameOwner = userNameOwner;
+    public MapsTableElementDetailsDto(MapDescriptor mapDescriptor, String userNameOwner, String mapName) {
+        this.userName = userNameOwner;
         this.mapName = mapName;
         stationsQuantity = mapDescriptor.getStops().getStop().size();
         roadsQuantity = mapDescriptor.getPaths().getPath().size();
@@ -21,15 +21,15 @@ public class MapsTableElementDetails {
         matchedTripRequestQuantity = 0;
     }
 
-    public MapsTableElementDetails() {
+    public MapsTableElementDetailsDto() {
     }
 
-    public String getUserNameOwner() {
-        return userNameOwner;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserNameOwner(String userNameOwner) {
-        this.userNameOwner = userNameOwner;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getMapName() {
@@ -92,3 +92,4 @@ public class MapsTableElementDetails {
         matchedTripRequestQuantity++;
     }
 }
+

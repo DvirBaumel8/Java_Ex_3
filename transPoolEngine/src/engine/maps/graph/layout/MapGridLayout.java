@@ -1,9 +1,9 @@
+/*
 package engine.maps.graph.layout;
 
 import engine.maps.graph.components.coordinate.CoordinatesManager;
 import engine.maps.graph.components.station.StationManager;
-import com.fxgraph.graph.Graph;
-import com.fxgraph.layout.Layout;
+
 
 public class MapGridLayout implements Layout {
 
@@ -34,3 +34,5 @@ public class MapGridLayout implements Layout {
         });
     }
 }
+
+ */
