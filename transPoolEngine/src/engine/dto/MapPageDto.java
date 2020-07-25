@@ -2,14 +2,14 @@ package engine.dto;
 
 import java.util.List;
 
-public class MapPageRepresentation {
+public class MapPageDto {
     private List<TripRequestDto> tripRequests;
     private List<TripSuggestDto> tripSuggests;
-    //private Graph graph;
+    private String htmlGraph;
 
-    public MapPageRepresentation(List<TripRequestDto> tripRequests, List<TripSuggestDto> tripSuggests, String x) {
+    public MapPageDto(List<TripRequestDto> tripRequests, List<TripSuggestDto> tripSuggests, String htmlGraph) {
         this.tripRequests = tripRequests;
         this.tripSuggests = tripSuggests;
-        //this.graph = graph;
+        this.htmlGraph = htmlGraph;
     }
 }

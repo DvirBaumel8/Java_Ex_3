@@ -1,12 +1,14 @@
 package engine.maps.graph.components.coordinate;
 
+import com.fxgraph.cells.AbstractCell;
+import com.fxgraph.graph.Graph;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-/*
+
 public class CoordinateNode extends AbstractCell {
     private int x;
     private int y;
@@ -44,5 +46,5 @@ public class CoordinateNode extends AbstractCell {
     }
 }
 
- */
+
 

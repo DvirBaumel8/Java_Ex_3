@@ -1,6 +1,6 @@
 package engine.manager;
 
-import engine.dto.MapPageRepresentation;
+import engine.dto.MapPageDto;
 import engine.dto.MapsTableElementDetailsDto;
 import engine.dto.TripRequestDto;
 import engine.dto.TripSuggestDto;
@@ -130,11 +130,9 @@ public class EngineManager {
         usersManager.loadMoneyIntoUserAccount(userName, Double.parseDouble(moneyToLoad));
     }
 
-    public MapPageRepresentation getMapDetailsByMapName(String mapName) {
-        //MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
-        //Graph graph = entity.getGraph();
-        //MapRepresentation mapRepresentation = new MapRepresentation(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntity(entity),null);
-        return null;
+    public MapPageDto getMapDetailsByMapName(String mapName) {
+        MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
+        return new MapPageDto(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntity(entity),entity.getHtmlGraph());
     }
 
     private List<TripSuggestDto> createSuggestDtoListFromMapEntity(MapEntity entity) {

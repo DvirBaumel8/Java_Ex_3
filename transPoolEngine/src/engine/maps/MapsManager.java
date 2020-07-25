@@ -1,6 +1,7 @@
 package engine.maps;
 
 import engine.dto.MapsTableElementDetailsDto;
+import engine.maps.graph.GraphBuilder;
 import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
@@ -9,6 +10,7 @@ import java.util.*;
 
 public class MapsManager {
     private HashMap<String, MapEntity> mapNameToEntity;
+    private GraphBuilder graphBuilder;
 
     public MapsManager() {
         mapNameToEntity = new HashMap<>();
@@ -18,8 +20,12 @@ public class MapsManager {
         if(mapNameToEntity.containsKey(mapName)) {
             throw new Exception();
         }
-        MapEntity mapEntity = new MapEntity(mapDescriptor, userName, mapName);
+        MapEntity mapEntity = new MapEntity(mapDescriptor, userName, mapName, createHtmlGraph(mapDescriptor));
         mapNameToEntity.put(mapName, mapEntity);
+    }
+
+    private String createHtmlGraph(MapDescriptor mapDescriptor) {
+        return graphBuilder.buildHtmlGraph(mapDescriptor);
     }
 
     public List<MapsTableElementDetailsDto> getAllMapsTableElementsDetails() {

@@ -1,5 +1,7 @@
 package engine.maps.graph.components.station;
 
+import com.fxgraph.cells.AbstractCell;
+import com.fxgraph.graph.Graph;
 import engine.maps.graph.components.details.StationDetails;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -8,7 +10,7 @@ import javafx.scene.layout.Region;
 
 import java.net.URL;
 import java.util.function.Supplier;
-/*
+
 public class StationNode extends AbstractCell {
     private int x;
     private int y;
@@ -36,9 +38,6 @@ public class StationNode extends AbstractCell {
     }
 
     @Override
-
-    Creates the graphical representation of the station.
-
     public Region getGraphic(Graph graph) {
 
         try {
@@ -47,12 +46,11 @@ public class StationNode extends AbstractCell {
             fxmlLoader.setLocation(url);
             HBox root = fxmlLoader.load(url.openStream());
 
-             updates information on the actual node's controller
-            StationController controller = fxmlLoader.getController();
-            controller.setX(x);
-            controller.setY(y);
-            controller.setName(name);
-            controller.setDetailsDTOSupplier(detailsSupplier);
+//            StationController controller = fxmlLoader.getController();
+//            controller.setX(x);
+//            controller.setY(y);
+//            controller.setName(name);
+//            controller.setDetailsDTOSupplier(detailsSupplier);
 
             return root;
         } catch (Exception e) {
@@ -61,6 +59,6 @@ public class StationNode extends AbstractCell {
     }
 }
 
- */
+
 
 

@@ -1,7 +1,7 @@
 package manager.servlets;
 
 import engine.manager.EngineManager;
-import engine.dto.MapPageRepresentation;
+import engine.dto.MapPageDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
@@ -37,6 +37,6 @@ public class MapScreenServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         response.sendRedirect(MAP_DETAILS_URL);
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        MapPageRepresentation mapRep = engine.getMapDetailsByMapName(mapName);
+        MapPageDto mapRep = engine.getMapDetailsByMapName(mapName);
     }
 }
