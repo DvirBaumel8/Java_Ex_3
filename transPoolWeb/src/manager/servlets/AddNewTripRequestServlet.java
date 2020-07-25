@@ -32,9 +32,13 @@ public class AddNewTripRequestServlet extends HttpServlet {
         String userRequestPPK = request.getParameter(Constants.USER_REQUEST_PPK);
         String userRequestDepartureOrArrival = request.getParameter(Constants.USER_REQUEST_DEPARTURE_OR_ARRIVAL);
 
-        //MapPageRepresentation mapRep = engine.getMapDetailsByMapName(mapName);
 
-        response.setContentType("text/html;charset=UTF-8");
+
+
+        //String jsonAddNewTripRequestResponse = new Gson().toJson(mapsTableElementDetailsListDto);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        //response.getWriter().write(json);
         response.sendRedirect(MAP_DETAILS_URL);
 
     }

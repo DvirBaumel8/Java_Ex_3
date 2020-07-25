@@ -1,5 +1,6 @@
 package manager.servlets;
 
+import com.google.gson.Gson;
 import manager.constans.Constants;
 
 import javax.servlet.ServletException;
@@ -31,7 +32,13 @@ public class AddNewTripSuggestServlet extends HttpServlet {
         String userSuggestPPK = request.getParameter(Constants.USER_SUGGEST_PPK);
         String userSuggestPassengerCapacity = request.getParameter(Constants.USER_SUGGEST_PASSENGER_CAPACITY);
 
-        response.setContentType("text/html;charset=UTF-8");
+
+
+
+        //String jsonAddNewTripSuggestResponse = new Gson().toJson(mapsTableElementDetailsListDto);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        //response.getWriter().write(json);
         response.sendRedirect(MAP_DETAILS_URL);
         //MapPageRepresentation mapRep = engine.getMapDetailsByMapName(mapName);
     }

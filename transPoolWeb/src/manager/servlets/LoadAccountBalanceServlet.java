@@ -31,7 +31,10 @@ public class LoadAccountBalanceServlet extends HttpServlet {
 
 
 
-        response.setContentType("text/html;charset=UTF-8");
+        //String jsonNewBalanceResponse = new Gson().toJson(mapsTableElementDetailsListDto);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        //response.getWriter().write(json);
         response.sendRedirect(MAP_DETAILS_URL);
     }
 }
