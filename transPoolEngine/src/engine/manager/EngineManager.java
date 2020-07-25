@@ -4,6 +4,7 @@ import engine.dto.MapPageRepresentation;
 import engine.dto.MapsTableElementDetailsDto;
 import engine.dto.TripRequestDto;
 import engine.dto.TripSuggestDto;
+import engine.dto.UserMapDetailsPageDto;
 import engine.maps.MapEntity;
 import engine.maps.MapsManager;
 import engine.matching.MatchUtil;
@@ -18,6 +19,7 @@ import engine.users.User;
 import engine.users.UsersManager;
 import engine.validations.RequestValidator;
 import engine.validations.SuggestValidator;
+import engine.validations.UsersValidations;
 import engine.xmlLoading.SchemaBasedJAXBMain;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Route;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.TransPool;
@@ -41,10 +43,6 @@ public class EngineManager {
         usersManager = new UsersManager();
     }
 
-    public UsersManager getUsersManager() {
-        return usersManager;
-    }
-
     public void handleFileUploadProcess(String fileContent, String userName, String mapName) throws Exception {
         SchemaBasedJAXBMain schemaBasedJAXBMain = new SchemaBasedJAXBMain();
         InputStream stream = new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8));
@@ -62,7 +60,6 @@ public class EngineManager {
                 //TODO - handle new map name already exist
             }
         }
-
 
     }
 
@@ -122,13 +119,15 @@ public class EngineManager {
         return new TripSuggest(inputsArr[0], newTripSuggestRoute, minutes, hour, day, scheduleTypeInt, ppk, tripCapacity);
     }
 
-    private void addNewUser(String userName, String userType) {
+    public void addUser(String userName, String userType) {
             User user = new User(userName, userType);
             usersManager.addNewUser(userName, user);
     }
 
-    public void loadMoneyIntoAccount(String userName, double moneyToLoad) {
-        usersManager.loadMoneyIntoUserAccount(userName, moneyToLoad);
+    public void loadMoneyIntoAccount(String userName, String moneyToLoad) {
+        StringBuilder error = new StringBuilder();
+        UsersValidations.validateLoadMoneyIntoAccountInput(moneyToLoad, error);
+        usersManager.loadMoneyIntoUserAccount(userName, Double.parseDouble(moneyToLoad));
     }
 
     public MapPageRepresentation getMapDetailsByMapName(String mapName) {
@@ -302,6 +301,12 @@ public class EngineManager {
         return new Transaction(Transaction.TransactionType.PaymentTransfer, date, totalCost, currentUserCash, currentUserCash - totalCost);
     }
 
+
+    public UserMapDetailsPageDto getUserMapDetailsPageDto(String userName) {
+        List<MapsTableElementDetailsDto> mapsTableElementDetailsDtoList = mapsManager.getAllMapsTableElementsDetailsCheck();
+        double cash = usersManager.getCurrentUserCashByUserName(userName);
+        return new UserMapDetailsPageDto(mapsTableElementDetailsDtoList, cash);
+    }
 
 }
 

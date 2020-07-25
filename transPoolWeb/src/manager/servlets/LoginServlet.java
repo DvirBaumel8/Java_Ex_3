@@ -1,5 +1,6 @@
 package manager.servlets;
 
+import engine.manager.EngineManager;
 import manager.UserManagerDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -37,13 +38,13 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String userName = request.getParameter(Constants.USER_NAME);
         String userType = request.getParameter(Constants.USER_TYPE);
-        UserManagerDto userManagerDto = ServletUtils.getUserManager(getServletContext());
+        EngineManager engine = ServletUtils.getEngineManager(getServletContext());
         String errorMessage = validateUserLoginInputs(userType, userName);
 
                 synchronized (this) {
                     try {
                         if(errorMessage == null) {
-                            userManagerDto.addUser(userName, userType);
+                            engine.addUser(userName, userType);
                             request.getSession(true).setAttribute(USER_NAME, userName);
                             System.out.println("On login, request URI is: " + request.getRequestURI());
                             HttpSession session = request.getSession(false);
@@ -94,7 +95,6 @@ public class LoginServlet extends HttpServlet {
     private String validateUserLoginInputs(String userType, String userName)
             throws IOException {
         StringBuilder errorMessageSb = null;
-        //EngineManager engineManager = EngineManager.getEngineManagerInstance();
 
         try {
             if(userType.equals("requestPassenger") || userType.equals("suggestPassenger")) {

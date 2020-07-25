@@ -5,13 +5,10 @@ import engine.validations.UsersValidations;
 import java.util.HashMap;
 
 public class UsersManager {
-    private static HashMap<String, User> users;
-    private static UsersValidations usersValidations;
-
+    private HashMap<String, User> users;
 
     public UsersManager() {
         users = new HashMap<>();
-        usersValidations = new UsersValidations();
     }
 
     public void addNewUser(String userName, User user) {
@@ -36,6 +33,6 @@ public class UsersManager {
     }
 
     public boolean isUserExistInTheSystem(String userToCheck) {
-        return usersValidations.isUserExistInTheSystem(users, userToCheck);
+        return UsersValidations.isUserExistInTheSystem(users, userToCheck);
     }
 }

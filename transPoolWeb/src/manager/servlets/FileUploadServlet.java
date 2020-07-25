@@ -41,7 +41,6 @@ public class FileUploadServlet extends HttpServlet {
         StringBuilder fileContent = new StringBuilder();
 
         for (Part part : parts) {
-            printPart(part, out);
             //to write the content of the file to an actual file in the system (will be created at c:\samplefile)
             part.write("samplefile");
 
@@ -51,7 +50,7 @@ public class FileUploadServlet extends HttpServlet {
 
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
         try {
-            engineManager.handleFileUploadProcess(fileContent.toString(), "dvir", "map1");
+            engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapPathName);
         }
         catch (Exception ex) {
             //problems with upload file
@@ -59,30 +58,7 @@ public class FileUploadServlet extends HttpServlet {
 
     }
 
-    private void printPart(Part part, PrintWriter out) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<p>")
-                .append("Parameter Name (From html form): ").append(part.getName())
-                .append("<br>")
-                .append("Content Type (of the file): ").append(part.getContentType())
-                .append("<br>")
-                .append("Size (of the file): ").append(part.getSize())
-                .append("<br>");
-        for (String header : part.getHeaderNames()) {
-            sb.append(header).append(" : ").append(part.getHeader(header)).append("<br>");
-        }
-        sb.append("</p>");
-        out.println(sb.toString());
-    }
-
     private String readFromInputStream(InputStream inputStream) {
         return new Scanner(inputStream).useDelimiter("\\Z").next();
-    }
-
-    private void printFileContent(String content, PrintWriter out) {
-        out.println("<h2>File content:</h2>");
-        out.println("<textarea style=\"width:100%;height:400px\">");
-        out.println(content);
-        out.println("</textarea>");
     }
 }

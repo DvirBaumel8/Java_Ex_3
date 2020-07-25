@@ -88,4 +88,5 @@ public class MapsManager {
         res.add(mapsTableElementDetails);
         return res;
     }
+
 }

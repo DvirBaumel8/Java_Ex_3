@@ -1,7 +1,9 @@
 package manager.servlets;
 
 
+import engine.manager.EngineManager;
 import manager.constans.Constants;
+import manager.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,13 +28,29 @@ public class AddNewTripRequestServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String userRequestName = request.getParameter(Constants.USER_REQUEST_NAME);
-        String userRequestSourceStation = request.getParameter(Constants.USER_REQUEST_SOURCE_STATION);
-        String userRequestDestinationStation = request.getParameter(Constants.USER_REQUEST_DESTINATION_STATION);
-        String userRequestPPK = request.getParameter(Constants.USER_REQUEST_PPK);
-        String userRequestDepartureOrArrival = request.getParameter(Constants.USER_REQUEST_DEPARTURE_OR_ARRIVAL);
+        String[] inputs = new String[6];
+        inputs[0] = request.getParameter(Constants.USER_REQUEST_NAME);
+        inputs[1] = request.getParameter(Constants.USER_REQUEST_SOURCE_STATION);
+        inputs[2] = request.getParameter(Constants.USER_REQUEST_DESTINATION_STATION);
+        //inputs[3] = request.getParameter(Constants.USER_REQUEST_TIME);
+        inputs[3] = "10:20";
+        //inputs[4] = request.getParameter(Constants.USER_TIME_PARAM);
+        inputs[4] = "S";
+        //inputs[5] = request.getParameter(Constants.USER_REQUEST_DAY);
+        inputs[5] = "2";
+        //Trip request params from user: update in UI and send to servlet
+        //1. request owner name - Done
+        //2. request source station - Done
+        //3. request destination station  Done
+        //4. user request time (arrival/start) - need to update
+        //5. user request time param (insert S or A) to decide if he want to ask by arrival time or start time - need to update
+        //6. user request day - need to update
 
-
+        //Ohad - Todo send to this servlet also the mapName,
+        //String mapName = request.getParameter(Constants.MAP_NAME);
+        String mapName = "map1";
+        EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+        engine.createNewTripRequest(mapName, inputs);
 
 
         //String jsonAddNewTripRequestResponse = new Gson().toJson(mapsTableElementDetailsListDto);
