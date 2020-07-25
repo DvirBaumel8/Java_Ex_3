@@ -15,6 +15,13 @@
 
     <h2>UserName: {{userNameInUserPage}} </h2>
 
+    <h2>Account Balance : {{userAccountBalance}} </h2>
+    <label>Loading account balance:</label>
+    <input type="text" id="userLoadingAccountBalance" name="userLoadingAccountBalance" style="width: 70px;">
+    &emsp;<button ng-click="loadAccountBalanceAction()" style="color:#0000FF;">
+      Load
+    </button>
+
     <div>
         <h3>Select a File:</h3>
     <input type="file" name="mapUploadName" accept="xml/*" onchange='openFile(event)'><br>
