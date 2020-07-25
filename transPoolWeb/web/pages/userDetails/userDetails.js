@@ -1,11 +1,13 @@
 
-var appUserDetails = angular.module('userDetails', []);
+var transPoolApp = angular.module('transPoolApp', []);
 
-appUserDetails.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$window',
-    function($scope, $http, $location, $window) {
-
+transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$rootScope','$window',
+    function($scope, $http, $location, $rootScope, $window) {
+        var k ;
     function init() {
         $scope.totalMapsInTheSystem = {};
+        $scope.userNameInUserPage = $window.sessionStorage.getItem("userNameGlobalVar");
+
 
         $scope.createUser = function()
         {
@@ -22,13 +24,14 @@ appUserDetails.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$
     }
 
 
-
     $scope.redirectToMapPageApi = function (mapName) {
+        var userName = $scope.userNameInUserPage;
         console.log("I've been pressed!");
         $http({
             url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MapScreenServlet',
             method: "GET",
-            params: {mapName: mapName}
+            params: {mapName: mapName,
+            userName: userName}
         }).then(
             function successCallback(response) {
                 $scope.totalMapsInTheSystem = response.data;

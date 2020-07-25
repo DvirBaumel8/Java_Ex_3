@@ -33,6 +33,7 @@ public class MapScreenServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String mapName = request.getParameter(Constants.MAP_NAME);
+        String userName = request.getParameter(Constants.USER_NAME);
         response.setContentType("text/html;charset=UTF-8");
         response.sendRedirect(MAP_DETAILS_URL);
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());

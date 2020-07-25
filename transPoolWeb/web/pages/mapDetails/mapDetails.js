@@ -1,23 +1,13 @@
 
-var appMapDetails = angular.module('mapDetails', []);
+var transPoolApp = angular.module('transPoolApp', []);
 
-appMapDetails.controller('mapDetailsCtrl',[ '$scope', '$http', function($scope, $http) {
+
+
+transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope',
+    function($scope, $http, $rootScope) {
 
     function initMapDetailsPage() {
-        $scope.totalMapsInTheSystem = {};
 
-        $scope.createUser = function()
-        {
-            console.log("I've been pressed!");
-            $http.get('http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/UserMapDetailsServlet').then(
-                function successCallback(response) {
-                    $scope.totalMapsInTheSystem = response.data;
-                },
-                function errorCallback(response) {
-                    console.log("Unable to perform get request");
-                }
-            );
-        };
 
         $scope.tripSuggestListPerMap = [
             { suggestID: '2', passengerNames: ' ', destinationStation: ' ', isMatched: 'yes', matchTrip:'a' },
