@@ -18,32 +18,35 @@
 
     <br>
     <br>
-    <label name="addLabel" style="font-size: 18px; color: #0c723a ; margin-bottom: 15px">Add New Suggest Trip:</label>
-    <br>
-    <form action="/action_page.php" style="margin-top: 10px">
-        <label > User Suggest Name:</label>
-        <input type="text" id="userSuggestName" name="userSuggestName" style="width: 70px;">
-        &emsp;
-        <label> Route:</label>
-        <input type="text" id="userSuggestRoute" name="userSuggestRoute" style="width: 70px;">
-        &emsp;
-        <label> Departure Time - "00:00"</label>
-        <input type="text" id="userSuggestDepartureTime" name="userSuggestDepartureTime" style="width: 70px;">
-        &emsp;
-        <label> PPK:</label>
-        <input type="text" id="userSuggestPPK" name="userSuggestPPK" style="width: 70px;">
-        &emsp;
-        <label> Passenger Capacity:</label>
-        <input type="text" id="userSuggestPassengerCapacity" name="userSuggestPassengerCapacity" style="width: 70px;">
-        <br>
-        <div style="margin-top: 10px;"  ng-click="addNewSuggestTrip()" class="button_cont">
-            <a class="example_d"   href="add-website-here" target="_blank"
-                                                   rel="nofollow noopener">Add</a></div>
-    </form>
-    <br>
-    <br>
 
-    <label style="font-size: 22px; ">Trip Suggest List Table:</label> <br>
+    <label style="font-size: 24px;  font-weight: bold;">Trip Suggest Data:</label>
+    <br>
+    <button type="button" class="collapsible">Add New Suggest Trip</button>
+    <div class="content">
+        <p>
+        <form action="/action_page.php" style="margin-top: 10px">
+            <label > User Suggest Name:</label>
+            <input type="text" id="userSuggestName" name="userSuggestName" style="width: 70px;">
+            &emsp;
+            <label> Route:</label>
+            <input type="text" id="userSuggestRoute" name="userSuggestRoute" style="width: 70px;">
+            &emsp;
+            <label> Departure Time - "00:00"</label>
+            <input type="text" id="userSuggestDepartureTime" name="userSuggestDepartureTime" style="width: 70px;">
+            &emsp;
+            <label> PPK:</label>
+            <input type="text" id="userSuggestPPK" name="userSuggestPPK" style="width: 70px;">
+            &emsp;
+            <label> Passenger Capacity:</label>
+            <input type="text" id="userSuggestPassengerCapacity" name="userSuggestPassengerCapacity" style="width: 70px;">
+            <br>
+            <div style="margin-top: 10px;"  ng-click="addNewSuggestTrip()" class="button_cont">
+                <a class="example_d"   href="add-website-here" target="_blank"
+                   rel="nofollow noopener">Add</a></div>
+        </form>
+        </p>
+    </div>
+
         <table id="tripSuggestListPerMap">
         <thead>
         <tr align="center">
@@ -77,9 +80,11 @@
     <br>
 
 
-
-    <label name="addLabel" style="font-size: 18px; margin-bottom: 15px; color:#7d720a;">Add New Request Trip:</label>
+    <label style="font-size: 24px; font-weight: bold;">Trip Request Data:</label>
     <br>
+    <button type="button" class="collapsible">Add New Request Trip</button>
+    <div class="content">
+    <p>
     <form action="/action_page.php" style="margin-top: 10px">
         <label> User Request Name:</label>
         <input type="text" id="userRequestName" name="userRequestName" style="width: 70px;">
@@ -92,24 +97,21 @@
         &emsp;
         <label>Time - "00:00"</label>
         <input type="text" id="userRequestPPK" name="userRequestPPK" style="width: 70px;">
-        &emsp;
+       &emsp;<br>
+        <br>
         <label>Departure/Arrival</label>
         <select id="userRequestDepartureOrArrival" name="userRequestDepartureOrArrival"  selected="selected" style="width:140px; ">
             <option ng-selected="true">Departure or Arrival</option>
             <option value="userRequestDeparture">Departure</option>
             <option value="userRequestArrival">Arrival</option>
         </select>
-        <br>
         <div style="margin-top: 10px;"  ng-click="addNewRequestTrip()" class="button_cont"><a class="example_e" href="add-website-here" target="_blank"
                                                                                               rel="nofollow noopener">Add</a></div>
     </form>
+    </p>
+    </div>
 
-    <br>
-
-    <label style="font-size: 22px;">Trip Request Table:</label> <br>
-
-
-        <table id="tripRequestListPerMap">
+     <table id="tripRequestListPerMap">
             <thead>
             <tr align="center">
                 <th>Trip Request ID</th>
@@ -141,7 +143,22 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
 
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
 <!-- Load the JS Module -->
 <script src="mapDetails.js"></script>
 </body>

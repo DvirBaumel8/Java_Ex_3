@@ -31,7 +31,7 @@ public class FileUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String mapPathName = request.getParameter(Constants.MAP_UPLOAD_NAME);
-        //String userName = request.getParameter(Constants.USER_NAME);
+        String userName = request.getParameter(Constants.USER_NAME);
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         Collection<Part> parts = request.getParts();

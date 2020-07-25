@@ -2,7 +2,7 @@
 #tripRequestListPerMap {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 70%;
+    width: 80%;
 }
 
 #tripRequestListPerMap td, #tripRequestListPerMap th {
@@ -28,7 +28,7 @@
 #tripSuggestListPerMap {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 70%;
+    width: 80%;
 }
 
 #tripSuggestListPerMap td, #tripSuggestListPerMap th {
@@ -58,29 +58,34 @@ body {
 
 h1 {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    color: #ffffff;
+    color: #777777;
     text-align: center;
     padding-left: 30px;
 }
 
 p {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    padding-left: 30px;
+    font-size: 14px;
+    padding: 0 10px;
+
 }
 
 h2 {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    color: #f6f7fc;
+    color: #777777;
 }
 
 label {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    color: #575757;
+    color:#777777;
+    font-size: 14px;
 }
 
 form {
     border-collapse: collapse;
+}
+input {
+    font-size: 14px
 }
 
 .addLabel {
@@ -123,4 +128,28 @@ form {
     border-radius: 50px;
     border-color: #494949 !important;
     transition: all 0.3s ease 0s;
+}
+
+.collapsible {
+    background-color: #777777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 80%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 18px;
+}
+
+.active, .collapsible:hover {
+    background-color: #555;
+}
+
+.content {
+    padding: 0 10px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    width:78%;
 }
