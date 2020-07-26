@@ -1,4 +1,4 @@
-package engine.maps.graph.components.coordinate;
+package engine.maps.graph.components;
 
 import com.fxgraph.cells.AbstractCell;
 import com.fxgraph.graph.Graph;
@@ -12,10 +12,14 @@ import java.net.URL;
 public class CoordinateNode extends AbstractCell {
     private int x;
     private int y;
+    private int indexX;
+    private int indexY;
 
-    public CoordinateNode(int x, int y) {
+    public CoordinateNode(int x, int y, int indexX, int indexY) {
         this.x = x;
         this.y = y;
+        this.indexX = indexX;
+        this.indexY = indexY;
     }
 
     public int getX() {
@@ -24,6 +28,14 @@ public class CoordinateNode extends AbstractCell {
 
     public int getY() {
         return y;
+    }
+
+    public int getIndexX() {
+        return indexX;
+    }
+
+    public int getIndexY() {
+        return indexY;
     }
 
     @Override

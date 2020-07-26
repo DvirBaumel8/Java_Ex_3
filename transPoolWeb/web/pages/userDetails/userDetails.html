@@ -24,11 +24,15 @@
 
     <div>
         <h3>Select a File:</h3>
-    <input type="file" name="mapUploadName" accept="xml/*" onchange='openFile(event)'><br>
+        <form method="POST" action="FileUpload" enctype="multipart/form-data">
+            <input type="file" name="file1" id="xml" name="xml" accept="xml/*" onchange='openFile(event)'><br>
 
-        <button ng-click="redirectToFileUploadedApi(mapUploadName,userName)" style="color:#0000FF;">
-            Submit
-        </button>
+            <button ng-click="redirectToFileUploadedApi(mapUploadName,userName)" style="color:#0000FF;">
+                Submit
+            </button>
+        </form>
+
+
     </div>
 
 

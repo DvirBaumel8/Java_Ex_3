@@ -10,7 +10,6 @@ import java.util.*;
 
 public class MapsManager {
     private HashMap<String, MapEntity> mapNameToEntity;
-    private GraphBuilder graphBuilder;
 
     public MapsManager() {
         mapNameToEntity = new HashMap<>();
@@ -25,7 +24,8 @@ public class MapsManager {
     }
 
     private String createHtmlGraph(MapDescriptor mapDescriptor) {
-        return graphBuilder.buildHtmlGraph(mapDescriptor);
+        GraphBuilder graphBuilder = new GraphBuilder(mapDescriptor);
+        return graphBuilder.buildHtmlGraph();
     }
 
     public List<MapsTableElementDetailsDto> getAllMapsTableElementsDetails() {

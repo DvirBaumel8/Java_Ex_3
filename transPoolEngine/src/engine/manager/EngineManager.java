@@ -132,7 +132,7 @@ public class EngineManager {
 
     public MapPageDto getMapDetailsByMapName(String mapName) {
         MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
-        return new MapPageDto(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntity(entity),entity.getHtmlGraph());
+        return new MapPageDto(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntity(entity), entity.getHtmlGraph());
     }
 
     private List<TripSuggestDto> createSuggestDtoListFromMapEntity(MapEntity entity) {

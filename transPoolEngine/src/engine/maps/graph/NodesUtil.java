@@ -1,4 +1,4 @@
-package engine.maps.graph.components.util;
+package engine.maps.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-public class NodesManager<N> {
+public class NodesUtil<N> {
     private Map<String, N> nodes;
     private BiFunction<Integer, Integer, N> factory;
 
-    public NodesManager(BiFunction<Integer, Integer, N> factory) {
+    public NodesUtil(BiFunction<Integer, Integer, N> factory) {
         nodes = new HashMap<>();
         this.factory = factory;
     }
@@ -28,4 +28,5 @@ public class NodesManager<N> {
         return x + "-" + y;
     }
 }
+
 
