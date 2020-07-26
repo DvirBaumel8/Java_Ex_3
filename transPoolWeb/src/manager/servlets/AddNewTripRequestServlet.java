@@ -50,7 +50,14 @@ public class AddNewTripRequestServlet extends HttpServlet {
         //String mapName = request.getParameter(Constants.MAP_NAME);
         String mapName = "map1";
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        engine.createNewTripRequest(mapName, inputs);
+        try {
+            engine.createNewTripRequest(mapName, inputs);
+        }
+        catch (Exception ex) {
+            String error = ex.getMessage();
+            //Display Error to user
+        }
+
 
 
         //String jsonAddNewTripRequestResponse = new Gson().toJson(mapsTableElementDetailsListDto);

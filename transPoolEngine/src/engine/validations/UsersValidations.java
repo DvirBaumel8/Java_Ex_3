@@ -9,14 +9,12 @@ public class UsersValidations {
         return users.containsKey(userToCheck);
     }
 
-    public static boolean validateLoadMoneyIntoAccountInput(String amountToLoad, StringBuilder error) {
+    public static void validateLoadMoneyIntoAccountInput(String amountToLoad, StringBuilder error) throws Exception {
         try {
             Double.parseDouble(amountToLoad);
-            return true;
         }
         catch (Exception ex) {
-            error.append("Please insert legal decimal number");
-            return false;
+            throw new Exception("Please insert legal decimal number");
         }
     }
 }

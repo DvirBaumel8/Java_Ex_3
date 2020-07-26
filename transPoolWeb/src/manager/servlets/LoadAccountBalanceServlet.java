@@ -32,7 +32,14 @@ public class LoadAccountBalanceServlet extends HttpServlet {
         String amountToLoad = request.getParameter(Constants.USER_AMOUNT_TO_LOAD);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        engine.loadMoneyIntoAccount(userName, amountToLoad);
+        try {
+            engine.loadMoneyIntoAccount(userName, amountToLoad);
+        }
+        catch (Exception ex) {
+            String error = ex.getMessage();
+            //Display error to the user
+        }
+
 
         //String jsonNewBalanceResponse = new Gson().toJson(mapsTableElementDetailsListDto);
         response.setContentType("application/json");

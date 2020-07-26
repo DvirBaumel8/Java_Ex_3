@@ -53,25 +53,15 @@ public class EngineManager {
             throw new Exception();
         }
         else {
-            try {
-                mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName);
-            }
-            catch (Exception ex) {
-                //TODO - handle new map name already exist
-            }
+            mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName);
         }
-
-    }
-
-    public MapsManager getMapsManager() {
-        return mapsManager;
     }
 
     public List<MapsTableElementDetailsDto> getAllMapsTableElementsDetails() {
             return mapsManager.getAllMapsTableElementsDetails();
     }
 
-    public void createNewTripRequest(String mapName, String[] inputsArr) {
+    public void createNewTripRequest(String mapName, String[] inputsArr) throws Exception {
         RequestValidator requestValidator = new RequestValidator();
         if(requestValidator.validateTripRequestInput(inputsArr)) {
             TripRequest tripRequest = buildNewRequest(inputsArr);
@@ -79,7 +69,7 @@ public class EngineManager {
         }
         else {
             String errorMessage = requestValidator.getAddNewTripRequestErrorMessage();
-            //Todo - handle error input
+            throw new Exception(errorMessage);
         }
     }
 
@@ -91,14 +81,15 @@ public class EngineManager {
     }
 
 
-    public void createNewTripSuggest(String mapName, String[] inputsArr) {
+    public void createNewTripSuggest(String mapName, String[] inputsArr) throws Exception {
         SuggestValidator suggestValidator = new SuggestValidator();
             if(suggestValidator.validateTripSuggestInput(inputsArr, mapsManager.getAllLogicStationsByMapName(mapName))) {
                 TripSuggest tripSuggest = buildNewSuggest(inputsArr);
                 mapsManager.addTripSuggestByMapName(mapName, tripSuggest);
             }
             else {
-                //TODO - handle error input
+                String errorMessage = suggestValidator.getAddNewTripSuggestErrorMessage();
+                throw new Exception(errorMessage);
             }
     }
 
@@ -124,7 +115,7 @@ public class EngineManager {
             usersManager.addNewUser(userName, user);
     }
 
-    public void loadMoneyIntoAccount(String userName, String moneyToLoad) {
+    public void loadMoneyIntoAccount(String userName, String moneyToLoad) throws Exception {
         StringBuilder error = new StringBuilder();
         UsersValidations.validateLoadMoneyIntoAccountInput(moneyToLoad, error);
         usersManager.loadMoneyIntoUserAccount(userName, Double.parseDouble(moneyToLoad));
@@ -212,14 +203,6 @@ public class EngineManager {
     public String getRatingsToSuggest(String mapName, Integer suggestId) {
         return mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId).getDriverRating().getDriverRatingInfo();
     }
-/*
-    public Graph getGraph(String mapName) {
-        MapDescriptor mapDescriptor = mapsManager.getMapDescriptorByMapName(mapName);
-        GraphBuilder graphBuilder = new GraphBuilder(mapDescriptor);
-        return graphBuilder.createGraph();
-    }
-
- */
 
     public void rankDriver(String mapName, Integer requestId, Integer suggestId, String[] inputs) {
         TripSuggest suggest = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId);
@@ -308,194 +291,6 @@ public class EngineManager {
 
 }
 
-//    private String findRouteToRequest(TripSuggest tripSuggest, TripRequest tripRequest) {
-//        Station[] stations = tripSuggest.getTripStations();
-//        boolean start = false;
-//        String sourceStation = tripRequest.getSourceStation();
-//        String destinationStation = tripRequest.getDestinationStation();
-//        StringBuilder str = new StringBuilder();
-//
-//        for (int i = 0; i < stations.length; i++) {
-//            if (!start) {
-//                if (stations[i].equals(sourceStation)) {
-//                    start = true;
-//                    str.append(stations[i]);
-//                    str.append(",");
-//                }
-//            } else {
-//                if (stations[i].equals(destinationStation)) {
-//                    str.append(stations[i]);
-//                    break;
-//                } else {
-//                    str.append(stations[i]);
-//                    str.append(",");
-//                }
-//            }
-//        }
-//
-//        return str.toString();
-//    }
-//
-//
-//
-//    public boolean validateRequestIDIsExist(String input) {
-//        Integer requestID = Integer.parseInt(input);
-//        return tripRequestUtil.isRequestIDExist(requestID);
-//    }
-//
-//    public List<String> validateRequestIDExistInMatchedRequestTrip(String input) {
-//        List<String> errors = new ArrayList<>();
-//        int id;
-//        try {
-//            id = Integer.parseInt(input);
-//        } catch (Exception ex) {
-//            errors.add("Your choice wasn't a number\n");
-//            return errors;
-//        }
-//        if (tripRequestUtil.isRequestIDExistInMatchedRequestTrips(id)) {
-//            return errors;
-//        } else {
-//            errors.add("Trip request ID isn't exist in the previous list.\n");
-//            return errors;
-//        }
-//    }
-
-//    private void updateSuggestsCapacityPerTimeMap(RoadTrip roadTrip) {
-//        LinkedList<Station> stations;
-//        Station[] stationsArr;
-//        int totalMinutes;
-//        for(SubTrip subTrip : roadTrip.getSubTrips()) {
-//            stations = subTrip.getRoute();
-//            stationsArr = new Station[stations.size() - 1];
-//            copyLinkedListToArr(stations, stationsArr);
-//            for(int i =0; i < stationsArr.length; i++) {
-//                totalMinutes = calcTotalMinutes(stationsArr[i].getDay(), stationsArr[i].getHour(), stationsArr[i].getMinutes());
-//                subTrip.getTrip().addNewItemToCapacityPerTimeMap(totalMinutes);
-//            }
-//        }
-//
-//    }
-//
-//    private int calcTotalMinutes(int day, int hour, int minutes) {
-//        return (day * 24 * 60) + (hour * 60) + (minutes);
-//    }
-//
-//    private void copyLinkedListToArr(LinkedList<Station> stations, Station[] stationsArr) {
-//        int index = 0;
-//        for(Station station : stations) {
-//            if(stations.getLast().getName().equals(station.getName())) {
-//                break;
-//            }
-//            stationsArr[index] = station;
-//            index++;
-//        }
-//    }
-//
-//    private boolean validaRoadTripChoice(String inputStr) {
-//        int input = 0;
-//
-//        try {
-//            input = Integer.parseInt(inputStr);
-//        } catch (Exception ex) {
-//            return false;
-//        }
-//        if (input < 1) {
-//            return false;
-//        } else if (potentialCacheList.size() < input) {
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//
-////---------------------------- RequestValidator Section ----------------------------
-//
-//
-//    public List<String> validateChooseRequestAndAmountOfSuggestedTripsInput(String input) {
-//        return validator.validateChooseRequestAndAmountOfSuggestedTripsInput(input);
-//    }
-//
-//    public boolean validateChoosePotentialTripInput(String input, List<RoadTrip> potentialSuggestedTrips) {
-//        return validator.validateChoosePotentialTripInput(input, potentialSuggestedTrips);
-//    }
-//
-//
-//    public List<String> getListDetailsPerTime() {
-//        //String of name, id, path, current station
-//        List<String> retList = new ArrayList<>();
-//        Map<Integer, TripSuggest> suggestedTrips = tripSuggestUtil.getAllSuggestedTrips();
-//
-//        for (Map.Entry<Integer, TripSuggest> entry : suggestedTrips.entrySet()) {
-//            if (entry.getValue().isActive()) {
-//                Station currStation = findTripCurrentStation(entry.getValue());
-//
-//                String roadTrip = tripSuggestUtil.getStringRoadTripOfSuggestedTrip(entry.getKey().toString());
-//                retList.add(String.format("ID: %s, Owner name: %s, Route: %s, Curr Stat: %s",
-//                        entry.getValue().getSuggestID(), entry.getValue().getTripOwnerName(),
-//                        roadTrip, currStation.getName()));
-//            }
-//        }
-//        return retList;
-//    }
-
-//
-//    public List<String> getTripSuggestIdsFromTripRequestWhichNotRankYet(String requestIDstr) {
-//        int requestID = 0;
-//        List<String> retVal = new ArrayList<>();
-//        try {
-//            requestID = Integer.parseInt(requestIDstr);
-//        } catch (Exception ex) {
-//            retVal.add("Your choice wasn't a number.\n");
-//        }
-//        TripRequest request = getTripRequestByID(requestID);
-//        RoadTrip requestRoadTrip = request.getMatchTrip();
-//        LinkedList<SubTrip> subTrips = requestRoadTrip.getSubTrips();
-//
-//        for (SubTrip subTrip : subTrips) {
-//            if(!subTrip.getIsRanked()) {
-//                retVal.add(String.valueOf(subTrip.getTrip().getSuggestID()));
-//            }
-//        }
-//
-//        if (retVal.size() == 0) {
-//            retVal.add("You already rated all drivers that part of your road trip");
-//            return retVal;
-//        }
-//        else {
-//            requestIDCache = requestID;
-//        }
-//        return retVal;
-//    }
-//
-//    //TripSuggestID, rate, description
-//    public List<String> validateInputOfRatingDriverOfSuggestIDAndRating(String tripSuggestId, String rateStr, String description) {
-//        List<String> errors = new ArrayList<>();
-//
-//        int suggestID = 0;
-//        int rate;
-//
-//        try {
-//            suggestID = Integer.parseInt(tripSuggestId);
-//        } catch (Exception ex) {
-//            errors.add("Trip suggest ID isn't a number.\n");
-//        }
-//        try {
-//            rateStr = rateStr.trim();
-//            rate = Integer.parseInt(rateStr);
-//        } catch (Exception ex) {
-//            errors.add("Rating isn't a number.");
-//            return errors;
-//        }
-//        if (tripSuggestUtil.getTripSuggestByID(suggestID) == null) {
-//            errors.add("Trip suggest isn't exist.\n");
-//        }
-//        if (rate < 1 || rate > 5) {
-//            errors.add("Please insert a number between 1-5 for rating.\n");
-//            return errors;
-//        }
-//        return errors;
-//    }
-//
 
 
 

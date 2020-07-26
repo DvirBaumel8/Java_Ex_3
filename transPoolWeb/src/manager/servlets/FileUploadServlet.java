@@ -53,7 +53,8 @@ public class FileUploadServlet extends HttpServlet {
             engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapPathName);
         }
         catch (Exception ex) {
-            //problems with upload file
+            String error = "Map name already exists, please try again";
+            //Display error to user
         }
 
     }

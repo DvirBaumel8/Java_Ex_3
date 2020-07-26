@@ -53,7 +53,14 @@ public class AddNewTripSuggestServlet extends HttpServlet {
         //String mapName = request.getParameter(Constants.MAP_NAME);
         String mapName = "map1";
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        engine.createNewTripSuggest(mapName, inputs);
+        try {
+            engine.createNewTripSuggest(mapName, inputs);
+        }
+        catch (Exception ex) {
+            String error = ex.getMessage();
+            //Display error to user
+        }
+
 
 
         //String jsonAddNewTripSuggestResponse = new Gson().toJson(mapsTableElementDetailsListDto);
