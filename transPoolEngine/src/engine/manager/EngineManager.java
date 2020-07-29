@@ -4,13 +4,15 @@ import engine.dto.MapPageDto;
 import engine.dto.MapsTableElementDetailsDto;
 import engine.dto.TripRequestDto;
 import engine.dto.TripSuggestDto;
-import engine.dto.UserMapDetailsPageDto;
+import engine.dto.UserDetailsPageDto;
 import engine.maps.MapEntity;
 import engine.maps.MapsManager;
+import engine.maps.graph.GraphBuilder;
 import engine.matching.MatchUtil;
 import engine.matching.MatchingHelper;
 import engine.matching.RoadTrip;
 import engine.matching.SubTrip;
+import engine.notifications.DriverRatingNotification;
 import engine.notifications.MatchNotificationsDetails;
 import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
@@ -21,6 +23,7 @@ import engine.validations.RequestValidator;
 import engine.validations.SuggestValidator;
 import engine.validations.UsersValidations;
 import engine.xmlLoading.SchemaBasedJAXBMain;
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Route;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.TransPool;
 import engine.xmlLoading.xmlValidation.XMLValidationsImpl;
@@ -50,7 +53,11 @@ public class EngineManager {
         XMLValidationsImpl xmlValidator = new XMLValidationsImpl(transPool);
         List<String> validationErrors = new ArrayList<>();
         if(!xmlValidator.validateXmlFile(validationErrors)) {
-            throw new Exception();
+            StringBuilder errors = new StringBuilder();
+            for(String error : validationErrors) {
+                errors.append(error);
+            }
+            throw new Exception(errors.toString());
         }
         else {
             mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName);
@@ -121,9 +128,19 @@ public class EngineManager {
         usersManager.loadMoneyIntoUserAccount(userName, Double.parseDouble(moneyToLoad));
     }
 
-    public MapPageDto getMapDetailsByMapName(String mapName) {
+    public MapPageDto getMapDetailsByMapName(String mapName, String userName) {
         MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
-        return new MapPageDto(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntity(entity), entity.getHtmlGraph());
+        if(isUserRequester(userName)) {
+            return new MapPageDto(createRequestDtoListFromMapEntityForUser(entity, userName), createSuggestDtoListFromMapEntity(entity), entity.getHtmlGraph());
+        }
+        else {
+            return new MapPageDto(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntityForUser(entity, userName), entity.getHtmlGraph());
+        }
+
+    }
+
+    private boolean isUserRequester(String userName) {
+        return usersManager.getUserByName(userName).getUserType() == User.UserType.Requester;
     }
 
     private List<TripSuggestDto> createSuggestDtoListFromMapEntity(MapEntity entity) {
@@ -144,11 +161,58 @@ public class EngineManager {
         }
         return suggestsDto;
     }
+    private List<TripSuggestDto> createSuggestDtoListFromMapEntityForUser(MapEntity entity, String userName) {
+        List<TripSuggestDto> suggestsDto = new ArrayList<>();
+        List<TripSuggest> tripSuggests = entity.getTripSuggests();
+        for(TripSuggest suggest : tripSuggests) {
+            if(suggest.getTripOwnerName().equals(userName)) {
+                continue;
+            }
+            int suggestId = suggest.getSuggestID();
+            List<String> passengersNames = suggest.getPassengers();
+            int tripDay = suggest.getStartingDay();
+            String sourceStation = suggest.getFirstStation().getName();
+            String destinationStation = suggest.getLastStation().getName();
+            double avgRating = suggest.getDriverRating().getRatingAVG();
+            int numOfRaters = suggest.getDriverRating().getNumOfRatings();
+            List<String> literalRatings = suggest.getDriverRating().getLiterallyRatings();
+
+            TripSuggestDto tripSuggestDto = new TripSuggestDto(suggestId, passengersNames, tripDay, sourceStation, destinationStation, avgRating, numOfRaters, literalRatings);
+            suggestsDto.add(tripSuggestDto);
+        }
+        return suggestsDto;
+    }
 
     private List<TripRequestDto> createRequestDtoListFromMapEntity(MapEntity entity) {
         List<TripRequestDto> requestDto = new ArrayList<>();
         List<TripRequest> tripRequests = entity.getTripRequests();
         for(TripRequest request : tripRequests) {
+            int requestId = request.getRequestID();
+            String tripOwnerName = request.getNameOfOwner();
+            String sourceStation = request.getSourceStation();
+            String destinationStation = request.getDestinationStation();
+            boolean isMatched;
+            String roadStory = String.valueOf("");
+            if(request.isMatched()) {
+                isMatched = request.isMatched();
+                roadStory = request.getMatchTrip().getRoadStory();
+            }
+            else {
+                isMatched = false;
+            }
+            TripRequestDto tripRequestDto = new TripRequestDto(requestId, tripOwnerName, sourceStation, destinationStation, isMatched, roadStory);
+            requestDto.add(tripRequestDto);
+        }
+        return requestDto;
+    }
+
+    private List<TripRequestDto> createRequestDtoListFromMapEntityForUser(MapEntity entity, String userName) {
+        List<TripRequestDto> requestDto = new ArrayList<>();
+        List<TripRequest> tripRequests = entity.getTripRequests();
+        for(TripRequest request : tripRequests) {
+            if(request.getNameOfOwner().equals(userName)) {
+                continue;
+            }
             int requestId = request.getRequestID();
             String tripOwnerName = request.getNameOfOwner();
             String sourceStation = request.getSourceStation();
@@ -193,10 +257,10 @@ public class EngineManager {
     private void sendNotificationToSuggester(String mapName, Integer requestId, Integer suggestId, double totalPayment) {
         MapsTableElementDetailsDto mapsTableElementDetails = mapsManager.getMapTableElementDetailsByMapName(mapName);
         MatchNotificationsDetails matchNotificationsDetails = new MatchNotificationsDetails(mapsTableElementDetails, requestId, totalPayment);
-        sendNotification(suggestId, matchNotificationsDetails);
+        sendMatchNotification(suggestId, matchNotificationsDetails);
     }
 
-    private void sendNotification(Integer suggestId, MatchNotificationsDetails matchNotificationsDetails) {
+    private void sendMatchNotification(Integer suggestId, MatchNotificationsDetails matchNotificationsDetails) {
         //TODO
     }
 
@@ -219,6 +283,13 @@ public class EngineManager {
         } else {
             suggest.addRatingToDriver(Integer.parseInt(inputs[1]), inputs[2]);
         }
+
+        DriverRatingNotification ratingNotification = new DriverRatingNotification(request.getNameOfOwner(), suggestId, Integer.parseInt(inputs[1]), inputs[2]);
+        sendRatingNotification(suggestId, ratingNotification);
+    }
+
+    private void sendRatingNotification(Integer suggestId, DriverRatingNotification matchNotificationsDetails) {
+        //TODO
     }
 
     public List<String> findPotentialSuggestedTripsToMatch(String mapName, String inputMatchingString) {
@@ -282,13 +353,45 @@ public class EngineManager {
         return new Transaction(Transaction.TransactionType.PaymentTransfer, date, totalCost, currentUserCash, currentUserCash - totalCost);
     }
 
-
-    public UserMapDetailsPageDto getUserMapDetailsPageDto(String userName) {
+    public UserDetailsPageDto getUserDetailsPageDto(String userName) {
         List<MapsTableElementDetailsDto> mapsTableElementDetailsDtoList = mapsManager.getAllMapsTableElementsDetailsCheck();
         double cash = usersManager.getCurrentUserCashByUserName(userName);
-        return new UserMapDetailsPageDto(mapsTableElementDetailsDtoList, cash);
+        return new UserDetailsPageDto(mapsTableElementDetailsDtoList, cash, usersManager.getUserTransactions(userName));
     }
 
+    public boolean validateUserLoginParams(String userName, String userTpe, StringBuilder errors) {
+        return UsersValidations.validateUserLoginParams(userName, userTpe, errors);
+    }
+
+    public boolean isUserExist(String userName) {
+        return usersManager.isUserExistInTheSystem(userName);
+    }
+
+    public String userTapOnTripRequest(String mapName, int requestId) {
+        MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
+        String htmlGraph = mapEntity.getHtmlGraph();
+        TripRequest request = mapEntity.getTripRequestById(requestId);
+        String requestSourceStations = request.getSourceStation();
+        String requestDestinationStation = request.getDestinationStation();
+        return highlightSourceDestStations(mapEntity.getMapDescriptor(), requestSourceStations, requestDestinationStation);
+    }
+
+    private String highlightSourceDestStations(MapDescriptor mapDescriptor, String requestSourceStations, String requestDestinationStation) {
+        GraphBuilder graphBuilder = new GraphBuilder(mapDescriptor);
+        return graphBuilder.buildHtmlGraphSourceDestHighlight(requestSourceStations, requestDestinationStation);
+    }
+
+    public String userTapOnTripSuggest(String mapName, int suggestId) {
+        MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
+        String htmlGraph = mapEntity.getHtmlGraph();
+        TripSuggest suggest = mapEntity.getTripSuggestById(suggestId);
+        return highlightSuggestRoute(mapEntity.getMapDescriptor(), htmlGraph, suggest.getTripRoute());
+    }
+
+    private String highlightSuggestRoute(MapDescriptor mapDescriptor, String htmlGraph, Route tripRoute) {
+        GraphBuilder graphBuilder = new GraphBuilder(mapDescriptor);
+        return graphBuilder.buildHtmlGraphHighlightRoute(tripRoute);
+    }
 }
 
 

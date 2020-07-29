@@ -59,4 +59,8 @@ public class User {
         return userAccount.getCurrentCash();
     }
 
+    public UserType getUserType() {
+        return userType;
+    }
+
 }

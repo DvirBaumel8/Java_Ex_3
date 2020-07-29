@@ -11,13 +11,17 @@ public class PathNode {
     private double endX;
     private double endY;
     private int length;
+    private String from;
+    private String to;
 
-    public PathNode(double startX, double startY, double endX, double endY, int length){
+    public PathNode(double startX, double startY, double endX, double endY, int length, String from, String to){
         this.startX = startX;
         this.startY = startY;
         this.endX = endX;
         this.endY = endY;
         this.length = length;
+        this.from = from;
+        this.to = to;
     }
 
     public double getStartX() {
@@ -58,5 +62,21 @@ public class PathNode {
 
     public void setLength(int length) {
         this.length = length;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 }

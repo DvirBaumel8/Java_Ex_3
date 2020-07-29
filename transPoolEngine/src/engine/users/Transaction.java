@@ -22,4 +22,9 @@ public class Transaction {
         PaymentReceiving,
         PaymentTransfer
     }
+
+    @Override
+    public String toString() {
+        return String.format( "Type: %s Date: %s Money: %f Balance before transaction: %f Balance after transaction: %f", transactionType.toString(), transactionDate.toString(), amountOfTransfer, balanceBeforeTransaction, balanceAfterTransaction);
+    }
 }

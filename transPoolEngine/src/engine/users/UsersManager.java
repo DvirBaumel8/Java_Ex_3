@@ -1,8 +1,8 @@
 package engine.users;
 
-import engine.validations.UsersValidations;
-
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UsersManager {
     private HashMap<String, User> users;
@@ -33,6 +33,11 @@ public class UsersManager {
     }
 
     public boolean isUserExistInTheSystem(String userToCheck) {
-        return UsersValidations.isUserExistInTheSystem(users, userToCheck);
+        return users.containsKey(userToCheck);
+    }
+
+    public List<String> getUserTransactions(String userName) {
+        List<Transaction> userTransactions = users.get(userName).getUserTransactions();
+        return userTransactions.stream().map(Transaction::toString).collect(Collectors.toList());
     }
 }

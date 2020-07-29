@@ -2,11 +2,12 @@ package engine.dto;
 
 import java.util.List;
 
-public class UserMapDetailsPageDto {
+public class UserDetailsPageDto {
     private List<MapsTableElementDetailsDto> mapsTableElementsInfo;
     private double userAccountBalance;
+    private List<String> userAccountTransactions;
 
-    public UserMapDetailsPageDto(List<MapsTableElementDetailsDto> mapsTableElementsInfo, double userAccountBalance) {
+    public UserDetailsPageDto(List<MapsTableElementDetailsDto> mapsTableElementsInfo, double userAccountBalance, List<String> userAccountTransactions) {
         this.mapsTableElementsInfo = mapsTableElementsInfo;
         this.userAccountBalance = userAccountBalance;
     }

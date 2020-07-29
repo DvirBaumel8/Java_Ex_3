@@ -2,10 +2,8 @@ package manager.servlets;
 
 
 import com.google.gson.Gson;
-import engine.dto.MapsTableElementDetailsDto;
-import engine.dto.UserMapDetailsPageDto;
+import engine.dto.UserDetailsPageDto;
 import engine.manager.EngineManager;
-import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 
 @WebServlet(name = "UserMapDetailsServlet", urlPatterns = {"/pages/userDetails/UserMapDetailsServlet"})
@@ -38,8 +35,8 @@ public class UserMapDetailsServlet extends HttpServlet {
         //Todo - send user name
         //String userName = request.getParameter(Constants.USER_NAME);
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        UserMapDetailsPageDto userMapDetailsPageDto = engine.getUserMapDetailsPageDto("d");
-        String json = new Gson().toJson(userMapDetailsPageDto);
+        UserDetailsPageDto userDetailsPageDto = engine.getUserDetailsPageDto("d");
+        String json = new Gson().toJson(userDetailsPageDto);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

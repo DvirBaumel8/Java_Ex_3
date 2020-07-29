@@ -37,6 +37,6 @@ public class MapScreenServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         response.sendRedirect(MAP_DETAILS_URL);
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        MapPageDto mapRep = engine.getMapDetailsByMapName(mapName);
+        MapPageDto mapRep = engine.getMapDetailsByMapName(mapName, userName);
     }
 }

@@ -4,6 +4,7 @@ import engine.manager.EngineManager;
 import manager.UserManagerDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
+import manager.utils.SessionUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,14 +37,19 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String userName = request.getParameter(Constants.USER_NAME);
-        String userType = request.getParameter(Constants.USER_TYPE);
-        EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        String errorMessage = validateUserLoginInputs(userType, userName);
 
+        String userName = SessionUtils.getUsername(request);
+
+        if(userName == null) {
+            String userType = request.getParameter(Constants.USER_TYPE);
+            userName = request.getParameter(Constants.USER_NAME);
+            StringBuilder errorMessageLoginScreen = new StringBuilder();
+            EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+            if(engine.validateUserLoginParams(userName, userType, errorMessageLoginScreen)) {
+                userName = userName.trim();
                 synchronized (this) {
                     try {
-                        if(errorMessage == null) {
+                        if(!engine.isUserExist(userName)) {
                             engine.addUser(userName, userType);
                             request.getSession(true).setAttribute(USER_NAME, userName);
                             System.out.println("On login, request URI is: " + request.getRequestURI());
@@ -52,15 +58,33 @@ public class LoginServlet extends HttpServlet {
                             response.sendRedirect(USER_DETAILS_URL);
                         }
                         else {
-                            System.out.println(errorMessage);
+                            request.setAttribute(Constants.USER_NAME_ERROR, errorMessageLoginScreen.toString());
                             response.sendRedirect(SIGN_UP_URL);
+                            //Ohad handle error user exist case
+                            //getServletContext().getRequestDispatcher(LOGIN_ERROR_URL).forward(request, response);
                         }
                     }
                     catch (Exception exception) {
-                        System.out.println(errorMessage);
+                        System.out.println(errorMessageLoginScreen);
                         response.sendRedirect(SIGN_UP_URL);
                     }
+                }
             }
+            else {
+                response.sendRedirect(SIGN_UP_URL);
+            }
+        }
+        else {
+            response.sendRedirect(USER_DETAILS_URL);
+        }
+
+
+
+
+
+
+
+
 
     }
 
