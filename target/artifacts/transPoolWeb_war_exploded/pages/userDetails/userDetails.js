@@ -55,7 +55,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                         userName: userName}
             }).then(
                 function successCallback(response) {
-                    //$scope.totalMapsInTheSystem = response.data;
+                    //$scope.totalMapsInTheSystem.add(response.data);
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
                 },
                 function errorCallback(response) {
@@ -76,7 +76,6 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                     userName: userName}
             }).then(
                 function successCallback(response) {
-                    //$scope.totalMapsInTheSystem = response.data;
                     //$scope.userAccountBalance = response.data;
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
                 },

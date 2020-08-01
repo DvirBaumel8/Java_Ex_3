@@ -37,7 +37,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userSuggestPassengerCapacity: userSuggestPassengerCapacity }
             }).then(
                 function successCallback(response) {
-                    //$scope.totalMapsInTheSystem = response.data;
+                    //$scope.tripSuggestListPerMap = $scope.tripSuggestListPerMap.add(response.data);
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 },
                 function errorCallback(response) {
@@ -64,7 +64,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userRequestDepartureOrArrival: userRequestDepartureOrArrival }
             }).then(
                 function successCallback(response) {
-                    //$scope.totalMapsInTheSystem = response.data;
+                    //$scope.tripRequestListPerMap = $scope.tripRequestListPerMap.add(response.data);
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 },
                 function errorCallback(response) {
