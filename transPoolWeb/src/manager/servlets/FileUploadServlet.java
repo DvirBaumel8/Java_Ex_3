@@ -55,7 +55,6 @@ public class FileUploadServlet extends HttpServlet {
             String error = ex.getMessage();
             //Display error to user
         }
-        response.sendRedirect("pages/userDetails/userDetails.html");
     }
 
     private String readFromInputStream(InputStream inputStream) {
