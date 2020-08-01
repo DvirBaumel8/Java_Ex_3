@@ -24,7 +24,7 @@ public class FileUploadServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("pages/userDetails/userDetails.html");
+        response.sendRedirect(USER_DETAILS_URL);
     }
 
     @Override
