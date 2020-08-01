@@ -14,10 +14,7 @@ import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 
 @WebServlet(name = "FileUpload", urlPatterns = {"/pages/userDetails/FileUpload"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
@@ -31,7 +28,8 @@ public class FileUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String mapPathName = request.getParameter(Constants.MAP_UPLOAD_NAME);
-        String userName = request.getParameter(Constants.USER_NAME);
+        //String userName = request.getParameter(Constants.USER_NAME);
+        String userName = "ohad";
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         Collection<Part> parts = request.getParts();

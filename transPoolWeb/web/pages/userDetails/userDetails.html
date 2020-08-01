@@ -13,16 +13,21 @@
     <br>
     <h1>Welcome to the User Details Page</h1>
 
-    <h3>Curr User In The System: {{userNameInUserPage}} </h3>
+    Curr User In The System:
+    <div id="userName">{{userNameInUserPage}}</div>
+
+    <br>
+    <br>
+
 
     <label>Balance User Section:</label>
     <br>
     <label>Loading account balance:</label>
     <input type="text" id="userLoadingAccountBalance" name="userLoadingAccountBalance" style="width: 70px;">
     &emsp;<button ng-click="loadAccountBalanceAction()" style="color:#0000FF;">
-      Load
-    </button>
-        <br>
+    Load
+</button>
+    <br>
 
     <label>Account Balance : {{userAccountBalance}} </label>
     <br>
@@ -57,59 +62,57 @@
         <br>
 
         <label>File Upload User Section:</label>
+        <br>
+        <br>
         <form method="POST" action="FileUpload" enctype="multipart/form-data">
 
             <input type="file" name="file1" id="xml" name="xml" accept="xml/*" onchange='openFile(event)'><br>
             <br>
             Map name : <input type="text" id="mapUploadName" ng-model ="mapUploadName" name="mapUploadName" style="width: 70px;">
-            <br>
-            <button ng-click="redirectToFileUploadedApi(mapUploadName,userName)" style="color:#0000FF;">
-                Submit
-            </button>
+            <input  type="submit" value="submit" style="width: 80px; height:40px"/>
         </form>
-
 
     </div>
 
 
 
 
-        <br>
-        <br>
-        <h3>
+    <br>
+    <br>
+    <h3>
         Map details arrange in the system:
-        </h3>
-        <table id="totalMapsInTheSystem">
-            <thead>
-            <tr align="center">
-                <th>User Name </th>
-                <th>Map Unique Name</th>
-                <th>Total Stations</th>
-                <th>Total Roads</th>
-                <th>Total Trips Suggests Per Map</th>
-                <th>Total Trips Requests Per Map</th>
-                <th>Matched Trip Request Quantity</th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr ng-repeat="map in totalMapsInTheSystem">
-                <td class="noBorder">{{map.userName}}</td>
+    </h3>
+    <table id="totalMapsInTheSystem">
+        <thead>
+        <tr align="center">
+            <th>User Name </th>
+            <th>Map Unique Name</th>
+            <th>Total Stations</th>
+            <th>Total Roads</th>
+            <th>Total Trips Suggests Per Map</th>
+            <th>Total Trips Requests Per Map</th>
+            <th>Matched Trip Request Quantity</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr ng-repeat="map in totalMapsInTheSystem">
+            <td class="noBorder">{{map.userName}}</td>
 
-                <td class="block">
-                        <button ng-click="redirectToMapPageApi(map.mapName)" style="color:#0000FF;">
-                            {{map.mapName}}
-                        </button>
-                </td>
+            <td class="block">
+                <button ng-click="redirectToMapPageApi(map.mapName)" style="color:#0000FF;">
+                    {{map.mapName}}
+                </button>
+            </td>
 
 
-                <td class="noBorder">{{map.stationsQuantity}}</td>
-                <td class="noBorder">{{map.roadsQuantity}}</td>
-                <td class="noBorder">{{map.tripSuggestsQuantity}}</td>
-                <td class="noBorder">{{map.tripRequestQuantity}}</td>
-                <td class="noBorder">{{map.matchedTripRequestQuantity}}</td>
-            </tr>
-            </tfoot>
-        </table>
+            <td class="noBorder">{{map.stationsQuantity}}</td>
+            <td class="noBorder">{{map.roadsQuantity}}</td>
+            <td class="noBorder">{{map.tripSuggestsQuantity}}</td>
+            <td class="noBorder">{{map.tripRequestQuantity}}</td>
+            <td class="noBorder">{{map.matchedTripRequestQuantity}}</td>
+        </tr>
+        </tfoot>
+    </table>
 
 
 
