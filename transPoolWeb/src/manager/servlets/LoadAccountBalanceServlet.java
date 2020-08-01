@@ -33,19 +33,19 @@ public class LoadAccountBalanceServlet extends HttpServlet {
         String amountToLoad = request.getParameter(Constants.USER_AMOUNT_TO_LOAD);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        try {
-            engine.loadMoneyIntoAccount(userName, amountToLoad);
-        }
-        catch (Exception ex) {
-            String error = ex.getMessage();
-            //Display error to the user
-        }
 
-
-       // String jsonNewBalanceResponse = new Gson().toJson(mapsTableElementDetailsListDto);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        //response.getWriter().write(json);
-        response.sendRedirect(MAP_DETAILS_URL);
+            try {
+                String x = new String();
+                int y = Integer.parseInt(x);
+                engine.loadMoneyIntoAccount(userName, amountToLoad);
+                //return the new trip suggest list.
+            }
+            catch (Exception ex) {
+                String error = ex.getMessage();
+                String json = new Gson().toJson(error);
+                response.getWriter().write(json);
+                //Display Error to user
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "The  not found.");
+            }
     }
 }

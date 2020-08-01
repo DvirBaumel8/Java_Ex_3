@@ -76,13 +76,18 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                     userName: userName}
             }).then(
                 function successCallback(response) {
-                    //$scope.userAccountBalance = response.data;
+                    $scope.userAccountBalance = response.data;
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
+                    let successMessage = "Success Adding Cash";
+                    $window.alert(successMessage);
                 },
                 function errorCallback(response) {
-                    console.log("Unable to perform get request");
+                    $window.alert("UnSuccess Adding Cash To User");
+                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
                 }
             );
+
+
 
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserTransactionsHistoryServlet',

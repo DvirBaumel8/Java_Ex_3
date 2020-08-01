@@ -53,21 +53,20 @@ public class AddNewTripSuggestServlet extends HttpServlet {
         //String mapName = request.getParameter(Constants.MAP_NAME);
         String mapName = "map1";
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+
+
         try {
-            engine.createNewTripSuggest(mapName, inputs);
+            String x = new String();
+            int y = Integer.parseInt(x);
+            engine.createNewTripRequest(mapName, inputs);
+            //return the new trip suggest list.
         }
         catch (Exception ex) {
             String error = ex.getMessage();
-            //Display error to user
+            String json = new Gson().toJson(error);
+            response.getWriter().write(json);
+            //Display Error to user
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "The  not found.");
         }
-
-
-
-        //String jsonAddNewTripSuggestResponse = new Gson().toJson(mapsTableElementDetailsListDto);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        //response.getWriter().write(json);
-        response.sendRedirect(MAP_DETAILS_URL);
-        //MapPageRepresentation mapRep = engine.getMapDetailsByMapName(mapName);
     }
 }

@@ -58,6 +58,7 @@ public class AddNewTripRequestServlet extends HttpServlet {
             String x = new String();
             int y = Integer.parseInt(x);
             engine.createNewTripRequest(mapName, inputs);
+            //return the new trip request list.
         }
         catch (Exception ex) {
             String error = ex.getMessage();
@@ -66,12 +67,6 @@ public class AddNewTripRequestServlet extends HttpServlet {
             //Display Error to user
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "The  not found.");
         }
-
-
-
-        //String jsonAddNewTripRequestResponse = new Gson().toJson(mapsTableElementDetailsListDto);
-
-        //response.getWriter().write(json);
     }
 
 }
