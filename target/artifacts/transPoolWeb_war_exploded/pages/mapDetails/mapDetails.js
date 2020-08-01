@@ -47,6 +47,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             let userSuggestScheduleInt = document.getElementsByName("userSuggestScheduleInt")[0].value;
             let userSuggestPPK = document.getElementsByName("userSuggestPPK")[0].value;
             let userSuggestPassengerCapacity = document.getElementsByName("userSuggestPassengerCapacity")[0].value;
+            let userName = $window.sessionStorage.getItem("userNameGlobalVar");
+            let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
 
             console.log("I've been pressed!");
             $http({
@@ -59,8 +61,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userSuggestScheduleInt: userSuggestScheduleInt,
                     userSuggestPPK: userSuggestPPK,
                     userSuggestPassengerCapacity: userSuggestPassengerCapacity,
-                    userName: $window.sessionStorage.getItem("userNameGlobalVar"),
-                    mapName: $window.sessionStorage.getItem("userMapGlobalVar")}
+                    userName: userName,
+                    mapName: mapName}
             }).then(
                 function successCallback(response) {
                     $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
@@ -81,6 +83,9 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             let userRequestArrivalOrStart = document.getElementsByName("userRequestArrivalOrStart")[0].value;
             let userRequestDay = document.getElementsByName("userRequestDay")[0].value;
 
+            let userName = $window.sessionStorage.getItem("userNameGlobalVar");
+            let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
+
 
             console.log("I've been pressed!");
             $http({
@@ -92,8 +97,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userRequestTimeParam: userRequestTimeParam,
                     userRequestArrivalOrStart: userRequestArrivalOrStart ,
                     userRequestDay: userRequestDay,
-                    userName: $window.sessionStorage.getItem("userNameGlobalVar"),
-                    mapName: $window.sessionStorage.getItem("userMapGlobalVar")}
+                    userName: userName,
+                    mapName: mapName}
             }).then(
                 function successCallback(response) {
                     $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
