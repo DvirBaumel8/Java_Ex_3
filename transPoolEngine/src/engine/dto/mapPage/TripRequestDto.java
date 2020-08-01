@@ -5,15 +5,20 @@ public class TripRequestDto {
     private String tripOwnerName;
     private String sourceStation;
     private String destinationStation;
-    private boolean isMatched;
-    private String roadTrip;
+    private String isMatched;
+    private String roadStory;
 
-    public TripRequestDto(int requestId, String tripOwnerName, String sourceStation, String destinationStation, boolean isMatched, String roadStory) {
+    public TripRequestDto(int requestId, String tripOwnerName, String sourceStation, String destinationStation, boolean isMatchedAlready, String roadStory) {
         this.requestId = requestId;
         this.tripOwnerName = tripOwnerName;
         this.sourceStation = sourceStation;
         this.destinationStation = destinationStation;
-        this.isMatched = isMatched;
-        this.roadTrip = roadStory;
+        if(isMatchedAlready) {
+            this.isMatched = "Yes";
+        }
+        else {
+            this.isMatched = "No";
+        }
+        this.roadStory = roadStory;
     }
 }
