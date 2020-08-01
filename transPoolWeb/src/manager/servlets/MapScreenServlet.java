@@ -1,7 +1,6 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
-import engine.dto.userPage.UserTransactionsHistoryDto;
 import engine.manager.EngineManager;
 import engine.manager.MapPageDto;
 import manager.constans.Constants;

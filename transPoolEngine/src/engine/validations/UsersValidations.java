@@ -12,16 +12,20 @@ public class UsersValidations {
     }
 
     public static boolean validateUserType(String userType, StringBuilder errorStr) {
-        if(userType.equals("requestPassenger") || userType.equals("suggestPassenger")) {
+        if(userType == null) {
+            errorStr.append("Please choose user type");
+            return false;
+        }
+        else if(userType.equals("requestPassenger") || userType.equals("suggestPassenger")) {
             return true;
         }
-        errorStr.append("Please choose user type\n");
+        errorStr.append("Please choose user type");
         return false;
     }
 
     public static boolean validateUserLoginParams(String userName, String userTpe, StringBuilder errors) {
         if(userName == null || userName.isEmpty()) {
-            errors.append("User name emtyp\n");
+            errors.append("User name empty");
             return false;
         }
         else if(UsersValidations.validateUserType(userTpe, errors)) {

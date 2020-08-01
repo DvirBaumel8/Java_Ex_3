@@ -1,6 +1,7 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
+import engine.dto.mapPage.TripRequestDto;
 import engine.dto.mapPage.TripSuggestDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
@@ -58,7 +59,9 @@ public class AddNewTripSuggestServlet extends HttpServlet {
 
         try {
             engine.createNewTripSuggest(mapName, inputs);
-            response.sendRedirect(MAP_DETAILS_URL);
+            List<TripSuggestDto> tripSuggestsDto = engine.getAllTripSuggestsDto(mapName, userName);
+            String jsonTripSuggests = new Gson().toJson(tripSuggestsDto);
+            response.getWriter().write(jsonTripSuggests);
         }
         catch (Exception ex) {
             String error = ex.getMessage();

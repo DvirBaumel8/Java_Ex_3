@@ -6,14 +6,12 @@ import manager.constans.Constants;
 import manager.popups.PopupTypesMess;
 import manager.utils.ServletUtils;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/pages/signup/LoginServlet"})
@@ -46,8 +44,8 @@ public class LoginServlet extends HttpServlet {
             userType = request.getParameter(Constants.USER_TYPE);
             StringBuilder errorMessageLoginScreen = new StringBuilder();
             EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-            //boolean isValid = engine.validateUserLoginParams(userName, userType, errorMessageLoginScreen);
-            if(true) {
+            boolean isValid = engine.validateUserLoginParams(userName, userType, errorMessageLoginScreen);
+            if(isValid) {
                 userName = userName.trim();
                 synchronized (this) {
                     try {
