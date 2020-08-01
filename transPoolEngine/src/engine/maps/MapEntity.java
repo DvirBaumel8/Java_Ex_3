@@ -9,6 +9,7 @@ import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Stop;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MapEntity {
     private MapsTableElementDetailsDto mapsTableElementDetails;
@@ -84,5 +85,13 @@ public class MapEntity {
 
     public String getHtmlGraph() {
         return htmlGraph;
+    }
+
+    public List<String> getTripRequestsOwnerNames() {
+        return tripRequests.stream().map(TripRequest::getNameOfOwner).collect(Collectors.toList());
+    }
+
+    public List<String> getTripSuggestsOwnerNames() {
+        return tripSuggests.stream().map(TripSuggest::getTripOwnerName).collect(Collectors.toList());
     }
 }

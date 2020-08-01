@@ -1,33 +1,34 @@
 package engine.validations;
 
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
+
+import java.util.List;
+
 public class RequestValidator extends ActionValidator {
     private StringBuilder addNewTripRequestErrorMessage;
-    private StringBuilder chooseRequestAndAmountOfSuggestedTripsErrorMessage;
-    private String choosePotentialTripInputErrorMessage;
 
     private static final int TRIP_REQUEST_INPUT_LIMIT = 6;
 
     public RequestValidator() {
         this.addNewTripRequestErrorMessage = new StringBuilder();
         this.addNewTripRequestErrorMessage.append("\nSorry, your input was not valid. Errors: \n");
-        this.chooseRequestAndAmountOfSuggestedTripsErrorMessage = new StringBuilder();
     }
 
-    public boolean validateTripRequestInput(String[] inputs) {
+    public boolean validateTripRequestInput(String[] inputs, MapDescriptor mapDescriptor, List<String> ownerNames) {
         boolean isValid = true;
 
         if(inputs.length != TRIP_REQUEST_INPUT_LIMIT) {
             addNewTripRequestErrorMessage.append("Please insert 6 elements, try again.\n");
             return false;
         }
-        if(!super.validateOwnerName(inputs[0])) {
+        if(!super.validateOwnerName(inputs[0], ownerNames)) {
             isValid = false;
         }
         if(!(inputs[1].equals(inputs[2]))) {//dest and source stations are not the same
-            if(!validateSource(inputs[1])) {
+            if(!validateSource(inputs[1], mapDescriptor)) {
                 isValid = false;
             }
-            if(!validateDestination(inputs[2])) {
+            if(!validateDestination(inputs[2], mapDescriptor)) {
                 isValid = false;
             }
         }
@@ -85,8 +86,8 @@ public class RequestValidator extends ActionValidator {
         return addNewTripRequestErrorMessage.toString();
     }
 
-    public boolean validateSource(String input) {
-        if(checkIFStationsIsExist(input)) {
+    public boolean validateSource(String input, MapDescriptor mapDescriptor) {
+        if(checkIFStationsIsExist(input, mapDescriptor)) {
             return true;
         }
         else {

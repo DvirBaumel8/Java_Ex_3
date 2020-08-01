@@ -1,6 +1,7 @@
 package engine.validations;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class SuggestValidator extends ActionValidator {
     private StringBuilder addNewTripSuggestErrorMessage = new StringBuilder();
@@ -12,7 +13,7 @@ public class SuggestValidator extends ActionValidator {
         return addNewTripSuggestErrorMessage.toString();
     }
 
-    public boolean validateTripSuggestInput(String[] inputTripSuggestString, HashSet<String> allStationsLogicNames) {
+    public boolean validateTripSuggestInput(String[] inputTripSuggestString, HashSet<String> allStationsLogicNames, List<String> ownerNames) {
         boolean isValid = true;
         //example of valid input - Ohad,A.C.B,3,13:25,4,30,2
 
@@ -20,7 +21,7 @@ public class SuggestValidator extends ActionValidator {
             addNewTripSuggestErrorMessage.append("Please insert 7 elements, try again.\n");
             return false;
         }
-        if (!validateOwnerName(inputTripSuggestString[0])) {
+        if (!validateOwnerName(inputTripSuggestString[0], ownerNames)) {
             isValid = false;
         }
         if(!validateOwnerRoute(inputTripSuggestString[1], allStationsLogicNames)) {//add 1 more check of valid route A.B.C

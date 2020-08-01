@@ -32,13 +32,10 @@ public class UserMapDetailsServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //Todo - send user name
         String userName = request.getParameter(Constants.USER_NAME);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-
         UserDetailsDto userDetailsDto = engine.getUserDetailsDto(userName);
         String userDetailsDtoJson = new Gson().toJson(userDetailsDto);
         response.getWriter().write(userDetailsDtoJson);

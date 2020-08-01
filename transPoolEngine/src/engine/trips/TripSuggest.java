@@ -30,7 +30,7 @@ public class TripSuggest {
     private MapDescriptor mapDescriptor;
     private List<String> liveParticipantsTripName;
 
-    public TripSuggest(String ownerName, Route route, int minutes, int hour, int day, int recurrencesType, int ppk, int driverCapacity) {
+    public TripSuggest(String ownerName, Route route, int minutes, int hour, int day, int recurrencesType, int ppk, int driverCapacity, MapDescriptor mapDescriptor) {
         this.TripOwnerName = ownerName;
         this.tripRoute = route;
         handleRoute();
@@ -39,6 +39,7 @@ public class TripSuggest {
         this.startingTime = new Time(minutes, hour, day);
         this.startingDay = day;
         this.staticCapacity = driverCapacity;
+        this.mapDescriptor = mapDescriptor;
         this.tripPrice = TripsUtil.calculateTripPrice(ppk, route, mapDescriptor);
         this.passengers = new ArrayList<>();
         this.requiredFuel = TripsUtil.calcRequiredFuel(route, mapDescriptor);

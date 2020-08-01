@@ -40,9 +40,25 @@ public class AddNewTripRequestServlet extends HttpServlet {
         inputs[0] = request.getParameter(Constants.USER_REQUEST_NAME);
         inputs[1] = request.getParameter(Constants.USER_REQUEST_SOURCE_STATION);
         inputs[2] = request.getParameter(Constants.USER_REQUEST_DESTINATION_STATION);
+<<<<<<< HEAD
         inputs[3] = request.getParameter(Constants.USER_TIME_PARAM);
         inputs[4] = request.getParameter(Constants.ARRIVAL_START);
         inputs[5] = request.getParameter(Constants.USER_REQUEST_DAY);
+=======
+        //inputs[3] = request.getParameter(Constants.USER_REQUEST_TIME);
+        inputs[3] = "10:20";
+        //inputs[4] = request.getParameter(Constants.USER_TIME_PARAM);
+        inputs[4] = "S";
+        //inputs[5] = request.getParameter(Constants.USER_REQUEST_DAY);
+        inputs[5] = "2";
+        //Trip request params from user: update in UI and send to servlet
+        //        //1. request owner name - Done
+        //        //2. request source station - Done
+        //        //3. request destination station  Done
+        //        //4. user request time (arrival/start) - need to update
+        //        //5. user request time param (insert S or A) to decide if he want to ask by arrival time or start time - need to update
+        //        //6. user request day - need to update
+>>>>>>> 42b9fd486b0c6ad4280fab47a45e5ee39e8c2b0b
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
@@ -50,9 +66,7 @@ public class AddNewTripRequestServlet extends HttpServlet {
             //String x = new String();
             //int y = Integer.parseInt(x);
             engine.createNewTripRequest(mapName, inputs);
-            List<TripRequestDto> tripRequestsDto = engine.getAllTripRequestsDto(mapName, userName);
-            String jsonTripRequests = new Gson().toJson(tripRequestsDto);
-            response.getWriter().write(jsonTripRequests);
+            response.sendRedirect(MAP_DETAILS_URL);
         }
         catch (Exception ex) {
             String error = ex.getMessage();

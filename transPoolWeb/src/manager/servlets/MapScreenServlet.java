@@ -42,8 +42,6 @@ public class MapScreenServlet extends HttpServlet {
 
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-
         MapPageDto mapPageDto = engine.getMapPageDto(userName, mapName);
         String jsonMapPageDto = new Gson().toJson(mapPageDto);
         response.getWriter().write(jsonMapPageDto);

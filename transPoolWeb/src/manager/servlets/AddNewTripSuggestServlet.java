@@ -57,12 +57,8 @@ public class AddNewTripSuggestServlet extends HttpServlet {
 
 
         try {
-            //String x = new String();
-            //int y = Integer.parseInt(x);
             engine.createNewTripSuggest(mapName, inputs);
-            List<TripSuggestDto> tripSuggestsDto = engine.getAllTripSuggestsDto(mapName, userName);
-            String jsonTripSuggests = new Gson().toJson(tripSuggestsDto);
-            response.getWriter().write(jsonTripSuggests);
+            response.sendRedirect(MAP_DETAILS_URL);
         }
         catch (Exception ex) {
             String error = ex.getMessage();
