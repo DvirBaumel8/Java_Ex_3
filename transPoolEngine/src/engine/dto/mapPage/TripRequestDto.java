@@ -6,7 +6,7 @@ public class TripRequestDto {
     private String sourceStation;
     private String destinationStation;
     private boolean isMatched;
-    private String roadStory;
+    private String roadTrip;
 
     public TripRequestDto(int requestId, String tripOwnerName, String sourceStation, String destinationStation, boolean isMatched, String roadStory) {
         this.requestId = requestId;
@@ -14,6 +14,6 @@ public class TripRequestDto {
         this.sourceStation = sourceStation;
         this.destinationStation = destinationStation;
         this.isMatched = isMatched;
-        this.roadStory = roadStory;
+        this.roadTrip = roadStory;
     }
 }

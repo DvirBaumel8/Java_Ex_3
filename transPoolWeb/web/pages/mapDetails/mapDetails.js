@@ -65,7 +65,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
+                    $scope.tripSuggestListPerMap = response.data;
                     let successMessage = "Success Adding Trip Suggest";
                     $window.alert(successMessage);
                 },
@@ -101,7 +101,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
+                    $scope.tripRequestListPerMap = response.data;
                     let successMessage = "Success Adding Trip Request";
                     $window.alert(successMessage);
                 },

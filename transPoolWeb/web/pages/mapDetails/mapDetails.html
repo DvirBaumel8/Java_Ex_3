@@ -58,15 +58,18 @@
         </p>
     </div>
 
+
         <table id="tripSuggestListPerMap">
         <thead>
         <tr align="center">
             <th>Trip Suggest ID</th>
-            <th>Passenger Names</th>
-            <th>Join Date</th>
+            <th>Passengers Names</th>
+            <th>Trip Day</th>
             <th>Source Station</th>
             <th>Destination Station</th>
-            <th>Driver Rating</th>
+            <th>Driver Rating Avg</th>
+            <th>Rating Quantity</th>
+            <th>Rating Notes</th>
         </tr>
         </thead>
         <tfoot>
@@ -74,13 +77,14 @@
             <td class="noBorder">
                 <button ng-click="highlightAndDisplayTripDetailsOnTheMap()">{{suggestTrip.suggestID}}</button>
             </td>
-            <td class="noBorder"> {{requestTrip.passengerNames}} </td>
-            <td class="noBorder"> {{requestTrip.destinationStation}} </td>
-            <td class="noBorder"> {{requestTrip.isMatched}} </td>
-            <td class="noBorder"> {{requestTrip.matchTrip}} </td>
-            <td class="noBorder">
-                <button ng-click="displayDriverRating()">{{requestTrip.driverRating}}</button>
-            </td>
+            <td class="noBorder"> {{suggestTrip.passengersNames}} </td>
+            <td class="noBorder"> {{suggestTrip.tripDay}} </td>
+            <td class="noBorder"> {{suggestTrip.sourceStation}} </td>
+            <td class="noBorder"> {{suggestTrip.destinationStation}} </td>
+            <td class="noBorder"> {{suggestTrip.ratingAvg}} </td>
+            <td class="noBorder"> {{suggestTrip.ratingQuantity}} </td>
+            <td class="noBorder"> {{suggestTrip.ratingNotes}} </td>
+
         </tr>
         </tfoot>
     </table>
@@ -138,6 +142,7 @@
                 <th>Destination Station</th>
                 <th>Is Matched</th>
                 <th>Road Trip</th>
+
             </tr>
             </thead>
             <tfoot>
@@ -150,7 +155,7 @@
                 <td class="noBorder"> {{suggestTrip.sourceStation}} </td>
                 <td class="noBorder"> {{suggestTrip.destinationStation}} </td>
                 <td class="noBorder"> {{suggestTrip.isMatched}} </td>
-                <td class="noBorder"> {{suggestTrip.matchTrip}} </td>
+                <td class="noBorder"> {{suggestTrip.roadTrip}} </td>
 
             </tr>
             </tfoot>
