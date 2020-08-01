@@ -47,8 +47,6 @@ public class AddNewTripRequestServlet extends HttpServlet {
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
         try {
-            //String x = new String();
-            //int y = Integer.parseInt(x);
             engine.createNewTripRequest(mapName, inputs);
             List<TripRequestDto> tripRequestsDto = engine.getAllTripRequestsDto(mapName, userName);
             String jsonTripRequests = new Gson().toJson(tripRequestsDto);

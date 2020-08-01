@@ -45,17 +45,7 @@ public class AddNewTripSuggestServlet extends HttpServlet {
         inputs[5] = request.getParameter(Constants.USER_SUGGEST_PPK);
         inputs[6] = request.getParameter(Constants.USER_SUGGEST_PASSENGER_CAPACITY);
 
-        //Trip suggest params from user: update in UI and send to servlet
-        //1. suggest owner name - Done
-        //2. suggest owner route - Done
-        //3. suggest departure day - need to finish
-        //4. suggest departure time - need to finis
-        //5. schedule int - need to finish
-        //6. suggest ppk - done
-        //7. suugest possible passengers capacity - done
-
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
 
         try {
             engine.createNewTripSuggest(mapName, inputs);
