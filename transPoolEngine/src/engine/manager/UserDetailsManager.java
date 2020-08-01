@@ -17,4 +17,28 @@ public class UserDetailsManager {
         this.userBalanceDto = userBalanceDto;
         this.userAccountTransactions = userAccountTransactions;
     }
+
+    public List<MapsTableElementDetailsDto> getMapsTableElementsInfo() {
+        return mapsTableElementsInfo;
+    }
+
+    public void setMapsTableElementsInfo(List<MapsTableElementDetailsDto> mapsTableElementsInfo) {
+        this.mapsTableElementsInfo = mapsTableElementsInfo;
+    }
+
+    public UserBalanceDto getUserBalanceDto() {
+        return userBalanceDto;
+    }
+
+    public void setUserBalanceDto(UserBalanceDto userBalanceDto) {
+        this.userBalanceDto = userBalanceDto;
+    }
+
+    public List<UserTransactionsHistoryDto> getUserAccountTransactions() {
+        return userAccountTransactions;
+    }
+
+    public void setUserAccountTransactions(List<UserTransactionsHistoryDto> userAccountTransactions) {
+        this.userAccountTransactions = userAccountTransactions;
+    }
 }

@@ -17,4 +17,28 @@ public class MapPageManager {
         this.tripSuggestDtoList = tripSuggestDtoList;
         this.htmlGraph = htmlGraph;
     }
+
+    public List<TripRequestDto> getTripRequestDtoList() {
+        return tripRequestDtoList;
+    }
+
+    public void setTripRequestDtoList(List<TripRequestDto> tripRequestDtoList) {
+        this.tripRequestDtoList = tripRequestDtoList;
+    }
+
+    public List<TripSuggestDto> getTripSuggestDtoList() {
+        return tripSuggestDtoList;
+    }
+
+    public void setTripSuggestDtoList(List<TripSuggestDto> tripSuggestDtoList) {
+        this.tripSuggestDtoList = tripSuggestDtoList;
+    }
+
+    public HtmlGraphDto getHtmlGraph() {
+        return htmlGraph;
+    }
+
+    public void setHtmlGraph(HtmlGraphDto htmlGraph) {
+        this.htmlGraph = htmlGraph;
+    }
 }
