@@ -20,6 +20,8 @@ import javax.servlet.http.*;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadServlet extends HttpServlet {
 
+    private final String USER_DETAILS_URL = "../userDetails/userDetails.html";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("pages/userDetails/userDetails.html");
@@ -34,7 +36,6 @@ public class FileUploadServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         Collection<Part> parts = request.getParts();
 
-        out.println("<h2> Total parts : " + parts.size() + "</h2>");
 
         StringBuilder fileContent = new StringBuilder();
 
@@ -53,6 +54,8 @@ public class FileUploadServlet extends HttpServlet {
             String error = ex.getMessage();
             //Display error to user
         }
+
+        response.sendRedirect(USER_DETAILS_URL);
     }
 
     private String readFromInputStream(InputStream inputStream) {

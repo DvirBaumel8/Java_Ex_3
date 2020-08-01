@@ -8,7 +8,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
     function init() {
         $scope.totalMapsInTheSystem = {};
         $scope.userNameInUserPage = $window.sessionStorage.getItem("userNameGlobalVar");
-        document.getElementById('userName').value=$scope.userNameInUserPage ;
+        document.getElementById('userName').value=$scope.userNameInUserPage;
 
 
         $scope.createUser = function() {
