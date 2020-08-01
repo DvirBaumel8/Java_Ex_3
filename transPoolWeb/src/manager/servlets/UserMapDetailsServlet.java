@@ -4,6 +4,7 @@ package manager.servlets;
 import com.google.gson.Gson;
 import engine.dto.userPage.MapsTableElementDetailsDto;
 import engine.manager.EngineManager;
+import engine.manager.UserDetailsManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
@@ -39,10 +40,11 @@ public class UserMapDetailsServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
         List<MapsTableElementDetailsDto> mapsTableElementDetailsDtoList = engine.getMapsTableElementDetailsDto("d");
-        String json = new Gson().toJson(mapsTableElementDetailsDtoList);
-        response.getWriter().write(json);
-       //here give me the whole UserDetailsManager object
 
+
+        UserDetailsManager userDetailsManager = null;
+        String userDetailsManagerJson = new Gson().toJson(userDetailsManager);
+        response.getWriter().write(userDetailsManagerJson);
     }
 }
 
