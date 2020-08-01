@@ -1,7 +1,6 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
-import engine.dto.mapPage.TripRequestDto;
 import engine.dto.mapPage.TripSuggestDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
@@ -39,12 +38,9 @@ public class AddNewTripSuggestServlet extends HttpServlet {
         String[] inputs = new String[7];
         inputs[0] = request.getParameter(Constants.USER_SUGGEST_NAME);
         inputs[1] = request.getParameter(Constants.USER_SUGGEST_ROUTE);
-        //inputs[2] = request.getParameter(Constants.USER_DEPARTUE_DAY);
-        inputs[2] = "2";
-        //inputs[3] = request.getParameter(Constants.USER_SUGGEST_DEPARTURE_TIME);
-        inputs[3] = "10:00";
-        //inputs[4] = request.getParameter(Constants.USER_SCHEDULE_INT);
-        inputs[4] = "1";
+        inputs[2] = request.getParameter(Constants.USER_DEPARTURE_DAY);
+        inputs[3] = request.getParameter(Constants.USER_SUGGEST_DEPARTURE_TIME);
+        inputs[4] = request.getParameter(Constants.USER_SCHEDULE_INT);
         inputs[5] = request.getParameter(Constants.USER_SUGGEST_PPK);
         inputs[6] = request.getParameter(Constants.USER_SUGGEST_PASSENGER_CAPACITY);
 

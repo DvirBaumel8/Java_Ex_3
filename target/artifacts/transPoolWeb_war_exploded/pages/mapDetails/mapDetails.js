@@ -42,7 +42,9 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         $scope.addNewSuggestTrip = function () {
             let userSuggestName = document.getElementsByName("userSuggestName")[0].value;
             let userSuggestRoute = document.getElementsByName("userSuggestRoute")[0].value;
+            let userSuggestDepartureDay = document.getElementsByName("userSuggestDepartureDay")[0].value;
             let userSuggestDepartureTime = document.getElementsByName("userSuggestDepartureTime")[0].value;
+            let userSuggestScheduleInt = document.getElementsByName("userSuggestScheduleInt")[0].value;
             let userSuggestPPK = document.getElementsByName("userSuggestPPK")[0].value;
             let userSuggestPassengerCapacity = document.getElementsByName("userSuggestPassengerCapacity")[0].value;
 
@@ -52,7 +54,9 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 method: "GET",
                 params: {userSuggestName: userSuggestName,
                     userSuggestRoute: userSuggestRoute,
+                    userSuggestDepartureDay: userSuggestDepartureDay,
                     userSuggestDepartureTime: userSuggestDepartureTime,
+                    userSuggestScheduleInt: userSuggestScheduleInt,
                     userSuggestPPK: userSuggestPPK,
                     userSuggestPassengerCapacity: userSuggestPassengerCapacity,
                     userName: $window.sessionStorage.getItem("userNameGlobalVar"),
@@ -73,8 +77,10 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             let userRequestName = document.getElementsByName("userRequestName")[0].value;
             let userRequestSourceStation = document.getElementsByName("userRequestSourceStation")[0].value;
             let userRequestDestinationStation = document.getElementsByName("userRequestDestinationStation")[0].value;
-            let userRequestPPK = document.getElementsByName("userRequestPPK")[0].value;
-            let userRequestDepartureOrArrival = document.getElementsByName("userRequestDepartureOrArrival")[0].value;
+            let userRequestTimeParam = document.getElementsByName("userRequestTimeParam")[0].value;
+            let userRequestArrivalOrStart = document.getElementsByName("userRequestArrivalOrStart")[0].value;
+            let userRequestDay = document.getElementsByName("userRequestDay")[0].value;
+
 
             console.log("I've been pressed!");
             $http({
@@ -83,8 +89,9 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 params: {userRequestName: userRequestName,
                     userRequestSourceStation: userRequestSourceStation,
                     userRequestDestinationStation: userRequestDestinationStation,
-                    userRequestPPK: userRequestPPK,
-                    userRequestDepartureOrArrival: userRequestDepartureOrArrival ,
+                    userRequestTimeParam: userRequestTimeParam,
+                    userRequestArrivalOrStart: userRequestArrivalOrStart ,
+                    userRequestDay: userRequestDay,
                     userName: $window.sessionStorage.getItem("userNameGlobalVar"),
                     mapName: $window.sessionStorage.getItem("userMapGlobalVar")}
             }).then(
@@ -109,7 +116,27 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
     }
 
     $scope.displayAllPassengersDetailsPerTripRequest = function () {
+        {
+            let userRequestName = document.getElementsByName("userRequestName")[0].value;
 
+            console.log("I've been pressed!");
+            $http({
+                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/matchingTripRequestServlet',
+                method: "GET",
+                params: {userRequestName: userRequestName,
+                    userName: $window.sessionStorage.getItem("userNameGlobalVar"),
+                    mapName: $window.sessionStorage.getItem("userMapGlobalVar")}
+            }).then(
+                function successCallback(response) {
+                    //$scope.tripRequestListPerMap = response.data.tripRequestDtoList;
+                    let successMessage = "Success Adding Trip Request";
+                    $window.alert(successMessage);
+                },
+                function errorCallback(response) {
+                    $window.alert("UnSuccess Adding Trip Request - Please check your inputs");
+                }
+            );
+        }
     }
 
 

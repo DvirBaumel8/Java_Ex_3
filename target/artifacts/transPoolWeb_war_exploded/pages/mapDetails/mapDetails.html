@@ -30,16 +30,28 @@
             &emsp;
             <label> Route:</label>
             <input type="text" id="userSuggestRoute" name="userSuggestRoute" style="width: 70px;">
-            &emsp;
+
+        <label> Departure Day: </label>
+        <input type="text" id="userSuggestDepartureDay" name="userSuggestDepartureDay" style="width: 70px;">
+        &emsp;
+        <br>
+
             <label> Departure Time - "00:00"</label>
             <input type="text" id="userSuggestDepartureTime" name="userSuggestDepartureTime" style="width: 70px;">
-            &emsp;
+
+        <label> Schedule Int </label>
+        <input type="text" id="userSuggestScheduleInt" name="userSuggestScheduleInt" style="width: 70px;">
+        &emsp;
+        &emsp;
             <label> PPK:</label>
             <input type="text" id="userSuggestPPK" name="userSuggestPPK" style="width: 70px;">
+
+        <br>
             &emsp;
             <label> Passenger Capacity:</label>
             <input type="text" id="userSuggestPassengerCapacity" name="userSuggestPassengerCapacity" style="width: 70px;">
             <br>
+
             <div style="margin-top: 10px;"  ng-click="addNewSuggestTrip()" class="button_cont">
                 <a class="example_d"   href="add-website-here" target="_blank"
                    rel="nofollow noopener">Add</a></div>
@@ -85,6 +97,7 @@
     <button type="button" class="collapsible">Add New Request Trip</button>
     <div class="content">
     <p>
+
     <form action="/action_page.php" style="margin-top: 10px">
         <label> User Request Name:</label>
         <input type="text" id="userRequestName" name="userRequestName" style="width: 70px;">
@@ -94,22 +107,29 @@
         &emsp;
         <label> Destination station:</label>
         <input type="text" id="userRequestDestinationStation" name="userRequestDestinationStation" style="width: 70px;">
-        &emsp;
+
+        <br>&emsp;
+
         <label>Time - "00:00"</label>
-        <input type="text" id="userRequestPPK" name="userRequestPPK" style="width: 70px;">
-       &emsp;<br>
-        <br>
+        <input type="text" id="userRequestTimeParam" name="userRequestTimeParam" style="width: 70px;">
+
         <label>Departure/Arrival</label>
-        <select id="userRequestDepartureOrArrival" name="userRequestDepartureOrArrival"  selected="selected" style="width:140px; ">
+        <select id="userRequestArrivalOrStart" name="userRequestArrivalOrStart"  selected="selected" style="width:140px; ">
             <option ng-selected="true">Departure or Arrival</option>
             <option value="userRequestDeparture">Departure</option>
             <option value="userRequestArrival">Arrival</option>
         </select>
+
+        <label> Request Day:</label>
+        <input type="text" id="userRequestDay" name="userRequestDay" style="width: 70px;">
+        &emsp;
         <div style="margin-top: 10px;"  ng-click="addNewRequestTrip()" class="button_cont"><a class="example_e" href="add-website-here" target="_blank"
                                                                                               rel="nofollow noopener">Add</a></div>
     </form>
     </p>
     </div>
+
+
 
      <table id="tripRequestListPerMap">
             <thead>
@@ -125,7 +145,7 @@
             <tfoot>
             <tr ng-repeat="requestTrip in tripRequestListPerMap">
                 <td class="noBorder">
-                    <button ng-click="displayAllPassengersDetailsPerTripRequest()">{{requestTrip.requestID}}</button>
+                    <button id="tripRequestId" ng-click="displayAllPassengersDetailsPerTripRequest()">{{requestTrip.requestID}}</button>
                 </td>
 
                 <td class="noBorder"> {{suggestTrip.ownerName}} </td>
