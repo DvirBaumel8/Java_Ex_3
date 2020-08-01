@@ -56,6 +56,11 @@
 
             <input type="file" name="file1" id="xml" name="xml" accept="xml/*" onchange='openFile(event)'><br>
         <br>
+
+            <input type="text" id="mapUploadName" ng-model ="mapUploadName" name="mapUploadName" style="width: 70px;">
+
+            <br>
+
             <button ng-click="redirectToFileUploadedApi(mapUploadName,userName)" style="color:#0000FF;">
                 Submit
             </button>

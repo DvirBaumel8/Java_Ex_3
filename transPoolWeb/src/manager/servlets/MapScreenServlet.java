@@ -1,10 +1,8 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
-import engine.dto.userPage.MapsTableElementDetailsDto;
 import engine.manager.EngineManager;
-import engine.manager.MapPageManager;
-import engine.manager.UserDetailsManager;
+import engine.manager.MapPageDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
@@ -42,8 +40,8 @@ public class MapScreenServlet extends HttpServlet {
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
 
-        MapPageManager mapPageManager = null;
-        String mapPageManagerJson = new Gson().toJson(mapPageManager);
-        response.getWriter().write(mapPageManagerJson);
+        MapPageDto mapPageDto = engine.getMapPageDto(userName, mapName);
+        String jsonMapPageDto = new Gson().toJson(mapPageDto);
+        response.getWriter().write(jsonMapPageDto);
     }
 }

@@ -47,7 +47,6 @@ transPoolApp.controller('signUpCtrl',[ '$scope', '$http', '$rootScope','$window'
                 $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/signup/signup.html';
             }
         );
-
     }
 
 

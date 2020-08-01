@@ -67,10 +67,10 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userRequestDepartureOrArrival: userRequestDepartureOrArrival }
             }).then(
                 function successCallback(response) {
-                    $scope.tripRequestListPerMap = $scope.tripRequestListPerMap.add(response.data);
-                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                     let successMessage = "Success Adding Trip Request";
                     $window.alert(successMessage);
+                    $scope.tripRequestListPerMap = $scope.tripRequestListPerMap.add(response.data);
+                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Adding Trip Request - Please check your inputs");

@@ -40,10 +40,12 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
         }).then(
             function successCallback(response) {
                 //$scope.totalMapsInTheSystem = response.data;
+                let successMessage = "Success Adding Trip Request";
+                $window.alert(successMessage);
                 $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
             },
             function errorCallback(response) {
-                console.log("Unable to perform get request");
+                $window.alert("UnSuccess get request");
             }
         );
     }
