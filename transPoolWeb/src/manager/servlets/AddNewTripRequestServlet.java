@@ -33,6 +33,9 @@ public class AddNewTripRequestServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        String mapName = request.getParameter(Constants.MAP_NAME);
+        String userName = request.getParameter(Constants.USER_NAME);
+
         String[] inputs = new String[6];
         inputs[0] = request.getParameter(Constants.USER_REQUEST_NAME);
         inputs[1] = request.getParameter(Constants.USER_REQUEST_SOURCE_STATION);
@@ -51,16 +54,11 @@ public class AddNewTripRequestServlet extends HttpServlet {
         //5. user request time param (insert S or A) to decide if he want to ask by arrival time or start time - need to update
         //6. user request day - need to update
 
-        //Ohad - Todo send to this servlet also the mapName + user name,
-        //String mapName = request.getParameter(Constants.MAP_NAME);
-        //String userName = request.getParameter(Constants.USER_NMAE);
-        String userName = "d";
-        String mapName = "map1";
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
         try {
-            String x = new String();
-            int y = Integer.parseInt(x);
+            //String x = new String();
+            //int y = Integer.parseInt(x);
             engine.createNewTripRequest(mapName, inputs);
             List<TripRequestDto> tripRequestsDto = engine.getAllTripRequestsDto(mapName, userName);
             String jsonTripRequests = new Gson().toJson(tripRequestsDto);

@@ -1,6 +1,7 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
+import engine.dto.userPage.UserTransactionsHistoryDto;
 import engine.manager.EngineManager;
 import engine.manager.MapPageDto;
 import manager.constans.Constants;
@@ -35,8 +36,11 @@ public class MapScreenServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String mapName = request.getParameter(Constants.MAP_NAME);
         String userName = request.getParameter(Constants.USER_NAME);
-        response.setContentType("text/html;charset=UTF-8");
-        response.sendRedirect(MAP_DETAILS_URL);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
 

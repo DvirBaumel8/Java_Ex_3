@@ -29,14 +29,16 @@ public class LoadAccountBalanceServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         String userName = request.getParameter(Constants.USER_NAME);
         String amountToLoad = request.getParameter(Constants.USER_AMOUNT_TO_LOAD);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
             try {
-                String x = new String();
-                int y = Integer.parseInt(x);
+                //String x = new String();
+                //int y = Integer.parseInt(x);
                 engine.loadMoneyIntoAccount(userName, amountToLoad);
                 String newBalance = engine.getUserAccountBalance(userName);
                 String jsonNewBalance = new Gson().toJson(newBalance);

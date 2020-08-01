@@ -63,13 +63,12 @@
 
         <label>File Upload User Section:</label>
         <br>
+        Please insert Map name: <input type="text" id="mapUploadName" ng-model ="mapUploadName" name="mapUploadName" style="width: 70px;">
         <br>
         <form method="POST" action="FileUpload" enctype="multipart/form-data">
 
             <input type="file" name="file1" id="xml" name="xml" accept="xml/*" onchange='openFile(event)'><br>
-            <br>
-            Map name : <input type="text" id="mapUploadName" ng-model ="mapUploadName" name="mapUploadName" style="width: 70px;">
-            <input  type="submit" value="submit" style="width: 80px; height:40px"/>
+            <input  type="submit" value="submit" style="width: 80px; height:25px"/>
         </form>
 
     </div>

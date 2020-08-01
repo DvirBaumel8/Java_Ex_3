@@ -15,6 +15,26 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             { suggestID: '3', passengerNames: ' ', destinationStation: ' ', isMatched: 'yes', matchTrip:'a' }
         ];
 
+        let userName = $window.sessionStorage.getItem("userNameGlobalVar");
+        let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
+
+        console.log("I've been pressed!");
+            $http({
+                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MapScreenServlet',
+                method: "GET",
+                params: {mapName: mapName,
+                    userName: userName}
+            }).then(
+                function successCallback(response) {
+                    $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
+                    $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
+                    var graphDesc = response.data.htmlGraph;
+                },
+                function errorCallback(response) {
+                    $window.alert("UnSuccess get request");
+                }
+            );
+
 
     }
 
@@ -34,17 +54,17 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userSuggestRoute: userSuggestRoute,
                     userSuggestDepartureTime: userSuggestDepartureTime,
                     userSuggestPPK: userSuggestPPK,
-                    userSuggestPassengerCapacity: userSuggestPassengerCapacity }
+                    userSuggestPassengerCapacity: userSuggestPassengerCapacity,
+                    userName: $window.sessionStorage.getItem("userNameGlobalVar"),
+                    mapName: $window.sessionStorage.getItem("userMapGlobalVar")}
             }).then(
                 function successCallback(response) {
-                    $scope.tripSuggestListPerMap = $scope.tripSuggestListPerMap.add(response.data);
-                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
+                    $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
                     let successMessage = "Success Adding Trip Suggest";
                     $window.alert(successMessage);
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Adding Trip Suggest - Please check your inputs");
-                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 }
             );
         }
@@ -64,17 +84,17 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userRequestSourceStation: userRequestSourceStation,
                     userRequestDestinationStation: userRequestDestinationStation,
                     userRequestPPK: userRequestPPK,
-                    userRequestDepartureOrArrival: userRequestDepartureOrArrival }
+                    userRequestDepartureOrArrival: userRequestDepartureOrArrival ,
+                    userName: $window.sessionStorage.getItem("userNameGlobalVar"),
+                    mapName: $window.sessionStorage.getItem("userMapGlobalVar")}
             }).then(
                 function successCallback(response) {
+                    $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
                     let successMessage = "Success Adding Trip Request";
                     $window.alert(successMessage);
-                    $scope.tripRequestListPerMap = $scope.tripRequestListPerMap.add(response.data);
-                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Adding Trip Request - Please check your inputs");
-                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 }
             );
         }

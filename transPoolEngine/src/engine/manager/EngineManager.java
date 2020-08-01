@@ -427,7 +427,7 @@ public class EngineManager {
     }
 
     public UserDetailsDto getUserDetailsDto(String userName) {
-        List<MapsTableElementDetailsDto> mapsTableElementsInfo = mapsManager.getAllMapsTableElementsDetailsCheck();
+        List<MapsTableElementDetailsDto> mapsTableElementsInfo = mapsManager.getAllMapsTableElementsDetails();
         String accountBalance = getUserAccountBalance(userName);
         List<UserTransactionsHistoryDto> userTransactions = getUserTransactionsByUserName(userName);
         return new UserDetailsDto(mapsTableElementsInfo, accountBalance, userTransactions);

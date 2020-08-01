@@ -8,7 +8,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
     function init() {
         $scope.totalMapsInTheSystem = {};
         $scope.userNameInUserPage = $window.sessionStorage.getItem("userNameGlobalVar");
-        document.getElementById('userName').value=$scope.userNameInUserPage;
+        document.getElementById('userName').value = $scope.userNameInUserPage;
 
 
         $scope.createUser = function() {
@@ -46,7 +46,8 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
         }).then(
             function successCallback(response) {
                 //$scope.totalMapsInTheSystem = response.data;
-                let successMessage = "Success Adding Trip Request";
+                let successMessage = "Success Move Map Screen Page";
+                $window.sessionStorage.setItem("userMapGlobalVar",mapName);
                 $window.alert(successMessage);
                 $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
             },

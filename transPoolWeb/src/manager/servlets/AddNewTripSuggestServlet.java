@@ -1,6 +1,7 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
+import engine.dto.mapPage.TripRequestDto;
 import engine.dto.mapPage.TripSuggestDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
@@ -30,6 +31,11 @@ public class AddNewTripSuggestServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        String mapName = request.getParameter(Constants.MAP_NAME);
+        String userName = request.getParameter(Constants.USER_NAME);
+
         String[] inputs = new String[7];
         inputs[0] = request.getParameter(Constants.USER_SUGGEST_NAME);
         inputs[1] = request.getParameter(Constants.USER_SUGGEST_ROUTE);
@@ -51,17 +57,12 @@ public class AddNewTripSuggestServlet extends HttpServlet {
         //6. suggest ppk - done
         //7. suugest possible passengers capacity - done
 
-        //Ohad - Todo send to this servlet also the mapName + userName,
-        //String mapName = request.getParameter(Constants.MAP_NAME);
-        //String userName = request.getParameter(Constans.USER_NAME);
-        String userName = "d";
-        String mapName = "map1";
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
 
         try {
-            String x = new String();
-            int y = Integer.parseInt(x);
+            //String x = new String();
+            //int y = Integer.parseInt(x);
             engine.createNewTripSuggest(mapName, inputs);
             List<TripSuggestDto> tripSuggestsDto = engine.getAllTripSuggestsDto(mapName, userName);
             String jsonTripSuggests = new Gson().toJson(tripSuggestsDto);
