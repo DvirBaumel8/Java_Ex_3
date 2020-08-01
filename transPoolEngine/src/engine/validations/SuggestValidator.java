@@ -7,7 +7,6 @@ public class SuggestValidator extends ActionValidator {
     private StringBuilder addNewTripSuggestErrorMessage = new StringBuilder();
     private static final int TRIP_SUGGEST_INPUT_LIMIT = 7;
     private static final int[] TRIP_SCHEDULE_TYPE_INPUT_RANGE  = {1, 5};
-    private static final String SUCCESS_MESSAGE = "Trip suggest was added successfully to the system.\n";
 
     public String getAddNewTripSuggestErrorMessage() {
         return addNewTripSuggestErrorMessage.toString();
@@ -105,11 +104,6 @@ public class SuggestValidator extends ActionValidator {
         return res;
     }
 
-    public void deleteErrorMessageOfAddNewTripSuggest () {
-        addNewTripSuggestErrorMessage.setLength(0);
-        addNewTripSuggestErrorMessage.append("\nSorry, your input was not valid. Errors: \n");
-    }
-
     public boolean validatePossiblePassengerCapacity(String input) {
         boolean res = false;
         res = checkIfANumberAndBiggerThanOne(input);
@@ -141,29 +135,15 @@ public class SuggestValidator extends ActionValidator {
     }
 
     public boolean validateOwnerRoute(String route, HashSet<String> allStationsLogicNames) {
-        String[] stations = route.split("-");
-        HashSet<String> inputStations = new HashSet<>();
-        boolean isStationsInputUnique = true;
+        String[] stations = route.split(",");
 
         for(String station : stations) {
-            if(!inputStations.contains(station)) {
-                inputStations.add(station);
-            }
-            else {
-                isStationsInputUnique = false;
+            if(!allStationsLogicNames.contains(station)) {
+                return false;
             }
         }
 
-        return isStationsInputUnique;
-
+        return true;
     }
 
-    public String getSuggestValidationSuccessMessage() {
-        return SUCCESS_MESSAGE;
-    }
-
-    public void deleteErrorMessage() {
-        addNewTripSuggestErrorMessage.setLength(0);
-        addNewTripSuggestErrorMessage.append("\nSorry, your input was not valid. Errors: \n");
-    }
 }
