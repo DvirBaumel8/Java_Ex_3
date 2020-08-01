@@ -38,7 +38,9 @@ public class LoadAccountBalanceServlet extends HttpServlet {
                 String x = new String();
                 int y = Integer.parseInt(x);
                 engine.loadMoneyIntoAccount(userName, amountToLoad);
-                //return the new trip suggest list.
+                String newBalance = engine.getUserAccountBalance(userName);
+                String jsonNewBalance = new Gson().toJson(newBalance);
+                response.getWriter().write(jsonNewBalance);
             }
             catch (Exception ex) {
                 String error = ex.getMessage();

@@ -1,8 +1,8 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
-import engine.dto.userPage.MapsTableElementDetailsDto;
 import engine.manager.EngineManager;
+import engine.manager.MapPageDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
@@ -38,6 +38,8 @@ public class MapScreenServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         response.sendRedirect(MAP_DETAILS_URL);
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        ////here give me the whole MapPageManager object
+        MapPageDto mapPageDto = engine.getMapPageDto(userName, mapName);
+        String json = new Gson().toJson(mapPageDto);
+        response.getWriter().write(json);
     }
 }

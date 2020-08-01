@@ -2,6 +2,7 @@ package manager.servlets;
 
 
 import com.google.gson.Gson;
+import engine.dto.mapPage.TripRequestDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "AddNewTripRequestServlet", urlPatterns = {"/pages/mapDetails/AddNewTripRequestServlet"})
 public class AddNewTripRequestServlet extends HttpServlet {
@@ -49,8 +51,10 @@ public class AddNewTripRequestServlet extends HttpServlet {
         //5. user request time param (insert S or A) to decide if he want to ask by arrival time or start time - need to update
         //6. user request day - need to update
 
-        //Ohad - Todo send to this servlet also the mapName,
+        //Ohad - Todo send to this servlet also the mapName + user name,
         //String mapName = request.getParameter(Constants.MAP_NAME);
+        //String userName = request.getParameter(Constants.USER_NMAE);
+        String userName = "d";
         String mapName = "map1";
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
@@ -58,7 +62,9 @@ public class AddNewTripRequestServlet extends HttpServlet {
             String x = new String();
             int y = Integer.parseInt(x);
             engine.createNewTripRequest(mapName, inputs);
-            //return the new trip request list.
+            List<TripRequestDto> tripRequestsDto = engine.getAllTripRequestsDto(mapName, userName);
+            String jsonTripRequests = new Gson().toJson(tripRequestsDto);
+            response.getWriter().write(jsonTripRequests);
         }
         catch (Exception ex) {
             String error = ex.getMessage();

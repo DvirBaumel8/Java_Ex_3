@@ -1,11 +1,11 @@
 package engine.dto.userPage;
 
 public class UserTransactionsHistoryDto {
-    String type;
-    String date;
-    String actionAmount;
-    String amountBeforeAction;
-    String amountAfterAction;
+    private String type;
+    private String date;
+    private String actionAmount;
+    private String amountBeforeAction;
+    private String amountAfterAction;
 
     public UserTransactionsHistoryDto(String type, String date, String actionAmount, String amountBeforeAction,
                                       String amountAfterAction) {

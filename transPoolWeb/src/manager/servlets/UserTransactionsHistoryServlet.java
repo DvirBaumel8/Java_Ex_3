@@ -1,7 +1,10 @@
 package manager.servlets;
 
+import com.google.gson.Gson;
 import engine.dto.userPage.UserTransactionsHistoryDto;
+import engine.manager.EngineManager;
 import manager.constans.Constants;
+import manager.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,14 +32,12 @@ public class UserTransactionsHistoryServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userName = request.getParameter(Constants.USER_NAME);
-
-        List<UserTransactionsHistoryDto> userTransactionsHistoryDtoList = null;
-
-
-        //String jsonNewBalanceResponse = new Gson().toJson(userTransactionsHistoryDtoList);
+        EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+        List<UserTransactionsHistoryDto> userTransactionsHistoryDtoList = engine.getUserTransactionsByUserName(userName);;
+        String jsonNewBalanceResponse = new Gson().toJson(userTransactionsHistoryDtoList);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        //response.getWriter().write(json);
+        response.getWriter().write(jsonNewBalanceResponse);
         response.sendRedirect(MAP_DETAILS_URL);
     }
 }

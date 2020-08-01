@@ -1,18 +1,17 @@
 package engine.manager;
 
 import engine.dto.userPage.MapsTableElementDetailsDto;
-import engine.dto.userPage.UserBalanceDto;
 import engine.dto.userPage.UserTransactionsHistoryDto;
 
 import java.util.List;
 
-public class UserDetailsManager {
+public class UserDetailsDto {
     private List<MapsTableElementDetailsDto> mapsTableElementsInfo;
-    private UserBalanceDto userBalanceDto;
+    private String userBalanceDto;
     private List<UserTransactionsHistoryDto> userAccountTransactions;
 
-    public UserDetailsManager(List<MapsTableElementDetailsDto> mapsTableElementsInfo, UserBalanceDto userBalanceDto,
-                              List<UserTransactionsHistoryDto> userAccountTransactions) {
+    public UserDetailsDto(List<MapsTableElementDetailsDto> mapsTableElementsInfo, String userBalanceDto,
+                          List<UserTransactionsHistoryDto> userAccountTransactions) {
         this.mapsTableElementsInfo = mapsTableElementsInfo;
         this.userBalanceDto = userBalanceDto;
         this.userAccountTransactions = userAccountTransactions;
@@ -26,11 +25,11 @@ public class UserDetailsManager {
         this.mapsTableElementsInfo = mapsTableElementsInfo;
     }
 
-    public UserBalanceDto getUserBalanceDto() {
+    public String getUserBalanceDto() {
         return userBalanceDto;
     }
 
-    public void setUserBalanceDto(UserBalanceDto userBalanceDto) {
+    public void setUserBalanceDto(String userBalanceDto) {
         this.userBalanceDto = userBalanceDto;
     }
 
