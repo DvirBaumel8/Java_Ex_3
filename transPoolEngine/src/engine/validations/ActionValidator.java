@@ -1,5 +1,10 @@
 package engine.validations;
 
+import engine.manager.EngineManager;
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Stop;
+
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,8 +16,8 @@ public class ActionValidator {
         this.generalErrorMessage = new StringBuilder();
     }
 
-    public boolean validateOwnerName(String input) {
-        if(!validateOwnerNameUnique(input)) {
+    public boolean validateOwnerName(String input, List<String> names) {
+        if(!validateOwnerNameUnique(input, names)) {
             generalErrorMessage.append("Owner name should be unique\n");
             return false;
         }
@@ -30,13 +35,12 @@ public class ActionValidator {
         }
     }
 
-    private boolean validateOwnerNameUnique(String input) {
-//        List<String> currentOwnerNamesInSystem = EngineManager.getEngineManagerInstance().getAllPlannedTripsOwnerNames();
-//        for(String ownerName : currentOwnerNamesInSystem) {
-//            if(ownerName.equals(input)) {
-//                return false;
-//            }
-//        }
+    private boolean validateOwnerNameUnique(String input, List<String> names) {
+        for(String ownerName : names) {
+            if(ownerName.equals(input)) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -66,17 +70,17 @@ public class ActionValidator {
         return false;
     }
 
-    public boolean checkIFStationsIsExist(String stationName) {
-//        for(Stop stop : EngineManager.getEngineManagerInstance().getTransPool().getMapDescriptor().getStops().getStop()) {
-//            if(stop.getName().equals(stationName)) {
-//                return true;
-//            }
-//        }
+    public boolean checkIFStationsIsExist(String stationName, MapDescriptor mapDescriptor) {
+        for(Stop stop : mapDescriptor.getStops().getStop()) {
+            if(stop.getName().equals(stationName)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public boolean validateDestination (String input) {
-        if(checkIFStationsIsExist(input)) {
+    public boolean validateDestination(String input, MapDescriptor mapDescriptor) {
+        if(checkIFStationsIsExist(input, mapDescriptor)) {
             return true;
         }
         else {

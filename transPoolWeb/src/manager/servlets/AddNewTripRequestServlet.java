@@ -47,12 +47,12 @@ public class AddNewTripRequestServlet extends HttpServlet {
         //inputs[5] = request.getParameter(Constants.USER_REQUEST_DAY);
         inputs[5] = "2";
         //Trip request params from user: update in UI and send to servlet
-        //1. request owner name - Done
-        //2. request source station - Done
-        //3. request destination station  Done
-        //4. user request time (arrival/start) - need to update
-        //5. user request time param (insert S or A) to decide if he want to ask by arrival time or start time - need to update
-        //6. user request day - need to update
+        //        //1. request owner name - Done
+        //        //2. request source station - Done
+        //        //3. request destination station  Done
+        //        //4. user request time (arrival/start) - need to update
+        //        //5. user request time param (insert S or A) to decide if he want to ask by arrival time or start time - need to update
+        //        //6. user request day - need to update
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
@@ -60,9 +60,7 @@ public class AddNewTripRequestServlet extends HttpServlet {
             //String x = new String();
             //int y = Integer.parseInt(x);
             engine.createNewTripRequest(mapName, inputs);
-            List<TripRequestDto> tripRequestsDto = engine.getAllTripRequestsDto(mapName, userName);
-            String jsonTripRequests = new Gson().toJson(tripRequestsDto);
-            response.getWriter().write(jsonTripRequests);
+            response.sendRedirect(MAP_DETAILS_URL);
         }
         catch (Exception ex) {
             String error = ex.getMessage();

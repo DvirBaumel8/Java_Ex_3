@@ -10,6 +10,8 @@ import java.util.*;
 
 public class MapsManager {
     private HashMap<String, MapEntity> mapNameToEntity;
+    private int tripSuggestsIndex = 1;
+    private int tripRequestsIndex = 1;
 
     public MapsManager() {
         mapNameToEntity = new HashMap<>();
@@ -38,11 +40,15 @@ public class MapsManager {
 
     public void addTripRequestByMapName(String mapName, TripRequest tripRequest) {
         MapEntity mapEntity = mapNameToEntity.get(mapName);
+        tripRequest.setRequestID(tripRequestsIndex);
+        tripRequestsIndex++;
         mapEntity.addNewTripRequest(tripRequest);
     }
 
     public void addTripSuggestByMapName(String mapName, TripSuggest tripSuggest) {
         MapEntity mapEntity = mapNameToEntity.get(mapName);
+        tripSuggest.setSuggestID(tripSuggestsIndex);
+        tripSuggestsIndex++;
         mapEntity.addNewTripSuggest(tripSuggest);
     }
 
@@ -50,7 +56,6 @@ public class MapsManager {
         MapEntity mapEntity = mapNameToEntity.get(mapName);
         return mapEntity.getAllLogicStations();
     }
-
 
     public TripRequest getMapTripRequestByMapNameAndRequestId(String mapName, Integer requestId) {
         return mapNameToEntity.get(mapName).getTripRequestById(requestId);

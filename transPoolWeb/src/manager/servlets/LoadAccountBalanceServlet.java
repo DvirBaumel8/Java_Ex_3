@@ -14,9 +14,7 @@ import java.io.IOException;
 
 @WebServlet(name = "LoadAccountBalanceServlet", urlPatterns = {"/pages/userDetails/LoadAccountBalanceServlet"})
 public class LoadAccountBalanceServlet extends HttpServlet {
-
-    private final String MAP_DETAILS_URL = "../userDetails/userDetails.html";
-
+    private final String USER_DETAILS_URL = "../userDetails/userDetails.html";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,16 +27,12 @@ public class LoadAccountBalanceServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
         String userName = request.getParameter(Constants.USER_NAME);
         String amountToLoad = request.getParameter(Constants.USER_AMOUNT_TO_LOAD);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
             try {
-                //String x = new String();
-                //int y = Integer.parseInt(x);
                 engine.loadMoneyIntoAccount(userName, amountToLoad);
                 String newBalance = engine.getUserAccountBalance(userName);
                 String jsonNewBalance = new Gson().toJson(newBalance);
@@ -51,5 +45,7 @@ public class LoadAccountBalanceServlet extends HttpServlet {
                 //Display Error to user
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "The  not found.");
             }
+
+        response.sendRedirect(USER_DETAILS_URL);
     }
 }

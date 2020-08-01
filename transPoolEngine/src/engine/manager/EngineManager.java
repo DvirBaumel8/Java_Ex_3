@@ -62,13 +62,10 @@ public class EngineManager {
         }
     }
 
-    public List<MapsTableElementDetailsDto> getAllMapsTableElementsDetails() {
-        return mapsManager.getAllMapsTableElementsDetails();
-    }
-
     public void createNewTripRequest(String mapName, String[] inputsArr) throws Exception {
         RequestValidator requestValidator = new RequestValidator();
-        if (requestValidator.validateTripRequestInput(inputsArr)) {
+        MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
+        if (requestValidator.validateTripRequestInput(inputsArr, mapEntity.getMapDescriptor(), mapEntity.getTripRequestsOwnerNames())) {
             TripRequest tripRequest = buildNewRequest(inputsArr);
             mapsManager.addTripRequestByMapName(mapName, tripRequest);
         } else {
@@ -87,8 +84,9 @@ public class EngineManager {
 
     public void createNewTripSuggest(String mapName, String[] inputsArr) throws Exception {
         SuggestValidator suggestValidator = new SuggestValidator();
-        if (suggestValidator.validateTripSuggestInput(inputsArr, mapsManager.getAllLogicStationsByMapName(mapName))) {
-            TripSuggest tripSuggest = buildNewSuggest(inputsArr);
+        MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
+        if (suggestValidator.validateTripSuggestInput(inputsArr, mapsManager.getAllLogicStationsByMapName(mapName), mapEntity.getTripSuggestsOwnerNames())) {
+            TripSuggest tripSuggest = buildNewSuggest(inputsArr, mapEntity.getMapDescriptor());
             mapsManager.addTripSuggestByMapName(mapName, tripSuggest);
         } else {
             String errorMessage = suggestValidator.getAddNewTripSuggestErrorMessage();
@@ -96,7 +94,7 @@ public class EngineManager {
         }
     }
 
-    private TripSuggest buildNewSuggest(String[] inputsArr) {
+    private TripSuggest buildNewSuggest(String[] inputsArr, MapDescriptor mapDescriptor) {
         int hour = Integer.parseInt(inputsArr[3].split(":")[0]);
         int minutes = Integer.parseInt(inputsArr[3].split(":")[1]);
         Route newTripSuggestRoute = new Route();
@@ -110,7 +108,7 @@ public class EngineManager {
         scheduleTypeInt = Integer.parseInt(inputsArr[4]);
         ppk = Integer.parseInt(inputsArr[5]);
         tripCapacity = Integer.parseInt(inputsArr[6]);
-        return new TripSuggest(inputsArr[0], newTripSuggestRoute, minutes, hour, day, scheduleTypeInt, ppk, tripCapacity);
+        return new TripSuggest(inputsArr[0], newTripSuggestRoute, minutes, hour, day, scheduleTypeInt, ppk, tripCapacity, mapDescriptor);
     }
 
     public void addUser(String userName, String userType) {
@@ -122,17 +120,6 @@ public class EngineManager {
         StringBuilder error = new StringBuilder();
         UsersValidations.validateLoadMoneyIntoAccountInput(moneyToLoad, error);
         usersManager.loadMoneyIntoUserAccount(userName, Double.parseDouble(moneyToLoad));
-    }
-
-    public List<MapsTableElementDetailsDto> getMapsHtmlGraphDto(String mapName, String userName) {
-        //return total maps in the system include new map
-        MapEntity entity = mapsManager.getMapEntityByMapName(mapName);
-        if (isUserRequester(userName)) {
-            // return new MapPageDto(createRequestDtoListFromMapEntityForUser(entity, userName), createSuggestDtoListFromMapEntity(entity), entity.getHtmlGraph());
-        } else {
-            // return new MapPageDto(createRequestDtoListFromMapEntity(entity), createSuggestDtoListFromMapEntityForUser(entity, userName), entity.getHtmlGraph());
-        }
-        return null;
     }
 
     private boolean isUserRequester(String userName) {
