@@ -74,7 +74,7 @@ public class RequestValidator extends ActionValidator {
     }
 
     private boolean validateTimeParam(String input) {
-        if(input.equals("S") || input.equals("A")) {
+        if(input.equals("userRequestDeparture") || input.equals("userRequestArrival")) {
             return true;
         }
         else {
