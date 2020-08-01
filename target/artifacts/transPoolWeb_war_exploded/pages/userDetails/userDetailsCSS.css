@@ -23,6 +23,32 @@
     color: white;
 }
 
+
+#userTransactionsHistoryTable {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 70%;
+}
+
+#userTransactionsHistoryTable td, #userTransactionsHistoryTable th {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#userTransactionsHistoryTable tr:nth-child(even){background-color: #f2f2f2;}
+
+#userTransactionsHistoryTable tr:hover {background-color: #ddd;}
+
+#userTransactionsHistoryTable th {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #f5a35c;
+    color: white;
+}
+
+
 body {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     background-color: lightblue;

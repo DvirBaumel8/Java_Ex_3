@@ -1,214 +1,266 @@
-
 package engine.maps.graph;
 
 
+import engine.maps.graph.components.CoordinateNode;
+import engine.maps.graph.components.GraphModel;
+import engine.maps.graph.components.PathNode;
+import engine.maps.graph.components.StationNode;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Path;
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Route;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Stop;
 
+import java.util.ArrayList;
 import java.util.List;
-/*
+
 public class GraphBuilder {
     private MapDescriptor mapDescriptor;
-
-    private static Graph graph = null;
-
-    private static CoordinatesManager coordinatesManager = null;
-
-    private static StationManager stationManager = null;
-
-    //private static Model model = null;
 
     public GraphBuilder(MapDescriptor mapDescriptor) {
         this.mapDescriptor = mapDescriptor;
     }
 
-    private void createEdges() {
-        List<Path> pathList = mapDescriptor.getPaths().getPath();
-        List<Stop> stopStations = mapDescriptor.getStops().getStop();
+    public String buildHtmlGraph() {
+        GraphModel model = new GraphModel();
+        model.setCoordinateNodes(createCoordinatesNodes());
+        model.setPathsNodes(createPathsNodes(model.getCoordinateNodes()));
+        model.setStationsNodes(createStationsNodes(model.getCoordinateNodes()));
 
-        for(Stop stop1 : stopStations) {
-            for(Stop stop2 : stopStations) {
-                for(Path path : pathList) {
-                    String from = path.getFrom();
-                    String to = path.getTo();
-                    boolean isOneWay = path.isOneWay();
-                    if(from.equals(stop1.getName()) && to.equals(stop2.getName())) {
-                        ArrowEdge edge = new ArrowEdge(coordinatesManager.getOrCreate(stop1.getX(),stop1.getY()), coordinatesManager.getOrCreate(stop2.getX(),stop2.getY()));
-                        edge.textProperty().set(String.valueOf(path.getLength()));
+        StringBuilder html = new StringBuilder();
+        html.append("<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<body>\n" +
+                "<script>\n" +
+                "\tfunction stationClicked(e) {\n" +
+                "\t\tconsole.log(\"hello\");\n" +
+                "\t}\n" +
+                "</script>\n" +
+                "<svg width=\"650\" height=\"800\">\n" +
+                "  <rect\n" +
+                "  width=\"1500\"\n" +
+                "  height=\"600\"\n" +
+                "  style=\"fill:lightblue;stroke-width:1;stroke:rgb(0,0,0)\" />\n");
 
-                        model.addEdge(edge); // 1-3
-                        if(!isOneWay) {
-                            ArrowEdge edge2 = new ArrowEdge(coordinatesManager.getOrCreate(stop2.getX(),stop2.getY()), coordinatesManager.getOrCreate(stop1.getX(),stop1.getY()));
-                            model.addEdge(edge2); // 1-3
-                        }
-                    }
-                }
-            }
+        for(CoordinateNode coordinateNode : model.getCoordinateNodes()) {
+            html.append(String.format("<circle cx=\"%d\" cy=\"%d\" r=\"2\" stroke=\"black\" stroke-width=\"1\" fill=\"black\" />\n", coordinateNode.getX(), coordinateNode.getY()));
         }
 
-
-
-
-    }
-
-
-    public Graph setAndGetGraphByCurrentTripSuggest(String currentTripSuggestDetails) {
-         mark path station in unique color plus mark the path in uniqe color
-
-        String[] inputs = currentTripSuggestDetails.split(",");
-        String suggestId = inputs[1];
-        String roadTrip = inputs[2];
-        String currUserStation = inputs[3];
-        suggestId = suggestId.substring(4);
-        roadTrip = roadTrip.substring(8);
-        currUserStation = currUserStation.substring(12);
-        String[] currRoute = roadTrip.split("-");
-        List<Stop> suggestRoadTripStations = getSuggestRoadTripStationsFromPathArr(currRoute);
-        Stop currStation = getStopObjectFromStationName(currUserStation, suggestRoadTripStations);
-
-        markSuggestTripStationsAndCurrStation(suggestRoadTripStations, currStation, suggestId);
-        graph.endUpdate();
-        graph.getCanvas().setMaxWidth(1030);
-        graph.getCanvas().setPrefWidth(1030);
-        graph.getCanvas().setPrefHeight(800);
-        graph.getCanvas().setMaxHeight(800);
-        graph.layout(new MapGridLayout(coordinatesManager, stationManager));
-
-        return null;
-    }
-
-
-
-    private List<Stop> getSuggestRoadTripStationsFromPathArr(String[] currRoute) {
-        List<Stop> suggestRoadTripStations = new LinkedList<>();
-        int index = 0;
-        List<Stop> transPoolStopList = mapDescriptor.getStops().getStop();
-
-        for(int i = 0 ; i < transPoolStopList.size() ; i ++) {
-            if(transPoolStopList.get(i).getName().equals(currRoute[index])) {
-                suggestRoadTripStations.add(transPoolStopList.get(i));
-                index ++;
-            }
+        for(StationNode node : model.getStationsNodes()) {
+            html.append(String.format("<circle id= \"%s\" onclick =\"stationClicked('%s')\" cx=\"%d\" cy=\"%d\" r=\"7\" stroke=\"black\" stroke-width=\"1\" fill=\"red\" />\n", node.getName(), node.getName(), node.getX(), node.getY()));
+            html.append(String.format("<text x=\"%d\" y=\"%d\" fill=\"purple\" font-size=\"10px\">%s</text>\n", node.getX() - 15, node.getY() + 18, node.getName()));
         }
 
-        return suggestRoadTripStations;
-    }
-
-
-
-    private Stop getStopObjectFromStationName(String stationName, List<Stop> stopStations) {
-        Stop res = new Stop();
-        res.setName(stationName);
-
-        for(Stop stop : stopStations) {
-            String stopStr = stop.getName();
-            if(stopStr.equals(res)) {
-                res.setX(stop.getX());
-                res.setY(stop.getY());
-            }
+        for(PathNode node : model.getPathsNodes()) {
+            double xMiddle = (node.getStartX() + node.getEndX())/2;
+            double yMiddle = (node.getStartY() + node.getEndY())/2;
+            html.append(String.format("  <line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" style=\"stroke:blue;stroke-width:1\" />\n", node.getStartX(), node.getStartY(), node.getEndX(), node.getEndY()));
+            html.append(String.format("    <text x=\"%f\" y=\"%f\" fill=\"purple\" font-size=\"10px\">%d</text>\n", xMiddle + 2, yMiddle - 3, node.getLength()));
         }
 
-        return res;
+        html.append("</svg>\n");
+        html.append("</body>\n");
+        html.append("</html>\n");
+
+        return html.toString();
     }
 
-    private Path getSpecificPath(List<Path> pathList, String fromStr, String toStr) {
-        Path resPath = null;
+    public String buildHtmlGraphSourceDestHighlight(String sourceStation, String destinationStation) {
+        GraphModel model = new GraphModel();
+        model.setCoordinateNodes(createCoordinatesNodes());
+        model.setPathsNodes(createPathsNodes(model.getCoordinateNodes()));
+        model.setStationsNodes(createStationsNodes(model.getCoordinateNodes()));
 
-        for(Path path : pathList) {
-            if(path.equals(fromStr) && path.equals(toStr)) {
-                resPath = path;
-            }
+        StringBuilder html = new StringBuilder();
+        html.append("<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<body>\n" +
+                "<script>\n" +
+                "\tfunction stationClicked(e) {\n" +
+                "\t\tconsole.log(\"hello\");\n" +
+                "\t}\n" +
+                "</script>\n" +
+                "<svg width=\"650\" height=\"800\">\n" +
+                "  <rect\n" +
+                "  width=\"1500\"\n" +
+                "  height=\"600\"\n" +
+                "  style=\"fill:lightblue;stroke-width:1;stroke:rgb(0,0,0)\" />\n");
+
+        for(CoordinateNode coordinateNode : model.getCoordinateNodes()) {
+            html.append(String.format("<circle cx=\"%d\" cy=\"%d\" r=\"2\" stroke=\"black\" stroke-width=\"1\" fill=\"black\" />\n", coordinateNode.getX(), coordinateNode.getY()));
         }
 
-        return resPath;
-    }
-
-    private void createCoordinates() {
-        coordinatesManager = new CoordinatesManager(CoordinateNode::new);
-        //List<Stop> stopStations = transPool.getMapDescriptor().getStops().getStop();
-        int mapLength = mapDescriptor.getMapBoundries().getLength();
-        int mapWidth = mapDescriptor.getMapBoundries().getWidth();
-/*
-        for (int i=0; i<mapLength; i++) {
-            for (int j = 0; j < mapWidth; j++) {
-                model.addCell(coordinatesManager.getOrCreate(i+1, j+1));
-            }
-        }
-
-
-
-    }
-
-    private void createStations() {
-        stationManager = new StationManager(StationNode::new);
-        StationNode node;
-
-        for(Stop station : mapDescriptor.getStops().getStop()) {
-            node = stationManager.getOrCreate(station.getX(), station.getY());
-            node.setName(station.getName());
-            model.addCell(node);
-        }
-
-
-    }
-
-    private StationManager markSuggestTripStationsAndCurrStation(List<Stop> suggestRoadTripStations, Stop currStation,
-                                                                                         String suggestId) {
-       StationNode node;
-        int index = 1;
-
-        for(Stop station : suggestRoadTripStations) {
-            if(currStation.equals(station.getName())) {
-                node = stationManager.getOrCreate(station.getX(), station.getY());
-                node.setName(station.getName() + suggestId +",This is curr station! number " + index + "at the road trip");
-                model.addCell(node);
+        for(StationNode node : model.getStationsNodes()) {
+            if(node.getName().equals(sourceStation) || node.getName().equals(destinationStation)) {
+                html.append(String.format("<circle id= \"%s\" onclick =\"stationClicked('%s')\" cx=\"%d\" cy=\"%d\" r=\"9\" stroke=\"black\" stroke-width=\"1\" fill=\"blue\" />\n", node.getName(), node.getName(), node.getX(), node.getY()));
             }
             else {
-                node = stationManager.getOrCreate(station.getX(), station.getY());
-                node.setName(station.getName() + suggestId + ",station number:" + index + "at the road trip" );
-                model.addCell(node);
+                html.append(String.format("<circle id= \"%s\" onclick =\"stationClicked('%s')\" cx=\"%d\" cy=\"%d\" r=\"7\" stroke=\"black\" stroke-width=\"1\" fill=\"red\" />\n", node.getName(), node.getName(), node.getX(), node.getY()));
             }
-            index++;
+            html.append(String.format("<text x=\"%d\" y=\"%d\" fill=\"purple\" font-size=\"10px\">%s</text>\n", node.getX() - 15, node.getY() + 18, node.getName()));
         }
 
-
-
-        return stationManager;
-    }
-
-    private void moveAllEdgesToTheFront(Graph graph) {
-
-        List<Node> onlyEdges = new ArrayList<>();
-
-         finds all edge nodes and remove them from the beginning of list
-        ObservableList<Node> nodes = graph.getCanvas().getChildren();
-        while (nodes.get(0).getClass().getSimpleName().equals("EdgeGraphic")) {
-            onlyEdges.add(nodes.remove(0));
+        for(PathNode node : model.getPathsNodes()) {
+            double xMiddle = (node.getStartX() + node.getEndX())/2;
+            double yMiddle = (node.getStartY() + node.getEndY())/2;
+            html.append(String.format("  <line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" style=\"stroke:blue;stroke-width:1\" />\n", node.getStartX(), node.getStartY(), node.getEndX(), node.getEndY()));
+            html.append(String.format("    <text x=\"%f\" y=\"%f\" fill=\"purple\" font-size=\"10px\">%d</text>\n", xMiddle + 2, yMiddle - 3, node.getLength()));
         }
 
-        // adds them as last ones
-        nodes.addAll(onlyEdges);
+        html.append("</svg>\n");
+        html.append("</body>\n");
+        html.append("</html>\n");
+
+        return html.toString();
     }
 
-    public Graph createGraph() {
-        graph = new Graph();
-        model = graph.getModel();
-        graph.beginUpdate();
-        createCoordinates();
-        createStations();
-        createEdges();
-        graph.endUpdate();
-        graph.getCanvas().setMaxWidth(1030);
-        graph.getCanvas().setPrefWidth(1030);
-        graph.getCanvas().setPrefHeight(800);
-        graph.getCanvas().setMaxHeight(800);
-        graph.layout(new MapGridLayout(coordinatesManager, stationManager));
-
-        //graph.getViewportGestures().setZoomSpeed(1);
-        return graph;
+    private List<CoordinateNode> createCoordinatesNodes() {
+        List<CoordinateNode> nodes = new ArrayList<>();
+        int width = mapDescriptor.getMapBoundries().getWidth();
+        int length = mapDescriptor.getMapBoundries().getLength();
+        int wValue = 30;
+        int lValue = 20;
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < length; j++) {
+                CoordinateNode node = new CoordinateNode(wValue, lValue, i, j);
+                nodes.add(node);
+                wValue += 30;
+            }
+            wValue = 30;
+            lValue += 30;
+        }
+        return nodes;
     }
 
+    private List<PathNode> createPathsNodes(List<CoordinateNode> coordinateNodes) {
+        List<PathNode> nodes = new ArrayList<>();
+        for(Path path : mapDescriptor.getPaths().getPath()) {
+            PathNode pathNode = createPathNodeFromPath(path, coordinateNodes);
+            nodes.add(pathNode);
+        }
+        return nodes;
+    }
 
+    private PathNode createPathNodeFromPath(Path path, List<CoordinateNode> coordinateNodes) {
+        double startX = 0, startY = 0, endX = 0, endY = 0;
+        double logicStartX = 0, logicStartY = 0, logicEndX = 0, logicEndY = 0;
+
+        String from = path.getFrom();
+        String to = path.getTo();
+        for(Stop stop : mapDescriptor.getStops().getStop()) {
+            if(stop.getName().equals(from)) {
+                startX = stop.getX();
+                startY = stop.getY();
+            }
+            if(stop.getName().equals(to)) {
+                endX = stop.getX();
+                endY = stop.getY();
+            }
+        }
+        for(CoordinateNode node : coordinateNodes) {
+            if(node.getIndexX() == startX && node.getIndexY() == startY) {
+                logicStartX = node.getX();
+                logicStartY = node.getY();
+                break;
+            }
+        }
+        for(CoordinateNode node : coordinateNodes) {
+            if(node.getIndexX() == endX && node.getIndexY() == endY) {
+                logicEndX = node.getX();
+                logicEndY = node.getY();
+                break;
+            }
+        }
+
+        return new PathNode(logicStartX, logicStartY, logicEndX, logicEndY, path.getLength(), from, to);
+    }
+
+    private List<StationNode> createStationsNodes(List<CoordinateNode> coordinateNodes) {
+        List<StationNode> nodes = new ArrayList<>();
+        for(Stop stop : mapDescriptor.getStops().getStop()) {
+            StationNode node = createStationNodeFromStop(stop, coordinateNodes);
+            nodes.add(node);
+        }
+        return nodes;
+    }
+
+    private StationNode createStationNodeFromStop(Stop stop, List<CoordinateNode> coordinateNodes) {
+        int indexX = stop.getX();
+        int indexY = stop.getY();
+        int logicX = 0;
+        int logicY = 0;
+        for(CoordinateNode node : coordinateNodes) {
+            if(node.getIndexX() == indexX && node.getIndexY() == indexY) {
+                logicX = node.getX();
+                logicY = node.getY();
+                break;
+            }
+        }
+        return new StationNode(logicX, logicY, stop.getName());
+    }
+
+    public String buildHtmlGraphHighlightRoute(Route tripRoute) {
+        String[] stations = tripRoute.getPath().split(",");
+        List<String> stationsList = new ArrayList<>();
+        for(int i=0; i < stations.length; i++) {
+            stationsList.add(stations[i]);
+        }
+        GraphModel model = new GraphModel();
+        model.setCoordinateNodes(createCoordinatesNodes());
+        model.setPathsNodes(createPathsNodes(model.getCoordinateNodes()));
+        model.setStationsNodes(createStationsNodes(model.getCoordinateNodes()));
+
+        StringBuilder html = new StringBuilder();
+        html.append("<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<body>\n" +
+                "<script>\n" +
+                "\tfunction stationClicked(e) {\n" +
+                "\t\tconsole.log(\"hello\");\n" +
+                "\t}\n" +
+                "</script>\n" +
+                "<svg width=\"650\" height=\"800\">\n" +
+                "  <rect\n" +
+                "  width=\"1500\"\n" +
+                "  height=\"600\"\n" +
+                "  style=\"fill:lightblue;stroke-width:1;stroke:rgb(0,0,0)\" />\n");
+
+        for(CoordinateNode coordinateNode : model.getCoordinateNodes()) {
+            html.append(String.format("<circle cx=\"%d\" cy=\"%d\" r=\"2\" stroke=\"black\" stroke-width=\"1\" fill=\"black\" />\n", coordinateNode.getX(), coordinateNode.getY()));
+        }
+
+        for(StationNode node : model.getStationsNodes()) {
+            html.append(String.format("<circle id= \"%s\" onclick =\"stationClicked('%s')\" cx=\"%d\" cy=\"%d\" r=\"7\" stroke=\"black\" stroke-width=\"1\" fill=\"red\" />\n", node.getName(), node.getName(), node.getX(), node.getY()));
+            html.append(String.format("<text x=\"%d\" y=\"%d\" fill=\"purple\" font-size=\"10px\">%s</text>\n", node.getX() - 15, node.getY() + 18, node.getName()));
+        }
+
+        for(PathNode node : model.getPathsNodes()) {
+            double xMiddle = (node.getStartX() + node.getEndX())/2;
+            double yMiddle = (node.getStartY() + node.getEndY())/2;
+            if(isNodePartOfRoute(node, tripRoute)) {
+                html.append(String.format("  <line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" style=\"stroke:red;stroke-width:1\" />\n", node.getStartX(), node.getStartY(), node.getEndX(), node.getEndY()));
+                html.append(String.format("   <text x=\"%f\" y=\"%f\" fill=\"blue\" font-size=\"10px\">%d</text>\n", xMiddle + 2, yMiddle - 3, node.getLength()));
+            }
+            else {
+                html.append(String.format("  <line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" style=\"stroke:blue;stroke-width:1\" />\n", node.getStartX(), node.getStartY(), node.getEndX(), node.getEndY()));
+                html.append(String.format("   <text x=\"%f\" y=\"%f\" fill=\"purple\" font-size=\"10px\">%d</text>\n", xMiddle + 2, yMiddle - 3, node.getLength()));
+            }
+
+        }
+
+        html.append("</svg>\n");
+        html.append("</body>\n");
+        html.append("</html>\n");
+
+        return html.toString();
+    }
+
+    private boolean isNodePartOfRoute(PathNode node, Route tripRoute) {
+        String[] stations = tripRoute.getPath().split(",");
+        for(int i = 0; i < stations.length - 1; i++) {
+            if(stations[i].equals(node.getFrom()) && stations[i + 1].equals(node.getTo())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
-*/

@@ -1,6 +1,7 @@
 package engine.maps;
 
-import engine.dto.MapsTableElementDetailsDto;
+import engine.dto.userPage.MapsTableElementDetailsDto;
+import engine.maps.graph.GraphBuilder;
 import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
@@ -16,10 +17,15 @@ public class MapsManager {
 
     public void createNewMap(MapDescriptor mapDescriptor, String userName, String mapName) throws Exception {
         if(mapNameToEntity.containsKey(mapName)) {
-            throw new Exception();
+            throw new Exception("Map already Exists Exception");
         }
-        MapEntity mapEntity = new MapEntity(mapDescriptor, userName, mapName);
+        MapEntity mapEntity = new MapEntity(mapDescriptor, userName, mapName, createHtmlGraph(mapDescriptor));
         mapNameToEntity.put(mapName, mapEntity);
+    }
+
+    private String createHtmlGraph(MapDescriptor mapDescriptor) {
+        GraphBuilder graphBuilder = new GraphBuilder(mapDescriptor);
+        return graphBuilder.buildHtmlGraph();
     }
 
     public List<MapsTableElementDetailsDto> getAllMapsTableElementsDetails() {
@@ -88,4 +94,5 @@ public class MapsManager {
         res.add(mapsTableElementDetails);
         return res;
     }
+
 }

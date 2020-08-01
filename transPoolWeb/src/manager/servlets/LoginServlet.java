@@ -1,19 +1,20 @@
 package manager.servlets;
 
-import manager.UserManagerDto;
+import com.google.gson.Gson;
+import engine.manager.EngineManager;
 import manager.constans.Constants;
+import manager.popups.PopupTypesMess;
 import manager.utils.ServletUtils;
 
-import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import static manager.constans.Constants.USER_NAME;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/pages/signup/LoginServlet"})
 public class LoginServlet extends HttpServlet {
@@ -33,34 +34,44 @@ public class LoginServlet extends HttpServlet {
      */
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+            throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.reset();
         String userName = request.getParameter(Constants.USER_NAME);
-        String userType = request.getParameter(Constants.USER_TYPE);
-        UserManagerDto userManagerDto = ServletUtils.getUserManager(getServletContext());
-        String errorMessage = validateUserLoginInputs(userType, userName);
+        String userType = null;
+        String json = null;
 
+        if(userName != null) {
+            userType = request.getParameter(Constants.USER_TYPE);
+            StringBuilder errorMessageLoginScreen = new StringBuilder();
+            EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+            if(engine.validateUserLoginParams(userName, userType, errorMessageLoginScreen)) {
+                userName = userName.trim();
                 synchronized (this) {
                     try {
-                        if(errorMessage == null) {
-                            userManagerDto.addUser(userName, userType);
-                            request.getSession(true).setAttribute(USER_NAME, userName);
-                            System.out.println("On login, request URI is: " + request.getRequestURI());
-                            HttpSession session = request.getSession(false);
-                            session.setAttribute("userName", userName);
-                            response.sendRedirect(USER_DETAILS_URL);
+                        if(!engine.isUserExist(userName)) {
+                            engine.addUser(userName, userType);
                         }
-                        else {
-                            System.out.println(errorMessage);
-                            response.sendRedirect(SIGN_UP_URL);
-                        }
+                        json = new Gson().toJson(PopupTypesMess.SUCCESSFUL_SIGN_IN);
+                        response.getWriter().write(json);
                     }
-                    catch (Exception exception) {
-                        System.out.println(errorMessage);
-                        response.sendRedirect(SIGN_UP_URL);
-                    }
-            }
 
+                    catch (Exception exception) {
+                        json = new Gson().toJson(exception.getMessage());
+                        response.getWriter().write(json);
+                    }
+                }
+            }
+            else {
+                json = new Gson().toJson(errorMessageLoginScreen.toString());
+                response.getWriter().write(json);
+            }
+        }
+        else {
+            json = new Gson().toJson(PopupTypesMess.EMPTY_USER_MESSAGE);
+            response.getWriter().write(json);
+        }
     }
 
     /**
@@ -94,7 +105,6 @@ public class LoginServlet extends HttpServlet {
     private String validateUserLoginInputs(String userType, String userName)
             throws IOException {
         StringBuilder errorMessageSb = null;
-        //EngineManager engineManager = EngineManager.getEngineManagerInstance();
 
         try {
             if(userType.equals("requestPassenger") || userType.equals("suggestPassenger")) {

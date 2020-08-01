@@ -1,6 +1,6 @@
 package engine.maps;
 
-import engine.dto.MapsTableElementDetailsDto;
+import engine.dto.userPage.MapsTableElementDetailsDto;
 import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
@@ -15,21 +15,15 @@ public class MapEntity {
     private MapDescriptor mapDescriptor;
     private List<TripRequest> tripRequests;
     private List<TripSuggest> tripSuggests;
-   // private Graph graph;
+    private String htmlGraph;
 
-    public MapEntity(MapDescriptor mapDescriptor, String userName, String mapName) {
+    public MapEntity(MapDescriptor mapDescriptor, String userName, String mapName, String htmlGraph) {
         tripRequests = new ArrayList<>();
         tripSuggests = new ArrayList<>();
         this.mapDescriptor = mapDescriptor;
         mapsTableElementDetails = new MapsTableElementDetailsDto(mapDescriptor, userName, mapName);
+        this.htmlGraph = htmlGraph;
     }
-
-    /*
-    public Graph getGraph() {
-        return graph;
-    }
-
-     */
 
     public MapsTableElementDetailsDto getMapsTableElementDetails() {
         return mapsTableElementDetails;
@@ -86,5 +80,9 @@ public class MapEntity {
 
     public MapDescriptor getMapDescriptor() {
         return mapDescriptor;
+    }
+
+    public String getHtmlGraph() {
+        return htmlGraph;
     }
 }

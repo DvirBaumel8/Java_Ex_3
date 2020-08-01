@@ -1,4 +1,4 @@
-package engine.dto;
+package engine.dto.mapPage;
 
 import java.util.List;
 

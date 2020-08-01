@@ -22,4 +22,49 @@ public class Transaction {
         PaymentReceiving,
         PaymentTransfer
     }
+
+    @Override
+    public String toString() {
+        return String.format( "Type: %s Date: %s Money: %f Balance before transaction: %f Balance after transaction: %f", transactionType.toString(), transactionDate.toString(), amountOfTransfer, balanceBeforeTransaction, balanceAfterTransaction);
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public LocalDate getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public double getAmountOfTransfer() {
+        return amountOfTransfer;
+    }
+
+    public void setAmountOfTransfer(double amountOfTransfer) {
+        this.amountOfTransfer = amountOfTransfer;
+    }
+
+    public double getBalanceBeforeTransaction() {
+        return balanceBeforeTransaction;
+    }
+
+    public void setBalanceBeforeTransaction(double balanceBeforeTransaction) {
+        this.balanceBeforeTransaction = balanceBeforeTransaction;
+    }
+
+    public double getBalanceAfterTransaction() {
+        return balanceAfterTransaction;
+    }
+
+    public void setBalanceAfterTransaction(double balanceAfterTransaction) {
+        this.balanceAfterTransaction = balanceAfterTransaction;
+    }
 }

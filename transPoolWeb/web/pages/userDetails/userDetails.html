@@ -24,7 +24,7 @@
 
     <label>Account Balance : {{userAccountBalance}} </label>
     <br>
-    <label>User transactions History:</label>
+    <label>User Transactions History:</label>
     <table id="userTransactionsHistoryTable">
         <thead>
         <tr align="center">
@@ -54,14 +54,14 @@
         <h3>Select a File:</h3>
         <form method="POST" action="FileUpload" enctype="multipart/form-data">
 
-            <input type="file"  id="mapUploadName" name="mapUploadName" accept="xml/*" onchange='openFile(event)'><br>
-            <input  type="submit" value="submit" style="width: 80px; height:40px"/>
-
-        <button ng-click="redirectToFileUploadedApi(mapUploadName,userName)" style="color:#0000FF;">
-            Submit
-        </button>
-
+            <input type="file" name="file1" id="xml" name="xml" accept="xml/*" onchange='openFile(event)'><br>
+        <br>
+            <button ng-click="redirectToFileUploadedApi(mapUploadName,userName)" style="color:#0000FF;">
+                Submit
+            </button>
         </form>
+
+
     </div>
 
 

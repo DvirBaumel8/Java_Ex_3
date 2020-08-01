@@ -22,11 +22,15 @@ public class Constants {
     public static final String USER_REQUEST_SOURCE_STATION = "userRequestSourceStation";
     public static final String USER_REQUEST_DESTINATION_STATION = "userRequestDestinationStation";
     public static final String USER_REQUEST_PPK = "userRequestPPK";
-    public static final String USER_REQUEST_DEPARTURE_OR_ARRIVAL = "userRequestDepartureOrArrival";
 
 
     //public static final String CHAT_PARAMETER = "userstring";
     //public static final String CHAT_VERSION_PARAMETER = "chatversion";
 
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
+    public static final String USER_REQUEST_TIME = "userRequestTime";
+    public static final String USER_TIME_PARAM = "userTimeParam";
+    public static final String USER_REQUEST_DAY = "userRequestDay";
+    public static final String USER_SCHEDULE_INT = "userScheduleInt";
+    public static final String USER_DEPARTUE_DAY = "userDepartureDay";
 }

@@ -1,17 +1,18 @@
 package engine.users;
 
-import engine.validations.UsersValidations;
+import engine.dto.userPage.UserTransactionsHistoryDto;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UsersManager {
-    private static HashMap<String, User> users;
-    private static UsersValidations usersValidations;
-
+    private HashMap<String, User> users;
 
     public UsersManager() {
         users = new HashMap<>();
-        usersValidations = new UsersValidations();
     }
 
     public void addNewUser(String userName, User user) {
@@ -36,6 +37,22 @@ public class UsersManager {
     }
 
     public boolean isUserExistInTheSystem(String userToCheck) {
-        return usersValidations.isUserExistInTheSystem(users, userToCheck);
+        return users.containsKey(userToCheck);
+    }
+
+    public List<UserTransactionsHistoryDto> getUserTransactionsDtoFromEngine(String userName) {
+        List<Transaction> userTransactions = users.get(userName).getUserTransactions();
+        List<UserTransactionsHistoryDto> userTransactionsHistoryDtoList = new LinkedList<>();
+
+        userTransactions.forEach((userTransaction) -> {
+            UserTransactionsHistoryDto userTransactionsHistoryDto = new
+                    UserTransactionsHistoryDto(userTransaction.getTransactionType().toString(),
+                    userTransaction.getTransactionDate().toString(), String.valueOf(userTransaction.getAmountOfTransfer()),
+                    String.valueOf(userTransaction.getBalanceBeforeTransaction()),
+                    String.valueOf(userTransaction.getBalanceAfterTransaction()));
+            userTransactionsHistoryDtoList.add(userTransactionsHistoryDto);
+        });
+
+        return userTransactionsHistoryDtoList;
     }
 }

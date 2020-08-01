@@ -1,4 +1,4 @@
-package engine.dto;
+package engine.dto.userPage;
 
 public class UserTransactionsHistoryDto {
     String type;
@@ -7,6 +7,14 @@ public class UserTransactionsHistoryDto {
     String amountBeforeAction;
     String amountAfterAction;
 
+    public UserTransactionsHistoryDto(String type, String date, String actionAmount, String amountBeforeAction,
+                                      String amountAfterAction) {
+        this.type = type;
+        this.date = date;
+        this.actionAmount = actionAmount;
+        this.amountBeforeAction = amountBeforeAction;
+        this.amountAfterAction = amountAfterAction;
+    }
 
     public String getType() {
         return type;

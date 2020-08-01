@@ -1,6 +1,6 @@
 package engine.notifications;
 
-import engine.dto.MapsTableElementDetailsDto;
+import engine.dto.userPage.MapsTableElementDetailsDto;
 
 public class MatchNotificationsDetails {
     private MapsTableElementDetailsDto mapsTableElementDetails;

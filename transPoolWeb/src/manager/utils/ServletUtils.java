@@ -19,15 +19,6 @@ public class ServletUtils {
     private static final Object userManagerLock = new Object();
     private static final Object engineLock = new Object();
 
-    public static UserManagerDto getUserManager(ServletContext servletContext) {
-        synchronized (userManagerLock) {
-            if (servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null) {
-                servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UserManagerDto());
-            }
-        }
-        return (UserManagerDto) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
-    }
-
     public static EngineManager getEngineManager(ServletContext servletContext) {
         synchronized (engineLock) {
             if (servletContext.getAttribute(ENGINE_MANAGER_ATTRIBUTE_NAME) == null) {

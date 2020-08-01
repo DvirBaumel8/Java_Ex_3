@@ -1,6 +1,9 @@
 package manager.servlets;
 
+import com.google.gson.Gson;
+import engine.manager.EngineManager;
 import manager.constans.Constants;
+import manager.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,9 +32,17 @@ public class LoadAccountBalanceServlet extends HttpServlet {
         String userName = request.getParameter(Constants.USER_NAME);
         String amountToLoad = request.getParameter(Constants.USER_AMOUNT_TO_LOAD);
 
+        EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+        try {
+            engine.loadMoneyIntoAccount(userName, amountToLoad);
+        }
+        catch (Exception ex) {
+            String error = ex.getMessage();
+            //Display error to the user
+        }
 
 
-        //String jsonNewBalanceResponse = new Gson().toJson(mapsTableElementDetailsListDto);
+       // String jsonNewBalanceResponse = new Gson().toJson(mapsTableElementDetailsListDto);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         //response.getWriter().write(json);

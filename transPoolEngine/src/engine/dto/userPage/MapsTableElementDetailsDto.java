@@ -1,4 +1,4 @@
-package engine.dto;
+package engine.dto.userPage;
 
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 

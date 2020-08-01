@@ -64,11 +64,14 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userRequestDepartureOrArrival: userRequestDepartureOrArrival }
             }).then(
                 function successCallback(response) {
-                    //$scope.tripRequestListPerMap = $scope.tripRequestListPerMap.add(response.data);
+                    $scope.tripRequestListPerMap = $scope.tripRequestListPerMap.add(response.data);
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
+                    let successMessage = "Success Adding TripRequest";
+                    $window.pop(successMessage);
                 },
                 function errorCallback(response) {
-                    console.log("Unable to perform get request");
+                    $window.alert(response.error);
+                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 }
             );
         }

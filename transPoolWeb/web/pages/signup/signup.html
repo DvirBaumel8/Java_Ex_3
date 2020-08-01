@@ -9,7 +9,6 @@
 </head>
 <body ng-controller="signUpCtrl">
 <div class="container">
-    <form method="GET" action="LoginServlet">
     <h1>Welcome to the TransPool App</h1>
 
     <h2>Please insert the following details to sign in:</h2>
@@ -28,11 +27,9 @@
 
 
 
-        <button ng-click="getUserSignInDetails()" style="color:#0000FF;
-            width: 80px; height:40px">
+        <button ng-click="getUserSignInDetailsAndRedirect()" style="color:#0000FF; width: 80px; height:40px">
             Sign In
         </button>
-    </form>
     <br>
 
 </div>

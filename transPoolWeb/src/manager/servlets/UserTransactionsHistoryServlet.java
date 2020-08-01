@@ -1,6 +1,6 @@
 package manager.servlets;
 
-import engine.dto.UserTransactionsHistoryDto;
+import engine.dto.userPage.UserTransactionsHistoryDto;
 import manager.constans.Constants;
 
 import javax.servlet.ServletException;

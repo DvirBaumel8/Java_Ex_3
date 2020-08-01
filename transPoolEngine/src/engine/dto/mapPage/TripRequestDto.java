@@ -1,4 +1,4 @@
-package engine.dto;
+package engine.dto.mapPage;
 
 public class TripRequestDto {
     private int requestId;
