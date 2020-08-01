@@ -49,7 +49,7 @@ public class FileUploadServlet extends HttpServlet {
 
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
         try {
-            engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapPathName);
+            engineManager.handleFileUploadProcess(fileContent.toString(), "d", "map1");
         }
         catch (Exception ex) {
             String error = ex.getMessage();
