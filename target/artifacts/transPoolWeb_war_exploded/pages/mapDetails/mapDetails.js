@@ -37,11 +37,14 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     userSuggestPassengerCapacity: userSuggestPassengerCapacity }
             }).then(
                 function successCallback(response) {
-                    //$scope.tripSuggestListPerMap = $scope.tripSuggestListPerMap.add(response.data);
+                    $scope.tripSuggestListPerMap = $scope.tripSuggestListPerMap.add(response.data);
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
+                    let successMessage = "Success Adding Trip Suggest";
+                    $window.alert(successMessage);
                 },
                 function errorCallback(response) {
-                    console.log("Unable to perform get request");
+                    $window.alert("UnSuccess Adding Trip Suggest - Please check your inputs");
+                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 }
             );
         }
@@ -66,11 +69,11 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 function successCallback(response) {
                     $scope.tripRequestListPerMap = $scope.tripRequestListPerMap.add(response.data);
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
-                    let successMessage = "Success Adding TripRequest";
-                    $window.pop(successMessage);
+                    let successMessage = "Success Adding Trip Request";
+                    $window.alert(successMessage);
                 },
                 function errorCallback(response) {
-                    $window.alert(response.error);
+                    $window.alert("UnSuccess Adding Trip Request - Please check your inputs");
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
                 }
             );

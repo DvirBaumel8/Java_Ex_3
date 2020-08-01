@@ -38,7 +38,6 @@ public class MapScreenServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         response.sendRedirect(MAP_DETAILS_URL);
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        //doesnt do nothing just redirect to map page and init all the need dto object from map page
-
+        ////here give me the whole MapPageManager object
     }
 }

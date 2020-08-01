@@ -4,6 +4,7 @@ package manager.servlets;
 import com.google.gson.Gson;
 import engine.dto.userPage.MapsTableElementDetailsDto;
 import engine.manager.EngineManager;
+import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -33,14 +34,14 @@ public class UserMapDetailsServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //Todo - send user name
-        //String userName = request.getParameter(Constants.USER_NAME);
+        String userName = request.getParameter(Constants.USER_NAME);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
         List<MapsTableElementDetailsDto> mapsTableElementDetailsDtoList = engine.getMapsTableElementDetailsDto("d");
         String json = new Gson().toJson(mapsTableElementDetailsDtoList);
         response.getWriter().write(json);
-
+       //here give me the whole UserDetailsManager object
 
     }
 }

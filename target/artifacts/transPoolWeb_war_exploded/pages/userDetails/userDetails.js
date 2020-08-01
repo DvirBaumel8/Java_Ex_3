@@ -10,18 +10,22 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
         $scope.userNameInUserPage = $window.sessionStorage.getItem("userNameGlobalVar");
 
 
-        $scope.createUser = function()
-        {
+        $scope.createUser = function() {
             console.log("I've been pressed!");
-            $http.get('http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserMapDetailsServlet').then(
+
+            $http({
+                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserMapDetailsServlet',
+                method: "GET",
+                params: {userName: $scope.userNameInUserPage}
+            }).then(
                 function successCallback(response) {
-                    $scope.totalMapsInTheSystem = response.data;
+                    //get all the needed valuse to diplay
                 },
                 function errorCallback(response) {
                     console.log("Unable to perform get request");
                 }
             );
-        };
+        }
     }
 
 
@@ -76,13 +80,18 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                     userName: userName}
             }).then(
                 function successCallback(response) {
-                    //$scope.userAccountBalance = response.data;
+                    $scope.userAccountBalance = response.data;
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
+                    let successMessage = "Success Adding Cash";
+                    $window.alert(successMessage);
                 },
                 function errorCallback(response) {
-                    console.log("Unable to perform get request");
+                    $window.alert("UnSuccess Adding Cash To User");
+                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
                 }
             );
+
+
 
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserTransactionsHistoryServlet',
