@@ -1,8 +1,10 @@
 package engine.matching;
 
 
+import engine.trips.Time;
 import engine.trips.TripRequest;
 import engine.trips.TripSuggest;
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,9 +26,8 @@ public class MatchUtil {
 
         for (TripSuggest suggest : suggests) {
             for (index = 0; index < suggest.getRide().length - 1; index++) {
-                if (suggest.getRide()[index].getName().equals(request.getSourceStation()) &&
-                        isTripTimeEqual(request.getStartTime().getDay(), request.getStartTime().getHours(), request.getStartTime().getMinutes(), suggest.getRide()[index], suggest)) {
-                    subTrips.add(new SubTrip(suggest, suggest.getRide()[index], suggest.getRide()[index + 1], findClosestDayFromAbove(suggest, suggest.getRecurrencesType().getValue(), suggest.getRide()[index], request.getStartTime().getDay(), request.getStartTime().getHours(), request.getStartTime().getMinutes())));
+                if (suggest.getRide()[index].getName().equals(request.getSourceStation()) && isTripTimeEqual(request.getStartTime().getDay(), request.getStartTime().getHours(), request.getStartTime().getMinutes(), suggest.getRide()[index], suggest)) {
+                    subTrips.add(new SubTrip(suggest, suggest.getRide()[index], suggest.getRide()[index + 1], findClosestDayFromAbove(suggest, suggest.getRecurrencesType().getValue(), suggest.getRide()[index], request.getStartTime().getDay(), request.getStartTime().getHours(), request.getStartTime().getMinutes()), suggest.getMapDescriptor()));
                     buildMatchingTripsByDeparture(subTrips, request, res, numberOfTripsToOffer, suggests);
                     break;
                 }
@@ -81,7 +82,7 @@ public class MatchUtil {
                 if (suggest.getRide()[index].getName().equals(currentStation.getName()) &&
                         isTripTimeBigger(currentStation, suggest.getRide()[index], suggest) &&
                         isTheStationExist(ride, suggest.getRide()[index + 1])) {
-                    subTrips.add(new SubTrip(suggest, suggest.getRide()[index], suggest.getRide()[index + 1], findClosestDayFromAbove(suggest, suggest.getRecurrencesType().getValue(), suggest.getRide()[index], ride.getLast().getLastStation().getDay(), ride.getLast().getLastStation().getHour(), ride.getLast().getLastStation().getMinutes())));
+                    subTrips.add(new SubTrip(suggest, suggest.getRide()[index], suggest.getRide()[index + 1], findClosestDayFromAbove(suggest, suggest.getRecurrencesType().getValue(), suggest.getRide()[index], ride.getLast().getLastStation().getDay(), ride.getLast().getLastStation().getHour(), ride.getLast().getLastStation().getMinutes()), suggest.getMapDescriptor()));
                 }
             }
         }
@@ -100,14 +101,46 @@ public class MatchUtil {
 
     private boolean isTripTimeEqual(int day, int hour, int minutes, Station tripStation, TripSuggest trip) {
         int recurrences = trip.getRecurrencesType().getValue();
-        if (tripStation.getDay() <= day) {
-            if ((tripStation.getDay() * 24 * 60) + (tripStation.getHour() * 60) + (tripStation.getMinutes()) < ((day * 60 * 24) + (hour * 60) + (minutes)) && trip.getRecurrencesType().equals("ONE_TIME_ONLY"))
-                return false;
-            if ((tripStation.getDay() % recurrences) == day % recurrences && tripStation.getHour() == hour && tripStation.getMinutes() == minutes && (!trip.getCapacityPerTime().containsKey("" + day + hour + minutes) || (trip.getCapacityPerTime().containsKey("" + day + hour + minutes) && trip.getCapacityPerTime().get("" + day + hour + minutes) > 0)))
+        if(recurrences == 0) {
+            Time startingTime = trip.getStartingTime();
+            if(day == startingTime.getDay() && hour == startingTime.getHours() && minutes == startingTime.getMinutes()) {
                 return true;
+            }
+        }
+        else if (tripStation.getDay() <= day) {
+            if ((tripStation.getDay() * 24 * 60) + (tripStation.getHour() * 60) + (tripStation.getMinutes()) < ((day * 60 * 24) + (hour * 60) + (minutes)) && trip.getRecurrencesType().equals("ONE_TIME_ONLY")) {
+                return false;
+            }
+            else if ((tripStation.getDay() % recurrences) == day % recurrences && tripStation.getHour() == hour && tripStation.getMinutes() == minutes && (!trip.getCapacityPerTime().containsKey("" + day + hour + minutes) || (trip.getCapacityPerTime().containsKey("" + day + hour + minutes) && trip.getCapacityPerTime().get("" + day + hour + minutes) > 0))) {
+                return true;
+            }
+
         }
         return false;
     }
+    /*
+     int recurrences = trip.getRecurrencesType().getValue();
+        if(recurrences == 0) {
+            Time startingTime = trip.getStartingTime();
+            if(day == startingTime.getDay() && hour == startingTime.getHours() && minutes == startingTime.getMinutes()) {
+                return true;
+            }
+        }
+        else {
+            if (tripStation.getDay() <= day) {
+                if ((tripStation.getDay() * 24 * 60) + (tripStation.getHour() * 60) + (tripStation.getMinutes()) < ((day * 60 * 24) + (hour * 60) + (minutes)) && trip.getRecurrencesType().equals("ONE_TIME_ONLY"))
+                    return false;
+                if ((tripStation.getDay() % recurrences) == day % recurrences &&
+                        tripStation.getHour() == hour &&
+                        tripStation.getMinutes() == minutes &&
+                        (!trip.getCapacityPerTime().containsKey("" + day + hour + minutes) ||
+                                (trip.getCapacityPerTime().containsKey("" + day + hour + minutes) &&
+                                        trip.getCapacityPerTime().get("" + day + hour + minutes) > 0)))
+                    return true;
+            }
+            return false;
+        }
+     */
 
     private boolean isTripTimeBigger(Station requestStation, Station tripStation, TripSuggest trip) {
         if (requestStation.getDay() > tripStation.getDay() && trip.getRecurrencesType().equals("ONE_TIME_ONLY"))
@@ -128,7 +161,7 @@ public class MatchUtil {
         for (TripSuggest suggest : suggests) {
             for (int index = suggest.getRide().length - 1; index > 0; index--) {
                 if (isTripTimeEqual(request.getArrivalTime().getDay(), request.getArrivalTime().getHours(), request.getArrivalTime().getMinutes(), suggest.getRide()[index], suggest)) {
-                    combinedTrip.add(new SubTrip(suggest, suggest.getRide()[index - 1], suggest.getRide()[index], findClosestDayFromBelow(suggest, suggest.getRecurrencesType().getValue(), suggest.getRide()[index], request.getArrivalTime().getDay(), request.getArrivalTime().getHours(), request.getArrivalTime().getMinutes())));
+                    combinedTrip.add(new SubTrip(suggest, suggest.getRide()[index - 1], suggest.getRide()[index], findClosestDayFromBelow(suggest, suggest.getRecurrencesType().getValue(), suggest.getRide()[index], request.getArrivalTime().getDay(), request.getArrivalTime().getHours(), request.getArrivalTime().getMinutes()), suggest.getMapDescriptor()));
                     buildMatchingTripsByArrival(combinedTrip, request, res, numberOfTripsToOffer, suggests); //send them to a rec function to find all optional trips
                     break;
                 }
@@ -170,7 +203,7 @@ public class MatchUtil {
                 if (suggest.getRide()[index].getName().equals(current.getName()) &&
                         isTripTimeSmaller(suggest, current,suggest.getRide()[index]) &&
                         isTheStationExist(ride, suggest.getRide()[index - 1]));
-                    matchingRides.add(new SubTrip(suggest, suggest.getRide()[index - 1], suggest.getRide()[index], findClosestDayFromBelow(suggest, suggest.getRecurrencesType().getValue(), suggest.getRide()[index], ride.getFirst().getRoute().getFirst().getDay(), ride.getFirst().getRoute().getFirst().getHour(), ride.getFirst().getRoute().getFirst().getMinutes())));
+                    matchingRides.add(new SubTrip(suggest, suggest.getRide()[index - 1], suggest.getRide()[index], findClosestDayFromBelow(suggest, suggest.getRecurrencesType().getValue(), suggest.getRide()[index], ride.getFirst().getRoute().getFirst().getDay(), ride.getFirst().getRoute().getFirst().getHour(), ride.getFirst().getRoute().getFirst().getMinutes()), suggest.getMapDescriptor()));
             }
 
         }

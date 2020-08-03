@@ -38,7 +38,9 @@ public class MatchingTripRequestServlet extends HttpServlet {
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
         try {
-
+            List<String> potentialSuggestedTrips = engine.findPotentialSuggestedTripsToMatch(mapName, tripRequestId);
+            String json = new Gson().toJson(potentialSuggestedTrips);
+            response.getWriter().write(json);
         }
         catch (Exception ex) {
         }

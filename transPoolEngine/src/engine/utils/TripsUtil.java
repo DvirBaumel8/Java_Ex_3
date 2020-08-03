@@ -21,7 +21,7 @@ public class TripsUtil {
 
     private static int getLengthBetweenStations(String pathFrom, String pathTo, MapDescriptor mapDescriptor) {
         for (Path path : mapDescriptor.getPaths().getPath()) {
-            if (path.getFrom().equals(pathFrom) && path.getTo().equals(pathTo)) {
+            if (path.getFrom().equals(pathFrom) && path.getTo().equals(pathTo) || !path.isOneWay() && path.getFrom().equals(pathTo) && path.getTo().equals(pathFrom)) {
                 return path.getLength();
             }
         }
@@ -30,7 +30,7 @@ public class TripsUtil {
 
     public static int calcRequiredFuel(LinkedList<Station> stations, MapDescriptor mapDescriptor) {
         for (Path path : mapDescriptor.getPaths().getPath()) {
-            if (path.getFrom().equals(stations.getFirst().getName()) && path.getTo().equals(stations.getLast().getName())) {
+            if (path.getFrom().equals(stations.getFirst().getName()) && path.getTo().equals(stations.getLast().getName()) || !path.isOneWay() && path.getFrom().equals(stations.getLast().getName()) && path.getTo().equals(stations.getFirst().getName())) {
                 return path.getLength() / path.getFuelConsumption();
             }
         }
@@ -38,8 +38,8 @@ public class TripsUtil {
     }
 
 
-    public static int calcRequiredFuel(Route route, MapDescriptor mapDescriptor) {
-        int sum = 0;
+    public static double calcRequiredFuel(Route route, MapDescriptor mapDescriptor) {
+        double sum = 0;
         String[] paths = route.getPath().split(",");
         for (int i = 0; i < paths.length - 1; i++) {
             sum += getRequiredFuelToPath(paths[i], paths[i + 1], mapDescriptor);
@@ -48,10 +48,10 @@ public class TripsUtil {
     }
 
 
-    public static int getRequiredFuelToPath(String pathFrom, String pathTo, MapDescriptor mapDescriptor) {
+    private static double getRequiredFuelToPath(String pathFrom, String pathTo, MapDescriptor mapDescriptor) {
         for (Path path : mapDescriptor.getPaths().getPath()) {
-            if (path.getFrom().equals(pathFrom) && path.getTo().equals(pathTo)) {
-                return path.getLength() / path.getFuelConsumption();
+            if (path.getFrom().equals(pathFrom) && path.getTo().equals(pathTo) || !path.isOneWay() && path.getFrom().equals(pathTo) && path.getTo().equals(pathFrom)) {
+                return (double)path.getLength() / path.getFuelConsumption();
             }
         }
         return -1;
@@ -62,7 +62,7 @@ public class TripsUtil {
         boolean isPathOneWay;
         double retVal = 0;
         for (Path path : mapDescriptor.getPaths().getPath()) {
-            if (path.getFrom().equals(pathFrom) && path.getTo().equals(pathTo)) {
+            if (path.getFrom().equals(pathFrom) && path.getTo().equals(pathTo) ) {
                 return (double) path.getLength() / path.getSpeedLimit();
             } else {
                 try {

@@ -38,4 +38,24 @@ public class Time {
             day++;
         }
     }
+
+    @Override
+    public String toString() {
+       StringBuilder str = new StringBuilder();
+       str.append(String.format("Day %d ", day));
+       if(hours < 10) {
+           str.append(String.format("0%d:", hours));
+       }
+       else {
+           str.append(String.format("%d:", hours));
+       }
+
+       if(minutes < 10) {
+           str.append(String.format("0%d", minutes));
+       }
+       else  {
+           str.append(String.format("%d", minutes));
+       }
+       return str.toString();
+    }
 }

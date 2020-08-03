@@ -47,15 +47,17 @@ public class SubTrip {
         this.startTime = subTrip.getStartTime();
         this.arrivalTime = subTrip.getArrivalTime();
         this.isRanked = subTrip.getIsRanked();
+        this.map = subTrip.getMap();
     }
 
-    public SubTrip(TripSuggest tripsuggest, Station station, Station station1, int closestDayFromAbove) {
+    public SubTrip(TripSuggest tripsuggest, Station station, Station station1, int closestDayFromAbove, MapDescriptor map) {
         this.trip = tripsuggest;
         stations = new LinkedList<>();
         stations.add(station);
         stations.add(station1);
         this.tripDay = closestDayFromAbove;
         this.isRanked = false;
+        this.map = map;
     }
 
     public void buildSubTripStory() {
@@ -137,4 +139,11 @@ public class SubTrip {
         this.isRanked = val;
     }
 
+    public MapDescriptor getMap() {
+        return map;
+    }
+
+    public void setMap(MapDescriptor map) {
+        this.map = map;
+    }
 }
