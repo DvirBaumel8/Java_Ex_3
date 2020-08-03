@@ -8,13 +8,6 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
     function initMapDetailsPage() {
 
-
-        $scope.tripSuggestListPerMap = [
-            { suggestID: '2', passengerNames: ' ', destinationStation: ' ', isMatched: 'yes', matchTrip:'a' },
-            { suggestID: '1', passengerNames: ' ', destinationStation: ' ', isMatched: 'yes', matchTrip:'a' },
-            { suggestID: '3', passengerNames: ' ', destinationStation: ' ', isMatched: 'yes', matchTrip:'a' }
-        ];
-
         let userName = $window.sessionStorage.getItem("userNameGlobalVar");
         let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
 
@@ -120,17 +113,19 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
     }
 
-    $scope.displayAllPassengersDetailsPerTripRequest = function () {
+    $scope.displayAllPassengersDetailsPerTripRequest = function (requestId) {
         {
-            let userRequestName = document.getElementsByName("userRequestName")[0].value;
+            let tripRequestId = requestId;
+            let userName = $window.sessionStorage.getItem("userNameGlobalVar");
+            let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
 
             console.log("I've been pressed!");
             $http({
-                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/matchingTripRequestServlet',
+                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MatchingTripRequestServlet',
                 method: "GET",
-                params: {userRequestName: userRequestName,
-                    userName: $window.sessionStorage.getItem("userNameGlobalVar"),
-                    mapName: $window.sessionStorage.getItem("userMapGlobalVar")}
+                params: {tripRequestId: tripRequestId,
+                    userName: userName,
+                    mapName: mapName}
             }).then(
                 function successCallback(response) {
                     //$scope.tripRequestListPerMap = response.data.tripRequestDtoList;

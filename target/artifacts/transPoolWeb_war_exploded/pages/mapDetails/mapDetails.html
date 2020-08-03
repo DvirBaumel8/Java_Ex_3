@@ -148,14 +148,12 @@
             <tfoot>
             <tr ng-repeat="requestTrip in tripRequestListPerMap">
                 <td class="noBorder">
-                    <button id="tripRequestId" ng-click="displayAllPassengersDetailsPerTripRequest()">{{requestTrip.requestID}}</button>
-                </td>
-
-                <td class="noBorder"> {{suggestTrip.ownerName}} </td>
-                <td class="noBorder"> {{suggestTrip.sourceStation}} </td>
-                <td class="noBorder"> {{suggestTrip.destinationStation}} </td>
-                <td class="noBorder"> {{suggestTrip.isMatched}} </td>
-                <td class="noBorder"> {{suggestTrip.roadTrip}} </td>
+                    <button ng-click="displayAllPassengersDetailsPerTripRequest(requestTrip.requestId)">{{requestTrip.requestId}} </button></td>
+                <td class="noBorder"> {{requestTrip.tripOwnerName}} </td>
+                <td class="noBorder"> {{requestTrip.sourceStation}} </td>
+                <td class="noBorder"> {{requestTrip.destinationStation}} </td>
+                <td class="noBorder"> {{requestTrip.isMatched}} </td>
+                <td class="noBorder"> {{requestTrip.roadTrip}} </td>
 
             </tr>
             </tfoot>
