@@ -21,7 +21,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 function successCallback(response) {
                     $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
                     $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
-                    var graphDesc = response.data.htmlGraph;
+                    document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;;
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess get request");
