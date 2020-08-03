@@ -70,7 +70,8 @@
         <tfoot>
         <tr ng-repeat="suggestTrip in tripSuggestListPerMap">
             <td class="noBorder">
-                <button ng-click="highlightAndDisplayTripDetailsOnTheMap()">{{suggestTrip.suggestID}}</button>
+                <button ng-click="highlightTripDetailsForTripSuggest(suggestTrip.suggestID)">
+                    {{suggestTrip.suggestID}}</button>
             </td>
             <td class="noBorder"> {{suggestTrip.passengersNames}} </td>
             <td class="noBorder"> {{suggestTrip.tripDay}} </td>
@@ -139,7 +140,7 @@
             <tfoot>
             <tr ng-repeat="requestTrip in tripRequestListPerMap">
                 <td class="noBorder">
-                    <button ng-click="displayAllPassengersDetailsPerTripRequest(requestTrip.requestId)">{{requestTrip.requestId}} </button></td>
+                    <button ng-click="matchingAndHighlightTripDetailsForTripRequest(requestTrip.requestId)">{{requestTrip.requestId}} </button></td>
                 <td class="noBorder"> {{requestTrip.tripOwnerName}} </td>
                 <td class="noBorder"> {{requestTrip.sourceStation}} </td>
                 <td class="noBorder"> {{requestTrip.destinationStation}} </td>

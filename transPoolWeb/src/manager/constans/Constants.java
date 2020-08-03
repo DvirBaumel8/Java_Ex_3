@@ -9,6 +9,7 @@ public class Constants {
     public static final String USER_AMOUNT_TO_LOAD = "amountToLoad";
 
     public static final String TRIP_REQUEST_ID = "tripRequestId";
+    public static final String TRIP_SUGGEST_ID = "tripSuggestId";
 
 
     //---- Add New Trip Suggest

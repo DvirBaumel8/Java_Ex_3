@@ -105,15 +105,56 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         }
 
 
-    $scope.highlightAndDisplayTripDetailsOnTheMap = function () {
+    $scope.highlightTripDetailsForTripSuggest = function (suggestId) {
+        let tripSuggestId = suggestId;
+        let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
 
+        console.log("I've been pressed!");
+        $http({
+            url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/HighlightTripDetailsForTripSuggestServlet',
+            method: "GET",
+            params: {tripSuggestId: tripSuggestId,
+                mapName: mapName}
+        }).then(
+            function successCallback(response) {
+                document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;
+                let successMessage = "Success Highlight Trip Suggest Details";
+                $window.alert(successMessage);
+            },
+            function errorCallback(response) {
+                $window.alert("UnSuccess Highlight Trip Suggest Details");
+            }
+        );
     }
+
+
+        $scope.highlightTripDetailsForTripRequest = function (requestId) {
+            let tripRequestId = requestId;
+            let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
+
+            console.log("I've been pressed!");
+            $http({
+                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/HighlightTripDetailsForTripRequestServlet',
+                method: "GET",
+                params: {tripSuggestId: tripSuggestId,
+                    mapName: mapName}
+            }).then(
+                function successCallback(response) {
+                    document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;;
+                    let successMessage = "Success Highlight Trip Suggest Details";
+                    $window.alert(successMessage);
+                },
+                function errorCallback(response) {
+                    $window.alert("UnSuccess Highlight Trip Suggest Details");
+                }
+            );
+        }
 
     $scope.displayDriverRating = function () {
 
     }
 
-    $scope.displayAllPassengersDetailsPerTripRequest = function (requestId) {
+    $scope.matchingAndHighlightTripDetailsForTripRequest = function (requestId) {
         {
             let tripRequestId = requestId;
             let userName = $window.sessionStorage.getItem("userNameGlobalVar");
@@ -129,6 +170,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             }).then(
                 function successCallback(response) {
                     //$scope.tripRequestListPerMap = response.data.tripRequestDtoList;
+                    $scope.highlightTripDetailsForTripRequest(requestId);
                     let successMessage = "Success Adding Trip Request";
                     $window.alert(successMessage);
                 },
