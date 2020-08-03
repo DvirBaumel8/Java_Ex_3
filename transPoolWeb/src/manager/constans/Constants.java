@@ -4,7 +4,7 @@ public class Constants {
     public static final String USER_NAME = "userName";
     public static final String USER_TYPE = "userType";
     public static final String MAP_NAME = "mapName";
-    public static final String MAP_UPLOAD_NAME = "mapUploadName";
+    public static final String MAP_UPLOAD_NAME = "map_name";
     public static final String USER_NAME_ERROR = "username_error";
     public static final String USER_AMOUNT_TO_LOAD = "amountToLoad";
 
