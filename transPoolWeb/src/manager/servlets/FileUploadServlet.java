@@ -29,26 +29,25 @@ public class FileUploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String mapPathName = request.getParameter(Constants.MAP_UPLOAD_NAME);
-        //String userName = request.getParameter(Constants.USER_NAME);
-        String userName = "ohad";
+        String mapName = request.getParameter(Constants.MAP_UPLOAD_NAME);
+        String userName = request.getParameter(Constants.USER_NAME);
         response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
         Collection<Part> parts = request.getParts();
-
-
         StringBuilder fileContent = new StringBuilder();
-
+        int limit = 2;
+        int index = 1;
         for (Part part : parts) {
-            //to write the content of the file to an actual file in the system (will be created at c:\samplefile)
-            part.write("samplefile");
             //to write the content of the file to a string
+            if(index <= limit) {
+                index++;
+                continue;
+            }
             fileContent.append(readFromInputStream(part.getInputStream()));
         }
 
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
         try {
-            engineManager.handleFileUploadProcess(fileContent.toString(), "d", "map1");
+            engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapName);
         }
         catch (Exception ex) {
             String error = ex.getMessage();
