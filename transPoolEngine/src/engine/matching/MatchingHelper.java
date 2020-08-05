@@ -1,5 +1,6 @@
 package engine.matching;
 
+import engine.dto.mapPage.PotentialRoadTripDto;
 import engine.trips.TripRequest;
 
 import java.util.ArrayList;
@@ -8,15 +9,15 @@ import java.util.List;
 
 public class MatchingHelper {
 
-    public static List<String> convertToStr(List<RoadTrip> potentialCacheList, TripRequest tripRequest) {
-        List<String> potentialRoadTripsStr = new ArrayList<>();
+    public static List<PotentialRoadTripDto> convertToStr(List<RoadTrip> potentialCacheList, TripRequest tripRequest) {
+        List<PotentialRoadTripDto> potentialRoadTripsStr = new ArrayList<>();
         int index = 0;
         for (RoadTrip roadTrip : potentialCacheList) {
             index++;
             if (tripRequest.isRequestByStartTime()) {
-                potentialRoadTripsStr.add(String.format("Index %d:\n%s \n", index, roadTrip.getRoadStory()));
+                potentialRoadTripsStr.add(new PotentialRoadTripDto(index, roadTrip.getRoadStory()));
             } else {
-                potentialRoadTripsStr.add(String.format("Index %d:\n%s \n", index, roadTrip.getRoadStory()));
+                potentialRoadTripsStr.add(new PotentialRoadTripDto(index, roadTrip.getRoadStory()));
             }
         }
         return potentialRoadTripsStr;

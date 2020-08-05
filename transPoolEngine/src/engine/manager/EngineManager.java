@@ -1,5 +1,6 @@
 package engine.manager;
 
+import engine.dto.mapPage.PotentialRoadTripDto;
 import engine.dto.mapPage.TripRequestDto;
 import engine.dto.mapPage.TripSuggestDto;
 import engine.dto.userPage.MapsTableElementDetailsDto;
@@ -275,7 +276,7 @@ public class EngineManager {
         //TODO
     }
 
-    public List<String> findPotentialSuggestedTripsToMatch(String mapName, String requestId) {
+    public List<PotentialRoadTripDto> findPotentialSuggestedTripsToMatch(String mapName, String requestId) {
         TripRequest request = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, Integer.parseInt(requestId));
         int amount = 1;
         MatchUtil matchUtil = new MatchUtil();
