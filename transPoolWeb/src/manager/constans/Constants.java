@@ -14,6 +14,7 @@ public class Constants {
 
     //---- Matching Const
     public static final String SUGGEST_ID_POTENTIAL_TRIP = "suggestIdPotentialTrip";
+    public static final String POTENTIAL_SUGGEST_TRIP_NUM = "numOfPotentialSuggestedTrips";
 
 
     //---- Load Cash Const

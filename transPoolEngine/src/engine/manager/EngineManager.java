@@ -66,7 +66,7 @@ public class EngineManager {
     public void createNewTripRequest(String mapName, String[] inputsArr) throws Exception {
         RequestValidator requestValidator = new RequestValidator();
         MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
-        if (requestValidator.validateTripRequestInput(inputsArr, mapEntity.getMapDescriptor(), mapEntity.getTripRequestsOwnerNames())) {
+        if (requestValidator.validateTripRequestInput(inputsArr, mapEntity.getMapDescriptor())) {
             TripRequest tripRequest = buildNewRequest(inputsArr);
             mapsManager.addTripRequestByMapName(mapName, tripRequest);
         } else {
@@ -87,7 +87,7 @@ public class EngineManager {
     public void createNewTripSuggest(String mapName, String[] inputsArr) throws Exception {
         SuggestValidator suggestValidator = new SuggestValidator();
         MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
-        if (suggestValidator.validateTripSuggestInput(inputsArr, mapsManager.getAllLogicStationsByMapName(mapName), mapEntity.getTripSuggestsOwnerNames(), mapEntity.getMapDescriptor())) {
+        if (suggestValidator.validateTripSuggestInput(inputsArr, mapsManager.getAllLogicStationsByMapName(mapName), mapEntity.getMapDescriptor())) {
             TripSuggest tripSuggest = buildNewSuggest(inputsArr, mapEntity.getMapDescriptor());
             mapsManager.addTripSuggestByMapName(mapName, tripSuggest);
         } else {

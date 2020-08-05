@@ -14,15 +14,12 @@ public class RequestValidator extends ActionValidator {
         this.addNewTripRequestErrorMessage.append("\nSorry, your input was not valid. Errors: \n");
     }
 
-    public boolean validateTripRequestInput(String[] inputs, MapDescriptor mapDescriptor, List<String> ownerNames) {
+    public boolean validateTripRequestInput(String[] inputs, MapDescriptor mapDescriptor) {
         boolean isValid = true;
 
         if(inputs.length != TRIP_REQUEST_INPUT_LIMIT) {
             addNewTripRequestErrorMessage.append("Please insert 6 elements, try again.\n");
             return false;
-        }
-        if(!super.validateOwnerName(inputs[0], ownerNames)) {
-            isValid = false;
         }
         if(!(inputs[1].equals(inputs[2]))) {//dest and source stations are not the same
             if(!validateSource(inputs[1], mapDescriptor)) {

@@ -9,10 +9,27 @@
 
 </head>
 <body>
+
+
 <div style="resize: both; overflow: auto;" class="container" ng-controller="mapDetailsCtrl" ng-init="initMapDetailsPage()">
     <br>
+
+    <form>
     <h1>Potential Suggested Trips To Choose</h1>
 
+    {{myvar}}
+
+    <br>
+    {{requestId}}
+
+
+    Please insert desired number of potential Suggested Trips:
+    <input type="text" id="numOfPotentSuggTrips" name="numOfPotentSuggTrips" style="width: 70px;">
+    &emsp;<button ng-click="matchingAndHighlightTripDetailsForTripRequest(myvar)" style="color:#0000FF;">
+    Show
+</button>
+
+    </form>
 
     <table id="potentialSuggestedTrips">
         <thead>
@@ -25,9 +42,9 @@
         <tfoot>
         <tr ng-repeat="potentialTrip in potentialSuggestedTrips">
             <td class="noBorder">
-                <button ng-click="matchAction(potentialTrip.suggestID.requestId)">{{requestTrip.requestId}} </button></td>
-            {{potentialTrip.suggestID}} </td>
-            <td class="noBorder"> {{requestTrip.roadStory}} </td>
+                <button ng-click="matchAction(potentialTrip.index)">  {{potentialTrip.index}}</button>
+            </td>
+            <td class="noBorder"> {{potentialTrip.roadStory}} </td>
         </tr>
         </tfoot>
     </table>
