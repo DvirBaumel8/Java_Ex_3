@@ -1,25 +1,23 @@
-package manager.servlets;
+package manager.servlets.userPageServlet;
 
 import com.google.gson.Gson;
+import engine.dto.userPage.UserTransactionsHistoryDto;
 import engine.manager.EngineManager;
-import engine.manager.MapPageDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
+@WebServlet(name = "UserTransactionsHistoryServlet", urlPatterns = {"/pages/userDetails/UserTransactionsHistoryServlet"})
+public class UserTransactionsHistoryServlet extends HttpServlet {
 
-@WebServlet(name = "MapScreenServlet", urlPatterns = {"/pages/mapDetails/MapScreenServlet"})
-@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
-public class MapScreenServlet extends HttpServlet {
-
-    private final String MAP_DETAILS_URL = "../mapDetails/mapDetails.html";
+    private final String MAP_DETAILS_URL = "../userDetails/userDetails.html";
 
 
     @Override
@@ -33,16 +31,13 @@ public class MapScreenServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String mapName = request.getParameter(Constants.MAP_NAME);
         String userName = request.getParameter(Constants.USER_NAME);
-
+        EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+        List<UserTransactionsHistoryDto> userTransactionsHistoryDtoList = engine.getUserTransactionsByUserName(userName);;
+        String jsonNewBalanceResponse = new Gson().toJson(userTransactionsHistoryDtoList);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-
-        EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        MapPageDto mapPageDto = engine.getMapPageDto(userName, mapName);
-        String jsonMapPageDto = new Gson().toJson(mapPageDto);
-        response.getWriter().write(jsonMapPageDto);
+        response.getWriter().write(jsonNewBalanceResponse);
+        response.sendRedirect(MAP_DETAILS_URL);
     }
 }

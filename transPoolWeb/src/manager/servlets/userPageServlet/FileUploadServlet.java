@@ -1,4 +1,4 @@
-package manager.servlets;
+package manager.servlets.userPageServlet;
 //taken from: http://www.servletworld.com/servlet-tutorials/servlet3/multipartconfig-file-upload-example.html
 // and http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
 import engine.manager.EngineManager;

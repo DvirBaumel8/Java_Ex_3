@@ -1,4 +1,4 @@
-package manager.servlets;
+package manager.servlets.signupPageServlet;
 
 import com.google.gson.Gson;
 import engine.manager.EngineManager;

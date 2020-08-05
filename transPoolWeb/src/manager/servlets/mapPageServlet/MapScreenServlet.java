@@ -1,21 +1,25 @@
-package manager.servlets;
+package manager.servlets.mapPageServlet;
 
 import com.google.gson.Gson;
-import engine.dto.mapPage.TripRequestDto;
 import engine.manager.EngineManager;
+import engine.manager.MapPageDto;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(name = "MatchingTripRequestServlet", urlPatterns = {"/pages/mapDetails/MatchingTripRequestServlet"})
-public class MatchingTripRequestServlet extends HttpServlet {
+
+@WebServlet(name = "MapScreenServlet", urlPatterns = {"/pages/mapDetails/MapScreenServlet"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
+public class MapScreenServlet extends HttpServlet {
+
+    private final String MAP_DETAILS_URL = "../mapDetails/mapDetails.html";
 
 
     @Override
@@ -29,19 +33,16 @@ public class MatchingTripRequestServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
         String mapName = request.getParameter(Constants.MAP_NAME);
         String userName = request.getParameter(Constants.USER_NAME);
-        String tripRequestId = request.getParameter(Constants.TRIP_REQUEST_ID);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-        try {
-
-        }
-        catch (Exception ex) {
-        }
+        MapPageDto mapPageDto = engine.getMapPageDto(userName, mapName);
+        String jsonMapPageDto = new Gson().toJson(mapPageDto);
+        response.getWriter().write(jsonMapPageDto);
     }
-
 }

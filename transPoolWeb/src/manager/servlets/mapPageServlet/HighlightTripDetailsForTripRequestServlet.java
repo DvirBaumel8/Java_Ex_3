@@ -1,4 +1,4 @@
-package manager.servlets;
+package manager.servlets.mapPageServlet;
 
 import engine.manager.EngineManager;
 import manager.constans.Constants;
@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "HighlightTripDetailsForTripSuggestServlet", urlPatterns = {"/pages/mapDetails/HighlightTripDetailsForTripSuggestServlet"})
-public class HighlightTripDetailsForTripSuggestServlet extends HttpServlet {
-
+@WebServlet(name = "HighlightTripDetailsForTripRequestServlet", urlPatterns = {"/pages/mapDetails/HighlightTripDetailsForTripRequestServlet"})
+public class HighlightTripDetailsForTripRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -28,7 +27,7 @@ public class HighlightTripDetailsForTripSuggestServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         String mapName = request.getParameter(Constants.MAP_NAME);
-        String tripSuggestId = request.getParameter(Constants.TRIP_SUGGEST_ID);
+        String tripRequestId = request.getParameter(Constants.TRIP_REQUEST_ID);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
