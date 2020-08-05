@@ -113,8 +113,10 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         $http({
             url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/HighlightTripDetailsForTripSuggestServlet',
             method: "GET",
-            params: {tripSuggestId: tripSuggestId,
-                mapName: mapName}
+            params: {
+                tripSuggestId: tripSuggestId,
+                mapName: mapName
+            }
         }).then(
             function successCallback(response) {
                 document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;
@@ -127,7 +129,6 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         );
     }
 
-
         $scope.highlightTripDetailsForTripRequest = function (requestId) {
             let tripRequestId = requestId;
             let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
@@ -136,7 +137,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/HighlightTripDetailsForTripRequestServlet',
                 method: "GET",
-                params: {tripSuggestId: tripSuggestId,
+                params: {tripRequestId: tripRequestId,
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
@@ -155,11 +156,10 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
     }
 
     $scope.matchingAndHighlightTripDetailsForTripRequest = function (requestId) {
-        {
             let tripRequestId = requestId;
             let userName = $window.sessionStorage.getItem("userNameGlobalVar");
             let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
-
+            $scope.currTripRequestIdToMatch = tripRequestId;
             console.log("I've been pressed!");
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MatchingTripRequestServlet',
@@ -169,7 +169,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    //$scope.tripRequestListPerMap = response.data.tripRequestDtoList;
+                    $scope.potentialSuggestedTrips = response.data;
+                    window.open("potenSuggTripsWin.html","bfs","width=400,height=200,scrollbars=yes");
                     $scope.highlightTripDetailsForTripRequest(requestId);
                     let successMessage = "Success Adding Trip Request";
                     $window.alert(successMessage);
@@ -178,8 +179,35 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     $window.alert("UnSuccess Adding Trip Request - Please check your inputs");
                 }
             );
-        }
+
     }
+
+        $scope.matchAction = function (suggestIdPotentialTrip) {
+
+            let userName = $window.sessionStorage.getItem("userNameGlobalVar");
+            let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
+            let tripRequestId = $scope.currTripRequestIdToMatch;
+
+            console.log("I've been pressed!");
+            $http({
+                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MatchingActionServlet',
+                method: "GET",
+                params: {tripRequestId: tripRequestId,
+                    suggestIdPotentialTrip: suggestIdPotentialTrip,
+                    userName: userName,
+                    mapName: mapName}
+            }).then(
+                function successCallback(response) {
+                    $scope.isMatchSucceed = response.data;
+                    let successMessage = "Match Succeed";
+                    $window.alert(successMessage);
+                },
+                function errorCallback(response) {
+                    $window.alert("UnSuccess Matching");
+                }
+            );
+
+        }
 
 
     initMapDetailsPage();

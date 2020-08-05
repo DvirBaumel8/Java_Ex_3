@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="transPoolApp" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TransPool</title>
+    <link rel="stylesheet" href="../../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="mapDetails.css">
+
+
+</head>
+<body>
+<div style="resize: both; overflow: auto;" class="container" ng-controller="mapDetailsCtrl" ng-init="initMapDetailsPage()">
+    <br>
+    <h1>Potential Suggested Trips To Choose</h1>
+
+
+    <table id="potentialSuggestedTrips">
+        <thead>
+        <tr align="center">
+            <th>Trip Suggest ID</th>
+            <th>Road Story</th>
+
+        </tr>
+        </thead>
+        <tfoot>
+        <tr ng-repeat="potentialTrip in potentialSuggestedTrips">
+            <td class="noBorder">
+                <button ng-click="matchAction(potentialTrip.suggestID.requestId)">{{requestTrip.requestId}} </button></td>
+            {{potentialTrip.suggestID}} </td>
+            <td class="noBorder"> {{requestTrip.roadStory}} </td>
+        </tr>
+        </tfoot>
+    </table>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script>
+
+</script>
+<!-- Load the JS Module -->
+<script src="mapDetails.js"></script>
+</body>
+</html>

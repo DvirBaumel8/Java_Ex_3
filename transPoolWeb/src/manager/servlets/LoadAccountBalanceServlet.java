@@ -1,4 +1,4 @@
-package manager.servlets.userPageServlet;
+package manager.servlets;
 
 import com.google.gson.Gson;
 import engine.manager.EngineManager;

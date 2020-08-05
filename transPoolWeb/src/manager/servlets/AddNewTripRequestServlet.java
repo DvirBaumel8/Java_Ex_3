@@ -1,8 +1,8 @@
-package manager.servlets.mapPageServlet;
+package manager.servlets;
+
 
 import com.google.gson.Gson;
 import engine.dto.mapPage.TripRequestDto;
-import engine.dto.mapPage.TripSuggestDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AddNewTripSuggestServlet", urlPatterns = {"/pages/mapDetails/AddNewTripSuggestServlet"})
-public class AddNewTripSuggestServlet extends HttpServlet {
+@WebServlet(name = "AddNewTripRequestServlet", urlPatterns = {"/pages/mapDetails/AddNewTripRequestServlet"})
+public class AddNewTripRequestServlet extends HttpServlet {
     private final String MAP_DETAILS_URL = "../mapDetails/mapDetails.html";
 
 
@@ -36,22 +36,21 @@ public class AddNewTripSuggestServlet extends HttpServlet {
         String mapName = request.getParameter(Constants.MAP_NAME);
         String userName = request.getParameter(Constants.USER_NAME);
 
-        String[] inputs = new String[7];
-        inputs[0] = request.getParameter(Constants.USER_SUGGEST_NAME);
-        inputs[1] = request.getParameter(Constants.USER_SUGGEST_ROUTE);
-        inputs[2] = request.getParameter(Constants.USER_DEPARTURE_DAY);
-        inputs[3] = request.getParameter(Constants.USER_SUGGEST_DEPARTURE_TIME);
-        inputs[4] = request.getParameter(Constants.USER_SCHEDULE_INT);
-        inputs[5] = request.getParameter(Constants.USER_SUGGEST_PPK);
-        inputs[6] = request.getParameter(Constants.USER_SUGGEST_PASSENGER_CAPACITY);
+        String[] inputs = new String[6];
+        inputs[0] = request.getParameter(Constants.USER_REQUEST_NAME);
+        inputs[1] = request.getParameter(Constants.USER_REQUEST_SOURCE_STATION);
+        inputs[2] = request.getParameter(Constants.USER_REQUEST_DESTINATION_STATION);
+        inputs[3] = request.getParameter(Constants.USER_TIME_PARAM);
+        inputs[4] = request.getParameter(Constants.ARRIVAL_START);
+        inputs[5] = request.getParameter(Constants.USER_REQUEST_DAY);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
         try {
-            engine.createNewTripSuggest(mapName, inputs);
-            List<TripSuggestDto> tripSuggestsDto = engine.getAllTripSuggestsDto(mapName, userName);
-            String jsonTripSuggests = new Gson().toJson(tripSuggestsDto);
-            response.getWriter().write(jsonTripSuggests);
+            engine.createNewTripRequest(mapName, inputs);
+            List<TripRequestDto> tripRequestsDto = engine.getAllTripRequestsDto(mapName, userName);
+            String jsonTripRequests = new Gson().toJson(tripRequestsDto);
+            response.getWriter().write(jsonTripRequests);
         }
         catch (Exception ex) {
             String error = ex.getMessage();
@@ -61,4 +60,5 @@ public class AddNewTripSuggestServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "The  not found.");
         }
     }
+
 }

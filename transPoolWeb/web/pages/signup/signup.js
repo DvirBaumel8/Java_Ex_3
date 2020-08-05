@@ -20,7 +20,6 @@ transPoolApp.controller('signUpCtrl',[ '$scope', '$http', '$rootScope','$window'
     $scope.getUserSignInDetailsAndRedirect = function () {
         $window.sessionStorage.setItem("userNameGlobalVar",$scope.userLoginNameModel);
 
-
         console.log("I've been pressed!");
         $http({
             url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/signup/LoginServlet',

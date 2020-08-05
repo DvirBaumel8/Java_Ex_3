@@ -1,18 +1,26 @@
 package manager.constans;
 
 public class Constants {
+
+    //---- Main Variables Const
     public static final String USER_NAME = "userName";
     public static final String USER_TYPE = "userType";
     public static final String MAP_NAME = "mapName";
     public static final String MAP_UPLOAD_NAME = "map_name";
-    public static final String USER_NAME_ERROR = "username_error";
-    public static final String USER_AMOUNT_TO_LOAD = "amountToLoad";
 
     public static final String TRIP_REQUEST_ID = "tripRequestId";
     public static final String TRIP_SUGGEST_ID = "tripSuggestId";
 
 
-    //---- Add New Trip Suggest
+    //---- Matching Const
+    public static final String SUGGEST_ID_POTENTIAL_TRIP = "suggestIdPotentialTrip";
+
+
+    //---- Load Cash Const
+    public static final String USER_AMOUNT_TO_LOAD = "amountToLoad";
+
+
+    //---- Add New Trip Suggest Const
     public static final String USER_SUGGEST_NAME = "userSuggestName";
     public static final String USER_SUGGEST_ROUTE = "userSuggestRoute";
     public static final String USER_DEPARTURE_DAY = "userSuggestDepartureDay";
@@ -22,7 +30,7 @@ public class Constants {
     public static final String USER_SUGGEST_PASSENGER_CAPACITY = "userSuggestPassengerCapacity";
 
 
-    //---- Add New Trip Request
+    //---- Add New Trip Request Const
     public static final String USER_REQUEST_NAME = "userRequestName";
     public static final String USER_REQUEST_SOURCE_STATION = "userRequestSourceStation";
     public static final String USER_REQUEST_DESTINATION_STATION = "userRequestDestinationStation";
@@ -31,13 +39,7 @@ public class Constants {
     public static final String USER_REQUEST_DAY = "userRequestDay";
 
 
-    //3. request destination station  Done
-    //4. user request time (arrival/start) - need to update
-    //5. user request time param (insert S or A) to decide if he want to ask by arrival time or start time - need to update
-    //6. user request day - need to update
 
-    //public static final String CHAT_PARAMETER = "userstring";
-    //public static final String CHAT_VERSION_PARAMETER = "chatversion";
 
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
 
