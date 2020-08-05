@@ -121,7 +121,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             }
         }).then(
             function successCallback(response) {
-                document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;
+                document.getElementById("graphDesc").innerHTML  = response.data;
                 let successMessage = "Success Highlight Trip Suggest Details";
                 $window.alert(successMessage);
             },
@@ -143,7 +143,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;;
+                    document.getElementById("graphDesc").innerHTML = response.data;
                     let successMessage = "Success Highlight Trip Suggest Details";
                     $window.alert(successMessage);
                 },
@@ -188,9 +188,10 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             );
 
     }
-
+        var matchWindow;
     $scope.openMatchingWindow = function (requestId) {
-        var matchWindow = window.open("potenSuggTripsWin.html?myvar=" + encodeURI(requestId),"bfs","width=500,height=400,scrollbars=yes");
+        matchWindow = window.open("potenSuggTripsWin.html?myvar=" + encodeURI(requestId),"bfs","width=800,height=600,scrollbars=yes");
+        $scope.highlightTripDetailsForTripRequest(requestId);
     }
 
         $scope.matchAction = function (suggestIdPotentialTrip) {
@@ -212,6 +213,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 function successCallback(response) {
                     $scope.isMatchSucceed = response.data;
                     let successMessage = "Match Succeed";
+                    matchWindow.close();
                     $window.alert(successMessage);
                 },
                 function errorCallback(response) {

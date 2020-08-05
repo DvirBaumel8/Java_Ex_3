@@ -17,18 +17,15 @@
     <form>
     <h1>Potential Suggested Trips To Choose</h1>
 
-    {{myvar}}
-
-    <br>
-    {{requestId}}
-
-
     Please insert desired number of potential Suggested Trips:
+        <br>
     <input type="text" id="numOfPotentSuggTrips" name="numOfPotentSuggTrips" style="width: 70px;">
+
     &emsp;<button ng-click="matchingAndHighlightTripDetailsForTripRequest(myvar)" style="color:#0000FF;">
     Show
 </button>
-
+        <br>
+        <br>
     </form>
 
     <table id="potentialSuggestedTrips">
@@ -42,7 +39,7 @@
         <tfoot>
         <tr ng-repeat="potentialTrip in potentialSuggestedTrips">
             <td class="noBorder">
-                <button ng-click="matchAction(potentialTrip.index)">  {{potentialTrip.index}}</button>
+                <button style="width: 150px" ng-click="matchAction(potentialTrip.index)">  {{potentialTrip.index}}</button>
             </td>
             <td class="noBorder"> {{potentialTrip.roadStory}} </td>
         </tr>

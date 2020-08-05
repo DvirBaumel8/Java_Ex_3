@@ -179,6 +179,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     $scope.potentialSuggestedTrips = response.data;
                     //window.open("potenSuggTripsWin.html","bfs","width=500,height=400,scrollbars=yes");
                     //$scope.highlightTripDetailsForTripRequest(requestId);
+
                     let successMessage = "Success Adding Trip Request";
                     $window.alert(successMessage);
                 },
@@ -188,9 +189,9 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             );
 
     }
-
+        var matchWindow;
     $scope.openMatchingWindow = function (requestId) {
-        var matchWindow = window.open("potenSuggTripsWin.html?myvar=" + encodeURI(requestId),"bfs","width=800,height=600,scrollbars=yes");
+        matchWindow = window.open("potenSuggTripsWin.html?myvar=" + encodeURI(requestId),"bfs","width=800,height=600,scrollbars=yes");
         $scope.highlightTripDetailsForTripRequest(requestId);
     }
 
@@ -213,6 +214,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 function successCallback(response) {
                     $scope.isMatchSucceed = response.data;
                     let successMessage = "Match Succeed";
+                    matchWindow.close();
+                    //window.close();
                     $window.alert(successMessage);
                 },
                 function errorCallback(response) {
