@@ -19,6 +19,7 @@ transPoolApp.controller('signUpCtrl',[ '$scope', '$http', '$rootScope','$window'
 
     $scope.getUserSignInDetailsAndRedirect = function () {
         $window.sessionStorage.setItem("userNameGlobalVar",$scope.userLoginNameModel);
+        $window.sessionStorage.setItem("userTypeGlobalVar",$scope.userTypeModel);
 
         console.log("I've been pressed!");
         $http({

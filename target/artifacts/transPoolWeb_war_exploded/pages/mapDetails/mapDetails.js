@@ -10,6 +10,20 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
         let userName = $window.sessionStorage.getItem("userNameGlobalVar");
         let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
+         let userType = $window.sessionStorage.getItem("userTypeGlobalVar");
+        $scope.userGlobalType = userType;
+        if(userType.trim() == "suggestPassenger") {
+            $scope.isSuggestPassenger = true;
+        }
+        else {
+            $scope.isSuggestPassenger = false;
+        }
+        if (userType.trim() == "requestPassenger") {
+            $scope.isRequestPassenger = true;
+        }
+        else {
+            $scope.isRequestPassenger = false;
+        }
 
         console.log("I've been pressed!");
             $http({
@@ -207,9 +221,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 function successCallback(response) {
                     $scope.isMatchSucceed = response.data;
                     let successMessage = "Match Succeed";
-                    matchWindow.close();
-                    //window.close();
                     $window.alert(successMessage);
+                    window.close();
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Matching");
@@ -227,7 +240,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         $scope.showDriversWhichNotRank = function(requestId) {
 
             $http({
-                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/RatingDriversServlet',
+                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/ShowUnRankDriversServlet',
                 method: "GET",
                 params: {tripRequestId: requestId}
             }).then(
@@ -260,8 +273,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 function successCallback(response) {
                     $scope.isRatingSucceed = response.data;
                     let successMessage = "Rating Succeed";
-                    window.close();
                     $window.alert(successMessage);
+                    window.close();
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Matching");

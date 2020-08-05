@@ -13,6 +13,7 @@
     <br>
     <h1>Welcome to the Map Details Page</h1>
 
+    <div  ng-show="isSuggestPassenger">
 
     <br>
     <button type="button" class="collapsible">Add New Suggest Trip</button>
@@ -88,9 +89,14 @@
         </tfoot>
     </table>
 
+</div>
+
     <br>
     <br>
 
+
+
+<div ng-show="isRequestPassenger">
     <button type="button" class="collapsible">Add New Request Trip</button>
     <div class="content">
     <p>
@@ -163,6 +169,8 @@
             </tr>
             </tfoot>
         </table>
+
+</div>
 
 
     <h2> Map description:

@@ -44,7 +44,7 @@
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     padding-top: 12px;
     padding-bottom: 12px;
-    background-color: #f5a35c;
+    background-color: #777777;
     color: white;
 }
 
@@ -57,18 +57,57 @@ body {
 
 h1 {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    color: #ffffff;
+    color: #0a0a0a;
     text-align: center;
     padding-left: 30px;
 }
 
 p {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    padding-left: 30px;
+    font-size: 14px;
+    padding: 0 10px;
+
 }
 
-h3 {
+h2 {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    color: #f6f6f6;
+    color: #777777;
+}
+
+label {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color:#777777;
+    font-size: 14px;
+}
+
+form {
+    border-collapse: collapse;
+}
+input {
+    font-size: 14px
+}
+
+
+.userBalanceCollapsible {
+    background-color: #f5a35c;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 60%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 18px;
+}
+
+.active, .collapsible:hover {
+    background-color: #555;
+}
+
+.userBalanceContent {
+    padding: 0 10px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    width:58%;
 }

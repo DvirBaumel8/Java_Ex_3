@@ -13,49 +13,60 @@
     <br>
     <h1>Welcome to the User Details Page</h1>
 
-    Curr User In The System:
-    <div id="userName">{{userNameInUserPage}}</div>
+    <h3>
+        Curr User In The System: <div id="userName">{{userNameInUserPage}}</div>
+    </h3>
 
     <br>
     <br>
 
+    <button type="button" class="userBalanceCollapsible">User Balance Section</button>
+    <div class="userBalanceContent">
+        <p>
+            <br>
+            <label>Loading balance account:</label>
+            <input type="text" id="userLoadingAccountBalance" name="userLoadingAccountBalance" style="width: 70px;">
+            &emsp;<button ng-click="loadAccountBalanceAction()" style="color:#0000FF;">
+            Load
+        </button>
+            <br>
 
-    <label>Balance User Section: </label>
-    <br>
-    <label>Loading account balance:</label>
-    <input type="text" id="userLoadingAccountBalance" name="userLoadingAccountBalance" style="width: 70px;">
-    &emsp;<button ng-click="loadAccountBalanceAction()" style="color:#0000FF;">
-    Load
-</button>
-    <br>
+            <label>Account Balance : {{userLoadingAccountBalance}} </label>
+            <br>
 
-    <label>Account Balance : {{userLoadingAccountBalance}} </label>
-    <br>
-    <label>User Transactions History:</label>
-    <table id="userTransactionsHistoryTable">
-        <thead>
-        <tr align="center">
-            <th>Transactions Type</th>
-            <th>Date</th>
-            <th>Action Amount</th>
-            <th>Amount Before Action</th>
-            <th>Amount After Action</th>
-        </tr>
-        </thead>
-        <tfoot>
-        <tr ng-repeat="userTransactionsHistory in userTransactionsHistoryTable">
-            <td class="noBorder">{{userTransactionsHistory.type}}</td>
-            <td class="noBorder">{{userTransactionsHistory.date}}</td>
-            <td class="noBorder">{{userTransactionsHistory.actionAmount}}</td>
-            <td class="noBorder">{{userTransactionsHistory.amountBeforeAction}}</td>
-            <td class="noBorder">{{userTransactionsHistory.amountAfterAction}}</td>
-        </tr>
-        </tfoot>
-    </table>
+            <br>
+            <br>
+            <label>User Transactions History Table:</label>
+        <table id="userTransactionsHistoryTable">
+            <thead>
+            <tr align="center">
+                <th>Transactions Type</th>
+                <th>Date</th>
+                <th>Action Amount</th>
+                <th>Amount Before Action</th>
+                <th>Amount After Action</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr ng-repeat="userTransactionsHistory in userTransactionsHistoryTable">
+                <td class="noBorder">{{userTransactionsHistory.type}}</td>
+                <td class="noBorder">{{userTransactionsHistory.date}}</td>
+                <td class="noBorder">{{userTransactionsHistory.actionAmount}}</td>
+                <td class="noBorder">{{userTransactionsHistory.amountBeforeAction}}</td>
+                <td class="noBorder">{{userTransactionsHistory.amountAfterAction}}</td>
+            </tr>
+            </tfoot>
+        </table>
+
+        </p>
+    </div>
+
+
 
 
     <form action="FileUpload" enctype="multipart/form-data" method="POST">
         <div>
+            <br>
             <br>
             <br>
             <h4 style="display: inline">Select a map name:</h4>
@@ -63,13 +74,11 @@
             <input type="text" name="map_name" required/>
             <input type="file" name="file" required>
         </div>
-        <br>
+
         <input type="Submit" value="Upload File">
     </form>
 
 
-    <br>
-    <br>
     <h3>
         Map details arrange in the system:
     </h3>
@@ -112,7 +121,22 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script>
+    var coll = document.getElementsByClassName("userBalanceCollapsible");
+    var i;
 
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
 <!-- Load the JS Module -->
 <script src="userDetails.js"></script>
 </body>
