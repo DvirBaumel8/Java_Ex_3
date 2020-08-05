@@ -216,13 +216,23 @@ public class EngineManager {
         return requestDto;
     }
 
-    private void transferMoneyFromRequesterToSuggester(int totalCost, Integer requestId, Integer suggestId, String mapName) {
+    private void transferMoneyFromRequesterToSuggesters(RoadTrip roadTrip, Integer requestId, String mapName) {
         String requesterUserName = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId).getNameOfOwner();
         User requesterUser = usersManager.getUserByName(requesterUserName);
-        String suggesterUerName = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId).getTripOwnerName();
+        for(SubTrip subTrip : roadTrip.getSubTrips()) {
+            transferMoneyFromRequesterToSuggester(subTrip, requesterUser, mapName);
+            sendNotificationToSuggester(mapName, requestId, roadTrip.getTotalCost(), subTrip.getTrip().getSuggestID());
+        }
+    }
+
+    private void transferMoneyFromRequesterToSuggester(SubTrip subTrip, User requesterUser, String mapName) {
+        int amountToTransfer = subTrip.getCost();
+        TripSuggest tripSuggest = subTrip.getTrip();
+        String suggesterUerName = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, tripSuggest.getSuggestID()).getTripOwnerName();
         User SuggesterUser = usersManager.getUserByName(suggesterUerName);
-        requesterUser.takeMoney(totalCost);
-        SuggesterUser.addMoney(totalCost);
+        requesterUser.takeMoney(amountToTransfer);
+        SuggesterUser.addMoney(amountToTransfer);
+        createAndAddAccountTransactions(subTrip, mapName, requesterUser.getUserName(), tripSuggest.getSuggestID());
     }
 
     private boolean isRequesterHaveEnoughCash(int totalCost, String mapName, Integer requestId) {
@@ -238,7 +248,7 @@ public class EngineManager {
         mapsManager.addMatchTripRequestToMapByMap(mapName);
     }
 
-    private void sendNotificationToSuggester(String mapName, Integer requestId, Integer suggestId, double totalPayment) {
+    private void sendNotificationToSuggester(String mapName, Integer requestId, double totalPayment, int suggestId) {
         MapsTableElementDetailsDto mapsTableElementDetails = mapsManager.getMapTableElementDetailsByMapName(mapName);
         MatchNotificationsDetails matchNotificationsDetails = new MatchNotificationsDetails(mapsTableElementDetails, requestId, totalPayment);
         sendMatchNotification(suggestId, matchNotificationsDetails);
@@ -292,11 +302,13 @@ public class EngineManager {
         return MatchingHelper.convertToStr(potentialCacheList, request);
     }
 
-    public void makeMatch(int indexOfRoadTrip, String mapName, Integer requestId, Integer suggestId) throws Exception {
+    public void makeMatch(int indexOfRoadTrip, String mapName, Integer requestId) throws Exception {
         TripRequest tripRequest = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId);
-        TripSuggest suggest = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId);
         RoadTrip roadTrip = potentialCacheList.get(indexOfRoadTrip - 1);
-        suggest.addPassenger(tripRequest.getNameOfOwner());
+        List<TripSuggest> driversInMatch = roadTrip.getAllTripSuggests();
+        for(TripSuggest tripSuggest : driversInMatch) {
+            tripSuggest.addPassenger(tripRequest.getNameOfOwner());
+        }
         tripRequest.setMatched(true);
         tripRequest.setMatchTrip(roadTrip);
 
@@ -309,19 +321,17 @@ public class EngineManager {
         if (!isRequesterHaveEnoughCash(roadTrip.getTotalCost(), mapName, requestId)) {
             throw new Exception("Not enough money exception");
         }
-        transferMoneyFromRequesterToSuggester(roadTrip.getTotalCost(), requestId, suggestId, mapName);
-        createAndAddAccountTransactions(roadTrip, mapName, requestId, suggestId);
-        sendNotificationToSuggester(mapName, requestId, suggestId, roadTrip.getTotalCost());
+        transferMoneyFromRequesterToSuggesters(roadTrip, requestId,  mapName);
+
         updateMapTableEntityDetails(mapName);
     }
 
-    private void createAndAddAccountTransactions(RoadTrip roadTrip, String mapName, Integer requestId, Integer suggestId) {
+    private void createAndAddAccountTransactions(SubTrip subTrip, String mapName, String userName, Integer suggestId) {
         LocalDate date = java.time.LocalDate.now();
-        Transaction requesterTransaction = createPaymentTransaction(roadTrip.getTotalCost(), requestId, mapName, date);
-        String requesterUserName = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId).getNameOfOwner();
-        usersManager.addTransactionToUserByUserName(requesterUserName, requesterTransaction);
+        Transaction requesterTransaction = createPaymentTransaction(subTrip.getCost(), userName, date);
+        usersManager.addTransactionToUserByUserName(userName, requesterTransaction);
 
-        Transaction suggesterTransaction = createReceivingTransaction(roadTrip.getTotalCost(), suggestId, mapName, date);
+        Transaction suggesterTransaction = createReceivingTransaction(subTrip.getCost(), suggestId, mapName, date);
         String suggesterUserName = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId).getTripOwnerName();
         usersManager.addTransactionToUserByUserName(suggesterUserName, suggesterTransaction);
     }
@@ -332,8 +342,7 @@ public class EngineManager {
         return new Transaction(Transaction.TransactionType.PaymentTransfer, date, totalCost, currentUserCash, currentUserCash - totalCost);
     }
 
-    private Transaction createPaymentTransaction(int totalCost, Integer requestId, String mapName, LocalDate date) {
-        String userName = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId).getNameOfOwner();
+    private Transaction createPaymentTransaction(int totalCost, String userName, LocalDate date) {
         double currentUserCash = usersManager.getCurrentUserCashByUserName(userName);
         return new Transaction(Transaction.TransactionType.PaymentTransfer, date, totalCost, currentUserCash, currentUserCash - totalCost);
     }
@@ -431,6 +440,12 @@ public class EngineManager {
         } else {
              return new MapPageDto(createRequestDtoListFromMapEntity(mapEntity), createSuggestDtoListFromMapEntityForUser(mapEntity, userName), mapEntity.getHtmlGraph());
         }
+    }
+
+    public List<String> getDriversToRating(String mapName, int requestId) {
+        MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
+        TripRequest tripRequest = mapEntity.getTripRequestById(requestId);
+        return tripRequest.getMatchTrip().getAllSubTripsDriversNamesStillNotRanked();
     }
 
 }
