@@ -101,46 +101,14 @@ public class MatchUtil {
 
     private boolean isTripTimeEqual(int day, int hour, int minutes, Station tripStation, TripSuggest trip) {
         int recurrences = trip.getRecurrencesType().getValue();
-        if(recurrences == 0) {
-            Time startingTime = trip.getStartingTime();
-            if(day == startingTime.getDay() && hour == startingTime.getHours() && minutes == startingTime.getMinutes()) {
-                return true;
-            }
-        }
-        else if (tripStation.getDay() <= day) {
-            if ((tripStation.getDay() * 24 * 60) + (tripStation.getHour() * 60) + (tripStation.getMinutes()) < ((day * 60 * 24) + (hour * 60) + (minutes)) && trip.getRecurrencesType().equals("ONE_TIME_ONLY")) {
+        if (tripStation.getDay() <= day) {
+            if ((tripStation.getDay() * 24 * 60) + (tripStation.getHour() * 60) + (tripStation.getMinutes()) < ((day * 60 * 24) + (hour * 60) + (minutes)) && trip.getRecurrencesType() == TripSuggest.RecurrencesTypes.ONE_TIME_ONLY)
                 return false;
-            }
-            else if ((tripStation.getDay() % recurrences) == day % recurrences && tripStation.getHour() == hour && tripStation.getMinutes() == minutes && (!trip.getCapacityPerTime().containsKey("" + day + hour + minutes) || (trip.getCapacityPerTime().containsKey("" + day + hour + minutes) && trip.getCapacityPerTime().get("" + day + hour + minutes) > 0))) {
+            if ((tripStation.getDay() % recurrences) == day % recurrences && tripStation.getHour() == hour && tripStation.getMinutes() == minutes && (!trip.getCapacityPerTime().containsKey("" + day + hour + minutes) || (trip.getCapacityPerTime().containsKey("" + day + hour + minutes) && trip.getCapacityPerTime().get("" + day + hour + minutes) > 0)))
                 return true;
-            }
-
         }
         return false;
     }
-    /*
-     int recurrences = trip.getRecurrencesType().getValue();
-        if(recurrences == 0) {
-            Time startingTime = trip.getStartingTime();
-            if(day == startingTime.getDay() && hour == startingTime.getHours() && minutes == startingTime.getMinutes()) {
-                return true;
-            }
-        }
-        else {
-            if (tripStation.getDay() <= day) {
-                if ((tripStation.getDay() * 24 * 60) + (tripStation.getHour() * 60) + (tripStation.getMinutes()) < ((day * 60 * 24) + (hour * 60) + (minutes)) && trip.getRecurrencesType().equals("ONE_TIME_ONLY"))
-                    return false;
-                if ((tripStation.getDay() % recurrences) == day % recurrences &&
-                        tripStation.getHour() == hour &&
-                        tripStation.getMinutes() == minutes &&
-                        (!trip.getCapacityPerTime().containsKey("" + day + hour + minutes) ||
-                                (trip.getCapacityPerTime().containsKey("" + day + hour + minutes) &&
-                                        trip.getCapacityPerTime().get("" + day + hour + minutes) > 0)))
-                    return true;
-            }
-            return false;
-        }
-     */
 
     private boolean isTripTimeBigger(Station requestStation, Station tripStation, TripSuggest trip) {
         if (requestStation.getDay() > tripStation.getDay() && trip.getRecurrencesType().equals("ONE_TIME_ONLY"))

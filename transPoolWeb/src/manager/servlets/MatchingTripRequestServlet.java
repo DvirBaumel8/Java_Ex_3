@@ -35,19 +35,19 @@ public class MatchingTripRequestServlet extends HttpServlet {
         String userName = request.getParameter(Constants.USER_NAME);
         String tripRequestId = request.getParameter(Constants.TRIP_REQUEST_ID);
         String numberOfPotentialSuggestedTrips = request.getParameter(Constants.POTENTIAL_SUGGEST_TRIP_NUM);
-        Integer numberOfPotentialSuggestedTripsInt;
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
         try {
-            numberOfPotentialSuggestedTripsInt = Integer.parseInt(numberOfPotentialSuggestedTrips);
-            List<PotentialRoadTripDto> potentialSuggestedTrips = engine.findPotentialSuggestedTripsToMatch(mapName, tripRequestId);
-            if(potentialSuggestedTrips.size() <= numberOfPotentialSuggestedTripsInt) {
-                String json = new Gson().toJson(potentialSuggestedTrips);
-                response.getWriter().write(json);
-            }
+            List<PotentialRoadTripDto> potentialSuggestedTrips = engine.findPotentialSuggestedTripsToMatch(mapName, tripRequestId, numberOfPotentialSuggestedTrips);
+            String json = new Gson().toJson(potentialSuggestedTrips);
+            response.getWriter().write(json);
         }
         catch (Exception ex) {
+            String error = ex.getMessage();
+            String errorJson = new Gson().toJson(error);
+            response.getWriter().write(errorJson);
         }
+
     }
 
 }

@@ -1,5 +1,6 @@
 package manager.servlets;
 
+import com.google.gson.Gson;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -35,11 +36,15 @@ public class MatchingActionServlet extends HttpServlet {
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
         try {
+            engine.makeMatch(Integer.parseInt(suggestIdPotentialTrip), mapName, Integer.parseInt(tripRequestId), 1);
             //boolean isMatchSucceed= engine.findPotentialSuggestedTripsToMatch(mapName, tripRequestId);
             //String json = new Gson().toJson(potentialSuggestedTrips);
             //response.getWriter().write(json);
         }
         catch (Exception ex) {
+            String error = ex.getMessage();
+            String jsonError = new Gson().toJson(error);
+            response.getWriter().write(jsonError);
         }
     }
 
