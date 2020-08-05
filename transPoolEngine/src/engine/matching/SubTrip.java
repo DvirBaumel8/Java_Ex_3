@@ -11,7 +11,7 @@ public class SubTrip {
     private MapDescriptor map;
     private LinkedList<Station> stations;
     private int cost;
-    private int requiredFuel;
+    private double requiredFuel;
     private TripSuggest trip;
     private int tripID;
     private int tripDay;
@@ -80,7 +80,7 @@ public class SubTrip {
         return cost;
     }
 
-    public int getRequiredFuel() {
+    public double getRequiredFuel() {
         return requiredFuel;
     }
 

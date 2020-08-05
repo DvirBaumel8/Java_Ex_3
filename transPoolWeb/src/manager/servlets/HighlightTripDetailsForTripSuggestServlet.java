@@ -1,5 +1,6 @@
 package manager.servlets;
 
+import com.google.gson.Gson;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -33,7 +34,9 @@ public class HighlightTripDetailsForTripSuggestServlet extends HttpServlet {
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
         try {
-
+            String htmlGraph = engine.userTapOnTripSuggest(mapName, Integer.parseInt(tripSuggestId));
+            String jsonMapPageDto = new Gson().toJson(htmlGraph);
+            response.getWriter().write(jsonMapPageDto);
         }
         catch (Exception ex) {
         }

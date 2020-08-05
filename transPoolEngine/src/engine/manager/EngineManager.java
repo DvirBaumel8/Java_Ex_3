@@ -276,20 +276,26 @@ public class EngineManager {
         //TODO
     }
 
-    public List<PotentialRoadTripDto> findPotentialSuggestedTripsToMatch(String mapName, String requestId) {
+    public List<PotentialRoadTripDto> findPotentialSuggestedTripsToMatch(String mapName, String requestId, String amountOfPotentials) throws Exception {
+        try {
+            Integer.parseInt(amountOfPotentials);
+        }
+        catch (Exception ex) {
+            throw new Exception("Amout of potentials trip isn't an integer");
+        }
         TripRequest request = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, Integer.parseInt(requestId));
-        int amount = 1;
         MatchUtil matchUtil = new MatchUtil();
-        LinkedList<LinkedList<SubTrip>> potentialRoadTrips = matchUtil.findPotentialMatches(request, amount, mapsManager.getTripSuggestsByMapName(mapName));
+        LinkedList<LinkedList<SubTrip>> potentialRoadTrips = matchUtil.findPotentialMatches(request, Integer.parseInt(amountOfPotentials), mapsManager.getTripSuggestsByMapName(mapName));
         MatchingHelper.updateSubTripsValues(potentialRoadTrips);
         potentialCacheList = MatchingHelper.convertTwoLinkedListToOneRoadTripLinkedList(potentialRoadTrips, request);
 
         return MatchingHelper.convertToStr(potentialCacheList, request);
     }
 
-    public void makeMatch(RoadTrip roadTrip, String mapName, Integer requestId, Integer suggestId) throws Exception {
+    public void makeMatch(int indexOfRoadTrip, String mapName, Integer requestId, Integer suggestId) throws Exception {
         TripRequest tripRequest = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId);
         TripSuggest suggest = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId);
+        RoadTrip roadTrip = potentialCacheList.get(indexOfRoadTrip - 1);
         suggest.addPassenger(tripRequest.getNameOfOwner());
         tripRequest.setMatched(true);
         tripRequest.setMatchTrip(roadTrip);

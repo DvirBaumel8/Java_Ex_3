@@ -28,10 +28,10 @@ public class TripsUtil {
         return -1;
     }
 
-    public static int calcRequiredFuel(LinkedList<Station> stations, MapDescriptor mapDescriptor) {
+    public static double calcRequiredFuel(LinkedList<Station> stations, MapDescriptor mapDescriptor) {
         for (Path path : mapDescriptor.getPaths().getPath()) {
             if (path.getFrom().equals(stations.getFirst().getName()) && path.getTo().equals(stations.getLast().getName()) || !path.isOneWay() && path.getFrom().equals(stations.getLast().getName()) && path.getTo().equals(stations.getFirst().getName())) {
-                return path.getLength() / path.getFuelConsumption();
+                return (double) path.getLength() / path.getFuelConsumption();
             }
         }
         return -1;

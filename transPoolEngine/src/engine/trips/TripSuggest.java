@@ -127,7 +127,7 @@ public class TripSuggest {
 
     public enum RecurrencesTypes
     {
-        ONE_TIME_ONLY(0),
+        ONE_TIME_ONLY(Integer.MAX_VALUE),
         DAILY(1),
         BI_DAILY(2),
         WEEKLY(7),
