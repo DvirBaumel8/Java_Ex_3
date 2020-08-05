@@ -12,6 +12,13 @@ public class Constants {
     public static final String TRIP_SUGGEST_ID = "tripSuggestId";
 
 
+
+//---- Rating Notes:
+    public static final String CHOSEN_DRIVER = "chosenDriver";
+    public static final String RATING_NUMBER = "ratingNumber";
+    public static final String RATING_NOTES= "ratingNotes";
+
+
     //---- Matching Const
     public static final String SUGGEST_ID_POTENTIAL_TRIP = "suggestIdPotentialTrip";
     public static final String POTENTIAL_SUGGEST_TRIP_NUM = "numOfPotentialSuggestedTrips";

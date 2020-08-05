@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="transPoolApp" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TransPool</title>
+    <link rel="stylesheet" href="../../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="mapDetails.css">
+
+
+</head>
+<body>
+
+
+<div style="resize: both; overflow: auto;" class="container" ng-controller="mapDetailsCtrl" ng-init="initMapDetailsPage()">
+    <br>
+
+    <form>
+        <h1>Rating Window</h1>
+
+        insert suggest id to rate: <input type="text" id="chosenDriver" name="chosenDriver" style="width: 70px;">
+        insert rating number: <input type="text" id="ratingNumber" name="ratingNumber" style="width: 70px;">
+        insert rating notes: <input type="text" id="ratingNotes" name="ratingNotes" style="width: 70px;">
+
+        &emsp;<button ng-click="ratingActionByRequestPass()" style="color:#0000FF;">
+        Go Rate
+    </button>
+        <br>
+        <br>
+    </form>
+
+    <table id="driversWhichNotRankTable">
+        <thead>
+        <tr align="center">
+            <th>Trip Suggest ID</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr ng-repeat="driver in driversWhichNotRank">
+            <td class="noBorder">
+                <button style="width: 150px" ng-click="matchAction(driver)">  {{driver}}</button>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script>
+
+</script>
+<!-- Load the JS Module -->
+<script src="mapDetails.js"></script>
+</body>
+</html>

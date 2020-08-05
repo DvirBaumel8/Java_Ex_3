@@ -147,11 +147,17 @@
             <tfoot>
             <tr ng-repeat="requestTrip in tripRequestListPerMap">
                 <td class="noBorder">
-                    <button style="width: 150px" ng-click="openMatchingWindow(requestTrip.requestId)">{{requestTrip.requestId}} </button></td>
+                    <button style="width: 150px" ng-click="openMatchingWindow(requestTrip.requestId)">
+                        {{requestTrip.requestId}}
+                    </button></td>
                 <td class="noBorder"> {{requestTrip.tripOwnerName}} </td>
                 <td class="noBorder"> {{requestTrip.sourceStation}} </td>
                 <td class="noBorder"> {{requestTrip.destinationStation}} </td>
-                <td class="noBorder"> {{requestTrip.isMatched}} </td>
+                <td class="noBorder">
+                    <button style="width: 150px" ng-click="openRatingWindow(requestTrip.requestId)">
+                        {{requestTrip.isMatched}}
+                    </button></td>
+                 </td>
                 <td class="noBorder"> {{requestTrip.roadTrip}} </td>
 
             </tr>
