@@ -13,7 +13,7 @@
     <br>
     <h1>Welcome to the Map Details Page</h1>
 
-    <div  ng-show="isSuggestPassenger">
+    <div>
 
     <br>
     <button type="button" class="collapsible">Add New Suggest Trip</button>
@@ -50,7 +50,7 @@
 
             <br>
 
-            <div style="margin-top: 10px;"  ng-click="addNewSuggestTrip()" class="button_cont">
+            <div ng-show="isSuggestPassenger" style="margin-top: 10px;"  ng-click="addNewSuggestTrip()" class="button_cont">
                 <a class="example_d"   href="add-website-here" target="_blank"
                    rel="nofollow noopener">Add</a></div>
         </form>
@@ -96,7 +96,7 @@
 
 
 
-<div ng-show="isRequestPassenger">
+<div>
     <button type="button" class="collapsible">Add New Request Trip</button>
     <div class="content">
     <p>
@@ -130,7 +130,8 @@
         <label> Request Day:</label>
         <input type="text" value="2" id="userRequestDay" name="userRequestDay" style="width: 70px;">
         &emsp;
-        <div style="margin-top: 10px;"  ng-click="addNewRequestTrip()" class="button_cont"><a class="example_e" href="add-website-here" target="_blank"
+        <div  ng-show="isRequestPassenger"
+            style="margin-top: 10px;"  ng-click="addNewRequestTrip()" class="button_cont"><a class="example_e" href="add-website-here" target="_blank"
                                                                                               rel="nofollow noopener">Add</a></div>
     </form>
     </p>

@@ -6,7 +6,10 @@ var transPoolApp = angular.module('transPoolApp', []);
 transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$window',
     function($scope, $http, $rootScope, $window) {
 
+    setInterval(
     function initMapDetailsPage() {
+        let errors;
+        let notification;
 
         let userName = $window.sessionStorage.getItem("userNameGlobalVar");
         let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
@@ -36,6 +39,18 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
                     $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
                     document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;;
+                    errors = response.data.errors;
+                    notification = response.data.notification;
+
+
+                        if(errors != undefined) {
+                            $window.alert("errors:" + errors);
+                            errors = undefined;
+                        }
+                        if(notification!= undefined) {
+                            $window.alert("notification:" + notification);
+                            notification = undefined;
+                        }
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess get request");
@@ -43,9 +58,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             );
 
 
-
-
-    }
+    }, 300);
 
 
         $scope.addNewSuggestTrip = function () {
@@ -58,6 +71,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             let userSuggestPassengerCapacity = document.getElementsByName("userSuggestPassengerCapacity")[0].value;
             let userName = $window.sessionStorage.getItem("userNameGlobalVar");
             let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
+
+            let errors;
 
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/AddNewTripSuggestServlet',
@@ -74,8 +89,19 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             }).then(
                 function successCallback(response) {
                     $scope.tripSuggestListPerMap = response.data;
-                    let successMessage = "Success Adding Trip Suggest";
-                    $window.alert(successMessage);
+                    $scope.errors = response.data.errors;
+                    $scope.notification = response.data.notification;
+
+                        if(errors != undefined) {
+                            $window.alert("errors:" + errors);
+                            errors = undefined;
+                        }
+
+                    else {
+                        let successMessage = "Success Adding Trip Suggest";
+                        $window.alert(successMessage);
+                    }
+
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Adding Trip Suggest - Please check your inputs");
@@ -83,7 +109,11 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             );
         }
 
+
         $scope.addNewRequestTrip = function () {
+            let errors;
+            let notification;
+
             let userRequestName = $window.sessionStorage.getItem("userNameGlobalVar");;
             let userRequestSourceStation = document.getElementsByName("userRequestSourceStation")[0].value;
             let userRequestDestinationStation = document.getElementsByName("userRequestDestinationStation")[0].value;
@@ -107,9 +137,17 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    $scope.tripRequestListPerMap = response.data;
-                    let successMessage = "Success Adding Trip Request";
-                    $window.alert(successMessage);
+                    $scope.tripRequestListPerMap = response.data.tripRequestListPerMap;
+                    errors = response.data.errors;
+
+                    if(errors != undefined) {
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
+                    }
+                    else {
+                        let successMessage = "Success Adding Trip Suggest";
+                        $window.alert(successMessage);
+                    }
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Adding Trip Request - Please check your inputs");
@@ -119,6 +157,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
 
     $scope.highlightTripDetailsForTripSuggest = function (suggestId) {
+        let errors;
+
         let tripSuggestId = suggestId;
         let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
 
@@ -131,9 +171,18 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             }
         }).then(
             function successCallback(response) {
-                document.getElementById("graphDesc").innerHTML  = response.data;
-                let successMessage = "Success Highlight Trip Suggest Details";
-                $window.alert(successMessage);
+                document.getElementById("graphDesc").innerHTML  = response.data.htmlGraph;
+
+                errors = response.data.errors;
+
+                if(errors != undefined) {
+                    $window.alert("errors:" + errors);
+                    errors = undefined;
+                }
+                else {
+                    let successMessage = "Success Highlight Trip Suggest Details";
+                    $window.alert(successMessage);
+                }
             },
             function errorCallback(response) {
                 $window.alert("UnSuccess Highlight Trip Suggest Details");
@@ -144,6 +193,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         $scope.highlightTripDetailsForTripRequest = function (requestId) {
             let tripRequestId = requestId;
             let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
+            let errors;
 
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/HighlightTripDetailsForTripRequestServlet',
@@ -152,9 +202,16 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    document.getElementById("graphDesc").innerHTML = response.data;
-                    let successMessage = "Success Highlight Trip Suggest Details";
-                    $window.alert(successMessage);
+                    document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;
+
+                    if(errors != undefined) {
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
+                    }
+                    else {
+                        let successMessage = "Success Highlight Trip Suggest Details";
+                        $window.alert(successMessage);
+                    }
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Highlight Trip Suggest Details");
@@ -162,11 +219,11 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             );
         }
 
-    $scope.displayDriverRating = function () {
-
-    }
 
     $scope.matchingAndHighlightTripDetailsForTripRequest = function (numOfPotentSuggTrips) {
+
+        let errors;
+
         let searchParams = new URLSearchParams(window.location.search)
         let tripRequestId = searchParams.get('myvar');
         let userName = $window.sessionStorage.getItem("userNameGlobalVar");
@@ -184,12 +241,18 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 }
             }).then(
                 function successCallback(response) {
-                    $scope.potentialSuggestedTrips = response.data;
+                    $scope.potentialSuggestedTrips = response.data.potentialSuggestedTrips;
+                    errors = response.data.errors;
                     //window.open("potenSuggTripsWin.html","bfs","width=500,height=400,scrollbars=yes");
                     //$scope.highlightTripDetailsForTripRequest(requestId);
-
-                    let successMessage = "Success Adding Trip Request";
-                    $window.alert(successMessage);
+                    if(errors != undefined) {
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
+                    }
+                    else {
+                        let successMessage = "Success Adding Trip Request";
+                        $window.alert(successMessage);
+                    }
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Adding Trip Request - Please check your inputs");
@@ -204,6 +267,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
     }
 
         $scope.matchAction = function (suggestIdPotentialTrip) {
+            let errors;
+            let notification;
 
             let userName = $window.sessionStorage.getItem("userNameGlobalVar");
             let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
@@ -219,10 +284,18 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    $scope.isMatchSucceed = response.data;
-                    let successMessage = "Match Succeed";
-                    $window.alert(successMessage);
-                    window.close();
+                    $scope.isMatchSucceed = response.data.isMatchSucceed;
+                    errors =  response.data.errors;
+
+                    if(errors != undefined) {
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
+                    }
+                    else {
+                        let successMessage = "Match Succeed";
+                        $window.alert(successMessage);
+                        window.close();
+                    }
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Matching");
@@ -239,13 +312,22 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
         $scope.showDriversWhichNotRank = function(requestId) {
 
+            let errors;
+            let notification;
+
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/ShowUnRankDriversServlet',
                 method: "GET",
                 params: {tripRequestId: requestId}
             }).then(
                 function successCallback(response) {
-                    $scope.driversWhichNotRank = response.data;
+                    $scope.driversWhichNotRank = response.data.driversWhichNotRank;
+                    errors = response.data.errors;
+
+                    if(errors != undefined) {
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
+                    }
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Matching");
@@ -255,6 +337,9 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         }
 
         $scope.ratingActionByRequestPass = function () {
+            let errors;
+            let notification;
+
             let searchParams = new URLSearchParams(window.location.search)
             let tripRequestId = searchParams.get('myvar');
 
@@ -271,13 +356,22 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     ratingNotes:ratingNotes }
             }).then(
                 function successCallback(response) {
-                    $scope.isRatingSucceed = response.data;
+                    $scope.isRatingSucceed = response.data.isRatingSucceed;
                     let successMessage = "Rating Succeed";
-                    $window.alert(successMessage);
-                    window.close();
+                    errors = response.data.errors;
+
+
+                    if(errors != undefined) {
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
+                    }
+                    else {
+                        let successMessage = "Rating Succeed";
+                        $window.alert(successMessage);
+                    }
                 },
                 function errorCallback(response) {
-                    $window.alert("UnSuccess Matching");
+                    $window.alert("Rating Not Succeed");
                 }
             );
 
@@ -285,8 +379,6 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
 
         }
-
-        initMapDetailsPage();
 
 } ]);
 
