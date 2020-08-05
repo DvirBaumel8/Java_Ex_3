@@ -36,7 +36,7 @@ public class MatchingActionServlet extends HttpServlet {
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
 
         try {
-            engine.makeMatch(Integer.parseInt(suggestIdPotentialTrip), mapName, Integer.parseInt(tripRequestId), 1);
+            engine.makeMatch(Integer.parseInt(suggestIdPotentialTrip), mapName, Integer.parseInt(tripRequestId));
             //boolean isMatchSucceed= engine.findPotentialSuggestedTripsToMatch(mapName, tripRequestId);
             //String json = new Gson().toJson(potentialSuggestedTrips);
             //response.getWriter().write(json);

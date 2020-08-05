@@ -16,12 +16,10 @@ public class RoadTrip {
     private Time startTime;
     private Time arrivalTime;
     private String RoadStory;
-    private List<TripSuggest> ratedTripSuggested;
     private TripRequest tripRequest;
 
     public RoadTrip() {
         completeTrip = new LinkedList<>();
-        ratedTripSuggested = new ArrayList<>();
     }
 
     public RoadTrip(RoadTrip roadTrip) {
@@ -31,7 +29,6 @@ public class RoadTrip {
         this.startTime = roadTrip.getStartTime();
         this.arrivalTime = roadTrip.getArrivalTime();
         this.RoadStory = roadTrip.getRoadStory();
-        this.ratedTripSuggested = roadTrip.getRatedTripSuggested();
         this.tripRequest = roadTrip.getTripRequest();
     }
 
@@ -65,10 +62,6 @@ public class RoadTrip {
 
     public LinkedList<SubTrip> getSubTrips() {
         return completeTrip;
-    }
-
-    public List<TripSuggest> getRatedTripSuggested() {
-        return ratedTripSuggested;
     }
 
     public void addSubTripToRoadTrip(SubTrip subTrip) {
@@ -122,6 +115,24 @@ public class RoadTrip {
 
     public Station getFirstStation() {
         return completeTrip.getFirst().getFirstStation();
+    }
+
+    public List<String> getAllSubTripsDriversNamesStillNotRanked() {
+        List<String> names = new ArrayList<>();
+        for(SubTrip subTrip : completeTrip) {
+            if(!subTrip.getIsRanked()) {
+                names.add(subTrip.getTrip().getTripOwnerName());
+            }
+        }
+        return names;
+    }
+
+    public List<TripSuggest> getAllTripSuggests() {
+        List<TripSuggest> suggests = new ArrayList<>();
+        for(SubTrip subTrip : completeTrip) {
+            suggests.add(subTrip.getTrip());
+        }
+        return suggests;
     }
 
 }
