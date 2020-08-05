@@ -39,7 +39,9 @@ public class MapScreenServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-
+//אם יש נוטפיקציות חדשות תשלח גם .
+      //בתוך היוזר להוסיף אובייקט של נוטיפקיישין
+//לשים את האררורים
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
         MapPageDto mapPageDto = engine.getMapPageDto(userName, mapName);
         String jsonMapPageDto = new Gson().toJson(mapPageDto);
