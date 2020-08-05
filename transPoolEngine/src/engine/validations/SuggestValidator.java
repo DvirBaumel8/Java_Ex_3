@@ -1,11 +1,8 @@
 package engine.validations;
 
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
-import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Path;
-import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Stop;
 
 import java.util.HashSet;
-import java.util.List;
 
 public class SuggestValidator extends ActionValidator {
     private StringBuilder addNewTripSuggestErrorMessage = new StringBuilder();
@@ -16,16 +13,13 @@ public class SuggestValidator extends ActionValidator {
         return addNewTripSuggestErrorMessage.toString();
     }
 
-    public boolean validateTripSuggestInput(String[] inputTripSuggestString, HashSet<String> allStationsLogicNames, List<String> ownerNames, MapDescriptor mapDescriptor) {
+    public boolean validateTripSuggestInput(String[] inputTripSuggestString, HashSet<String> allStationsLogicNames, MapDescriptor mapDescriptor) {
         boolean isValid = true;
         //example of valid input - Ohad,A.C.B,3,13:25,4,30,2
 
         if (inputTripSuggestString.length != TRIP_SUGGEST_INPUT_LIMIT) {
             addNewTripSuggestErrorMessage.append("Please insert 7 elements, try again.\n");
             return false;
-        }
-        if (!validateOwnerName(inputTripSuggestString[0], ownerNames)) {
-            isValid = false;
         }
         if(!validateOwnerRoute(inputTripSuggestString[1], allStationsLogicNames, mapDescriptor)) {//add 1 more check of valid route A.B.C
             addNewTripSuggestErrorMessage.append("Not valid route.\n");
