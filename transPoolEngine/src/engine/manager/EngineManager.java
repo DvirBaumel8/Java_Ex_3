@@ -78,14 +78,15 @@ public class EngineManager {
         int hour = Integer.parseInt(inputsArr[3].split(":")[0]);
         int minutes = Integer.parseInt(inputsArr[3].split(":")[1]);
         int day = Integer.parseInt(inputsArr[5]);
-        return new TripRequest(inputsArr[0], inputsArr[1], inputsArr[2], minutes, hour, day, inputsArr[4].equals("S"));
+        boolean isRequestByStartTime = inputsArr[4].equals("userRequestDeparture");
+        return new TripRequest(inputsArr[0], inputsArr[1], inputsArr[2], minutes, hour, day, isRequestByStartTime);
     }
 
 
     public void createNewTripSuggest(String mapName, String[] inputsArr) throws Exception {
         SuggestValidator suggestValidator = new SuggestValidator();
         MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
-        if (suggestValidator.validateTripSuggestInput(inputsArr, mapsManager.getAllLogicStationsByMapName(mapName), mapEntity.getTripSuggestsOwnerNames())) {
+        if (suggestValidator.validateTripSuggestInput(inputsArr, mapsManager.getAllLogicStationsByMapName(mapName), mapEntity.getTripSuggestsOwnerNames(), mapEntity.getMapDescriptor())) {
             TripSuggest tripSuggest = buildNewSuggest(inputsArr, mapEntity.getMapDescriptor());
             mapsManager.addTripSuggestByMapName(mapName, tripSuggest);
         } else {
@@ -274,18 +275,14 @@ public class EngineManager {
         //TODO
     }
 
-    public List<String> findPotentialSuggestedTripsToMatch(String mapName, String inputMatchingString) {
-        String[] elements = inputMatchingString.split(",");
-        String tripRequestID = elements[0];
-        String amountS = elements[1];
-        TripRequest request = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, Integer.parseInt(tripRequestID));
-        int amount = Integer.parseInt(amountS);
+    public List<String> findPotentialSuggestedTripsToMatch(String mapName, String requestId) {
+        TripRequest request = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, Integer.parseInt(requestId));
+        int amount = 1;
         MatchUtil matchUtil = new MatchUtil();
         LinkedList<LinkedList<SubTrip>> potentialRoadTrips = matchUtil.findPotentialMatches(request, amount, mapsManager.getTripSuggestsByMapName(mapName));
         MatchingHelper.updateSubTripsValues(potentialRoadTrips);
         potentialCacheList = MatchingHelper.convertTwoLinkedListToOneRoadTripLinkedList(potentialRoadTrips, request);
 
-        int requestID = Integer.parseInt(inputMatchingString.split(",")[0]);
         return MatchingHelper.convertToStr(potentialCacheList, request);
     }
 

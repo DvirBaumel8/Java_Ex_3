@@ -21,7 +21,7 @@ public class TripSuggest {
     private int tripPrice;
     private DriverRating driverRating;
     private List<String> passengers;
-    private int requiredFuel;
+    private double requiredFuel;
     private Time startingTime;
     private Time arrivalTime;
     private int startingDay;
@@ -105,7 +105,7 @@ public class TripSuggest {
         return staticCapacity;
     }
 
-    public int getRequiredFuel() {
+    public double getRequiredFuel() {
         return requiredFuel;
     }
 
@@ -208,4 +208,11 @@ public class TripSuggest {
         return stations;
     }
 
+    public MapDescriptor getMapDescriptor() {
+        return mapDescriptor;
+    }
+
+    public void setMapDescriptor(MapDescriptor mapDescriptor) {
+        this.mapDescriptor = mapDescriptor;
+    }
 }

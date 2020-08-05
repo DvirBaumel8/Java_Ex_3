@@ -2,6 +2,7 @@ package engine.validations;
 
 import engine.manager.EngineManager;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Path;
 import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Stop;
 
 import java.util.List;
@@ -96,6 +97,15 @@ public class ActionValidator {
 
     public void setGeneralErrorMessage(StringBuilder generalErrorMessage) {
         this.generalErrorMessage = generalErrorMessage;
+    }
+
+    protected boolean isPathValid(String station, String station1, MapDescriptor mapDescriptor) {
+        for(Path path : mapDescriptor.getPaths().getPath()) {
+            if( (path.getFrom().equals(station) && path.getTo().equals(station1) || !path.isOneWay() && path.getTo().equals(station) && path.getFrom().equals(station1)) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

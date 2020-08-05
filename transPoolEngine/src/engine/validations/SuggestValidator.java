@@ -1,5 +1,9 @@
 package engine.validations;
 
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.MapDescriptor;
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Path;
+import engine.xmlLoading.xmlLoadingClasses.jaxb.schema.generated.Stop;
+
 import java.util.HashSet;
 import java.util.List;
 
@@ -12,7 +16,7 @@ public class SuggestValidator extends ActionValidator {
         return addNewTripSuggestErrorMessage.toString();
     }
 
-    public boolean validateTripSuggestInput(String[] inputTripSuggestString, HashSet<String> allStationsLogicNames, List<String> ownerNames) {
+    public boolean validateTripSuggestInput(String[] inputTripSuggestString, HashSet<String> allStationsLogicNames, List<String> ownerNames, MapDescriptor mapDescriptor) {
         boolean isValid = true;
         //example of valid input - Ohad,A.C.B,3,13:25,4,30,2
 
@@ -23,7 +27,7 @@ public class SuggestValidator extends ActionValidator {
         if (!validateOwnerName(inputTripSuggestString[0], ownerNames)) {
             isValid = false;
         }
-        if(!validateOwnerRoute(inputTripSuggestString[1], allStationsLogicNames)) {//add 1 more check of valid route A.B.C
+        if(!validateOwnerRoute(inputTripSuggestString[1], allStationsLogicNames, mapDescriptor)) {//add 1 more check of valid route A.B.C
             addNewTripSuggestErrorMessage.append("Not valid route.\n");
             isValid = false;
         }
@@ -134,15 +138,34 @@ public class SuggestValidator extends ActionValidator {
         return false;
     }
 
-    public boolean validateOwnerRoute(String route, HashSet<String> allStationsLogicNames) {
+    public boolean validateOwnerRoute(String route, HashSet<String> allStationsLogicNames, MapDescriptor mapDescriptor) {
         String[] stations = route.split(",");
 
+        if(isStationsExists(stations, allStationsLogicNames)) {
+            if(isPathsValid(stations, mapDescriptor)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isPathsValid(String[] stations, MapDescriptor mapDescriptor) {
+        for(int i =0; i < stations.length - 1; i++) {
+            if(!isPathValid(stations[i], stations[i+1], mapDescriptor)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    private boolean isStationsExists(String[] stations, HashSet<String> allStationsLogicNames) {
         for(String station : stations) {
             if(!allStationsLogicNames.contains(station)) {
                 return false;
             }
         }
-
         return true;
     }
 

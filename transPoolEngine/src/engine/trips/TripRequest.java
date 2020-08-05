@@ -14,7 +14,6 @@ public class TripRequest {
     private boolean requestByStartTime;
     private Time startTime;
     private Time arrivalTime;
-    private boolean isStartTime;
 
     public TripRequest(String name, String sourceStation, String destinationStation, int minutes, int hours, int day, boolean requestByStartTime) {
         this.OwnerName = name;
@@ -28,12 +27,7 @@ public class TripRequest {
         } else {
             this.arrivalTime = this.startTime = new Time(minutes, hours, day);
         }
-        this.isStartTime = requestByStartTime;
         isMatched = false;
-    }
-
-    public boolean getIsStartTime() {
-        return this.isStartTime;
     }
 
     public String getNameOfOwner() {
