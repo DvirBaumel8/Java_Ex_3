@@ -2,13 +2,14 @@ package engine.validations;
 
 public class UsersValidations {
 
-    public static void validateLoadMoneyIntoAccountInput(String amountToLoad, StringBuilder error) throws Exception {
+    public static String validateLoadMoneyIntoAccountInput(String amountToLoad) {
         try {
             Double.parseDouble(amountToLoad);
         }
         catch (Exception ex) {
-            throw new Exception("Please insert legal decimal number");
+            return "Please insert legal decimal number";
         }
+        return null;
     }
 
     public static boolean validateUserType(String userType, StringBuilder errorStr) {

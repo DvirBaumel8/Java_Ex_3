@@ -32,13 +32,8 @@ public class HighlightTripDetailsForTripSuggestServlet extends HttpServlet {
         String tripSuggestId = request.getParameter(Constants.TRIP_SUGGEST_ID);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-        try {
-            String htmlGraph = engine.userTapOnTripSuggest(mapName, Integer.parseInt(tripSuggestId));
-            String jsonMapPageDto = new Gson().toJson(htmlGraph);
-            response.getWriter().write(jsonMapPageDto);
-        }
-        catch (Exception ex) {
-        }
+        String htmlGraph = engine.userTapOnTripSuggest(mapName, Integer.parseInt(tripSuggestId));
+        String jsonMapPageDto = new Gson().toJson(htmlGraph);
+        response.getWriter().write(jsonMapPageDto);
     }
 }

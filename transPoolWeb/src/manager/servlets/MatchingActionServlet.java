@@ -34,18 +34,9 @@ public class MatchingActionServlet extends HttpServlet {
         String suggestIdPotentialTrip =  request.getParameter(Constants.SUGGEST_ID_POTENTIAL_TRIP);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-        try {
-            engine.makeMatch(Integer.parseInt(suggestIdPotentialTrip), mapName, Integer.parseInt(tripRequestId));
-            //boolean isMatchSucceed= engine.findPotentialSuggestedTripsToMatch(mapName, tripRequestId);
-            //String json = new Gson().toJson(potentialSuggestedTrips);
-            //response.getWriter().write(json);
-        }
-        catch (Exception ex) {
-            String error = ex.getMessage();
-            String jsonError = new Gson().toJson(error);
-            response.getWriter().write(jsonError);
-        }
+        String error = engine.makeMatch(Integer.parseInt(suggestIdPotentialTrip), mapName, Integer.parseInt(tripRequestId));
+        String jsonError = new Gson().toJson(error);
+        response.getWriter().write(jsonError);
     }
 
 

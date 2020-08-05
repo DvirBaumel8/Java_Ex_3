@@ -2,6 +2,7 @@ package manager.servlets;
 
 import com.google.gson.Gson;
 import engine.dto.mapPage.PotentialRoadTripDto;
+import engine.dto.mapPage.PotentialTripsResponseDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -36,18 +37,9 @@ public class MatchingTripRequestServlet extends HttpServlet {
         String tripRequestId = request.getParameter(Constants.TRIP_REQUEST_ID);
         String numberOfPotentialSuggestedTrips = request.getParameter(Constants.POTENTIAL_SUGGEST_TRIP_NUM);
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-        try {
-            List<PotentialRoadTripDto> potentialSuggestedTrips = engine.findPotentialSuggestedTripsToMatch(mapName, tripRequestId, numberOfPotentialSuggestedTrips);
-            String json = new Gson().toJson(potentialSuggestedTrips);
-            response.getWriter().write(json);
-        }
-        catch (Exception ex) {
-            String error = ex.getMessage();
-            String errorJson = new Gson().toJson(error);
-            response.getWriter().write(errorJson);
-        }
-
+        PotentialTripsResponseDto potentialSuggestedTrips = engine.findPotentialSuggestedTripsToMatch(mapName, tripRequestId, numberOfPotentialSuggestedTrips);
+        String json = new Gson().toJson(potentialSuggestedTrips);
+        response.getWriter().write(json);
     }
 
 }

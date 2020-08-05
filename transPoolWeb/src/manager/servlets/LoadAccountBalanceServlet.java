@@ -1,6 +1,7 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
+import engine.dto.userPage.LoadMoneyIntoAccountResponseDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -29,22 +30,11 @@ public class LoadAccountBalanceServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userName = request.getParameter(Constants.USER_NAME);
         String amountToLoad = request.getParameter(Constants.USER_AMOUNT_TO_LOAD);
-
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+        LoadMoneyIntoAccountResponseDto loadMoneyIntoAccountResponseDto = engine.loadMoneyIntoAccount(userName, amountToLoad);
+        String LoadMoneyIntoAccountResponseDtoJson = new Gson().toJson(loadMoneyIntoAccountResponseDto);
+        response.getWriter().write(LoadMoneyIntoAccountResponseDtoJson);
 
-            try {
-                engine.loadMoneyIntoAccount(userName, amountToLoad);
-                String newBalance = engine.getUserAccountBalance(userName);
-                String jsonNewBalance = new Gson().toJson(newBalance);
-                response.getWriter().write(jsonNewBalance);
-            }
-            catch (Exception ex) {
-                String error = ex.getMessage();
-                String json = new Gson().toJson(error);
-                response.getWriter().write(json);
-                //Display Error to user
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "The  not found.");
-            }
 
         response.sendRedirect(USER_DETAILS_URL);
     }

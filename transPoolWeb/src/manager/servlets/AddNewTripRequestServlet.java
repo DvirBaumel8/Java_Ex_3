@@ -3,6 +3,7 @@ package manager.servlets;
 
 import com.google.gson.Gson;
 import engine.dto.mapPage.TripRequestDto;
+import engine.dto.mapPage.TripRequestResponseDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -45,20 +46,9 @@ public class AddNewTripRequestServlet extends HttpServlet {
         inputs[5] = request.getParameter(Constants.USER_REQUEST_DAY);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-        try {
-            engine.createNewTripRequest(mapName, inputs);
-            List<TripRequestDto> tripRequestsDto = engine.getAllTripRequestsDto(mapName, userName);
-            String jsonTripRequests = new Gson().toJson(tripRequestsDto);
-            response.getWriter().write(jsonTripRequests);
-        }
-        catch (Exception ex) {
-            String error = ex.getMessage();
-            String json = new Gson().toJson(error);
-            response.getWriter().write(json);
-            //Display Error to user
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "The  not found.");
-        }
+        TripRequestResponseDto tripRequestResponseDto = engine.createNewTripRequest(mapName, inputs, userName);
+        String jsonTripRequests = new Gson().toJson(tripRequestResponseDto);
+        response.getWriter().write(jsonTripRequests);
     }
 
 }
