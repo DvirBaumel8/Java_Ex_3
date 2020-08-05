@@ -137,7 +137,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/HighlightTripDetailsForTripRequestServlet',
                 method: "GET",
-                params: {tripSuggestId: tripSuggestId,
+                params: {tripRequestId: tripRequestId,
                     mapName: mapName}
             }).then(
                 function successCallback(response) {

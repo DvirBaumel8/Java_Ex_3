@@ -33,7 +33,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
 
         $scope.addNewSuggestTrip = function () {
-            let userSuggestName = document.getElementsByName("userSuggestName")[0].value;
+            let userSuggestName = $window.sessionStorage.getItem("userNameGlobalVar");;
             let userSuggestRoute = document.getElementsByName("userSuggestRoute")[0].value;
             let userSuggestDepartureDay = document.getElementsByName("userSuggestDepartureDay")[0].value;
             let userSuggestDepartureTime = document.getElementsByName("userSuggestDepartureTime")[0].value;
@@ -69,7 +69,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         }
 
         $scope.addNewRequestTrip = function () {
-            let userRequestName = document.getElementsByName("userRequestName")[0].value;
+            let userRequestName = $window.sessionStorage.getItem("userNameGlobalVar");;
             let userRequestSourceStation = document.getElementsByName("userRequestSourceStation")[0].value;
             let userRequestDestinationStation = document.getElementsByName("userRequestDestinationStation")[0].value;
             let userRequestTimeParam = document.getElementsByName("userRequestTimeParam")[0].value;
