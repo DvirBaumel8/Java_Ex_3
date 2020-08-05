@@ -1,8 +1,12 @@
 package engine.manager;
 
 import engine.dto.mapPage.PotentialRoadTripDto;
+import engine.dto.mapPage.PotentialTripsResponseDto;
 import engine.dto.mapPage.TripRequestDto;
+import engine.dto.mapPage.TripRequestResponseDto;
 import engine.dto.mapPage.TripSuggestDto;
+import engine.dto.mapPage.TripSuggestResponseDto;
+import engine.dto.userPage.LoadMoneyIntoAccountResponseDto;
 import engine.dto.userPage.MapsTableElementDetailsDto;
 import engine.dto.userPage.UserTransactionsHistoryDto;
 import engine.maps.MapEntity;
@@ -63,15 +67,23 @@ public class EngineManager {
         }
     }
 
-    public void createNewTripRequest(String mapName, String[] inputsArr) throws Exception {
+    public TripRequestResponseDto createNewTripRequest(String mapName, String[] inputsArr, String userName) {
+        String errorMessage = "";
         RequestValidator requestValidator = new RequestValidator();
         MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
         if (requestValidator.validateTripRequestInput(inputsArr, mapEntity.getMapDescriptor())) {
             TripRequest tripRequest = buildNewRequest(inputsArr);
             mapsManager.addTripRequestByMapName(mapName, tripRequest);
         } else {
-            String errorMessage = requestValidator.getAddNewTripRequestErrorMessage();
-            throw new Exception(errorMessage);
+            errorMessage = requestValidator.getAddNewTripRequestErrorMessage();
+        }
+
+        if (isUserRequester(userName)) {
+            List<TripRequestDto> tripRequestResponseDto = createRequestDtoListFromMapEntityForUser(mapEntity, userName);
+            return new TripRequestResponseDto(tripRequestResponseDto, errorMessage);
+        } else {
+            List<TripRequestDto> tripRequestDto = createRequestDtoListFromMapEntity(mapEntity);
+            return new TripRequestResponseDto(tripRequestDto, errorMessage);
         }
     }
 
@@ -84,15 +96,23 @@ public class EngineManager {
     }
 
 
-    public void createNewTripSuggest(String mapName, String[] inputsArr) throws Exception {
+    public TripSuggestResponseDto createNewTripSuggest(String mapName, String[] inputsArr, String userName) {
+        String errorMessage = "";
         SuggestValidator suggestValidator = new SuggestValidator();
         MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
         if (suggestValidator.validateTripSuggestInput(inputsArr, mapsManager.getAllLogicStationsByMapName(mapName), mapEntity.getMapDescriptor())) {
             TripSuggest tripSuggest = buildNewSuggest(inputsArr, mapEntity.getMapDescriptor());
             mapsManager.addTripSuggestByMapName(mapName, tripSuggest);
         } else {
-            String errorMessage = suggestValidator.getAddNewTripSuggestErrorMessage();
-            throw new Exception(errorMessage);
+            errorMessage = suggestValidator.getAddNewTripSuggestErrorMessage();
+        }
+
+        if (isUserRequester(userName)) {
+            List<TripSuggestDto> tripSuggestDto = createSuggestDtoListFromMapEntityForUser(mapEntity, userName);
+            return new TripSuggestResponseDto(tripSuggestDto, errorMessage);
+        } else {
+            List<TripSuggestDto> tripSuggestDto = createSuggestDtoListFromMapEntity(mapEntity);
+            return new TripSuggestResponseDto(tripSuggestDto, errorMessage);
         }
     }
 
@@ -118,10 +138,13 @@ public class EngineManager {
         usersManager.addNewUser(userName, user);
     }
 
-    public void loadMoneyIntoAccount(String userName, String moneyToLoad) throws Exception {
-        StringBuilder error = new StringBuilder();
-        UsersValidations.validateLoadMoneyIntoAccountInput(moneyToLoad, error);
+    public LoadMoneyIntoAccountResponseDto loadMoneyIntoAccount(String userName, String moneyToLoad) {
+        String error = UsersValidations.validateLoadMoneyIntoAccountInput(moneyToLoad);
+        if(error != null) {
+            return new LoadMoneyIntoAccountResponseDto(getUserAccountBalance(userName), error);
+        }
         usersManager.loadMoneyIntoUserAccount(userName, Double.parseDouble(moneyToLoad));
+        return new LoadMoneyIntoAccountResponseDto(getUserAccountBalance(userName), error);
     }
 
     private boolean isUserRequester(String userName) {
@@ -262,7 +285,11 @@ public class EngineManager {
         return mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId).getDriverRating().getDriverRatingInfo();
     }
 
-    public void rankDriver(String mapName, Integer requestId, Integer suggestId, String[] inputs) {
+    public String rankDriver(String mapName, Integer requestId, Integer suggestId, String rateNum, String rateLiteral) {
+        String error = validateRatingNum(rateNum);
+        if(error != null) {
+            return error;
+        }
         TripSuggest suggest = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId);
         TripRequest request = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId);
         RoadTrip roadTrip = request.getMatchTrip();
@@ -272,26 +299,42 @@ public class EngineManager {
                 subTrip.setIsRanked(true);
             }
         }
-        if (inputs[2].isEmpty()) {
-            suggest.addRatingToDriver(Integer.parseInt(inputs[1]));
+        if (rateLiteral.isEmpty()) {
+            suggest.addRatingToDriver(Integer.parseInt(rateNum));
         } else {
-            suggest.addRatingToDriver(Integer.parseInt(inputs[1]), inputs[2]);
+            suggest.addRatingToDriver(Integer.parseInt(rateNum), rateLiteral);
         }
 
-        DriverRatingNotification ratingNotification = new DriverRatingNotification(request.getNameOfOwner(), suggestId, Integer.parseInt(inputs[1]), inputs[2]);
+        DriverRatingNotification ratingNotification = new DriverRatingNotification(request.getNameOfOwner(), suggestId, Integer.parseInt(rateNum), rateLiteral);
         sendRatingNotification(suggestId, ratingNotification);
+        return error;
+    }
+
+    private String validateRatingNum(String rateNum) {
+        try {
+            Integer.parseInt(rateNum);
+        }
+        catch (Exception ex) {
+            return "Rating isn't an integer";
+        }
+        int num = Integer.parseInt(rateNum);
+        if(num < 1 || num > 5) {
+            return "Please rating with a number between 1 to 5";
+        }
+        return null;
     }
 
     private void sendRatingNotification(Integer suggestId, DriverRatingNotification matchNotificationsDetails) {
         //TODO
     }
 
-    public List<PotentialRoadTripDto> findPotentialSuggestedTripsToMatch(String mapName, String requestId, String amountOfPotentials) throws Exception {
+    public PotentialTripsResponseDto findPotentialSuggestedTripsToMatch(String mapName, String requestId, String amountOfPotentials) {
+        String error="";
         try {
             Integer.parseInt(amountOfPotentials);
         }
         catch (Exception ex) {
-            throw new Exception("Amout of potentials trip isn't an integer");
+            error = "Amount of potentials trip isn't an integer";
         }
         TripRequest request = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, Integer.parseInt(requestId));
         MatchUtil matchUtil = new MatchUtil();
@@ -299,10 +342,11 @@ public class EngineManager {
         MatchingHelper.updateSubTripsValues(potentialRoadTrips);
         potentialCacheList = MatchingHelper.convertTwoLinkedListToOneRoadTripLinkedList(potentialRoadTrips, request);
 
-        return MatchingHelper.convertToStr(potentialCacheList, request);
+        List<PotentialRoadTripDto> potentialRoadTripDto =  MatchingHelper.convertToStr(potentialCacheList, request);
+        return new PotentialTripsResponseDto(potentialRoadTripDto, error);
     }
 
-    public void makeMatch(int indexOfRoadTrip, String mapName, Integer requestId) throws Exception {
+    public String makeMatch(int indexOfRoadTrip, String mapName, Integer requestId) {
         TripRequest tripRequest = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId);
         RoadTrip roadTrip = potentialCacheList.get(indexOfRoadTrip - 1);
         List<TripSuggest> driversInMatch = roadTrip.getAllTripSuggests();
@@ -319,11 +363,12 @@ public class EngineManager {
         }
 
         if (!isRequesterHaveEnoughCash(roadTrip.getTotalCost(), mapName, requestId)) {
-            throw new Exception("Not enough money exception");
+            return "Not enough money exception";
         }
         transferMoneyFromRequesterToSuggesters(roadTrip, requestId,  mapName);
 
         updateMapTableEntityDetails(mapName);
+        return null;
     }
 
     private void createAndAddAccountTransactions(SubTrip subTrip, String mapName, String userName, Integer suggestId) {
@@ -384,24 +429,6 @@ public class EngineManager {
     private String highlightSuggestRoute(MapDescriptor mapDescriptor, String htmlGraph, Route tripRoute) {
         GraphBuilder graphBuilder = new GraphBuilder(mapDescriptor);
         return graphBuilder.buildHtmlGraphHighlightRoute(tripRoute);
-    }
-
-    public List<TripRequestDto> getAllTripRequestsDto(String mapName, String userName) {
-        MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
-        if (isUserRequester(userName)) {
-            return createRequestDtoListFromMapEntityForUser(mapEntity, userName);
-        } else {
-            return createRequestDtoListFromMapEntity(mapEntity);
-        }
-    }
-
-    public List<TripSuggestDto> getAllTripSuggestsDto(String mapName, String userName) {
-        MapEntity mapEntity = mapsManager.getMapEntityByMapName(mapName);
-        if (isUserRequester(userName)) {
-            return createSuggestDtoListFromMapEntityForUser(mapEntity, userName);
-        } else {
-            return createSuggestDtoListFromMapEntity(mapEntity);
-        }
     }
 
     public List<UserTransactionsHistoryDto> getUserTransactionsByUserName(String userName) {

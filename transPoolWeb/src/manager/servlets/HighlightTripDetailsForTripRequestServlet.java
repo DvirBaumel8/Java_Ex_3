@@ -31,13 +31,8 @@ public class HighlightTripDetailsForTripRequestServlet extends HttpServlet {
         String tripRequestId = request.getParameter(Constants.TRIP_REQUEST_ID);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-        try {
-            String htmlGraph = engine.userTapOnTripRequest(mapName, Integer.parseInt(tripRequestId));
-            String jsonMapPageDto = new Gson().toJson(htmlGraph);
-            response.getWriter().write(jsonMapPageDto);
-        }
-        catch (Exception ex) {
-        }
+        String htmlGraph = engine.userTapOnTripRequest(mapName, Integer.parseInt(tripRequestId));
+        String jsonMapPageDto = new Gson().toJson(htmlGraph);
+        response.getWriter().write(jsonMapPageDto);
     }
 }

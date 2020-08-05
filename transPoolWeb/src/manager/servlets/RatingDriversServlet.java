@@ -33,16 +33,12 @@ public class RatingDriversServlet extends HttpServlet {
         String ratingNumber = request.getParameter(Constants.RATING_NUMBER);
         String ratingNotes = request.getParameter(Constants.RATING_NOTES);
         String tripRequestId = request.getParameter(Constants.TRIP_REQUEST_ID);
+        String mapName = request.getParameter(Constants.MAP_NAME);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-
-        try {
-            boolean res = true;
-            String jsonMapPageDto = new Gson().toJson(res);
-            response.getWriter().write(jsonMapPageDto);
-        }
-        catch (Exception ex) {
-        }
+        String error = engine.rankDriver(mapName, Integer.parseInt(tripRequestId), Integer.parseInt(tripSuggestId), ratingNumber, ratingNotes);
+        String errorJson = new Gson().toJson(error);
+        response.getWriter().write(errorJson);
     }
 
 }

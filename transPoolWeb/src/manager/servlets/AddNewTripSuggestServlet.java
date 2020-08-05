@@ -2,6 +2,7 @@ package manager.servlets;
 
 import com.google.gson.Gson;
 import engine.dto.mapPage.TripSuggestDto;
+import engine.dto.mapPage.TripSuggestResponseDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -45,19 +46,9 @@ public class AddNewTripSuggestServlet extends HttpServlet {
         inputs[6] = request.getParameter(Constants.USER_SUGGEST_PASSENGER_CAPACITY);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
+        TripSuggestResponseDto tripSuggestResponseDto = engine.createNewTripSuggest(mapName, inputs, userName);
+        String jsonTripSuggests = new Gson().toJson(tripSuggestResponseDto);
+        response.getWriter().write(jsonTripSuggests);
 
-        try {
-            engine.createNewTripSuggest(mapName, inputs);
-            List<TripSuggestDto> tripSuggestsDto = engine.getAllTripSuggestsDto(mapName, userName);
-            String jsonTripSuggests = new Gson().toJson(tripSuggestsDto);
-            response.getWriter().write(jsonTripSuggests);
-        }
-        catch (Exception ex) {
-            String error = ex.getMessage();
-            String json = new Gson().toJson(error);
-            response.getWriter().write(json);
-            //Display Error to user
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "The  not found.");
-        }
     }
 }

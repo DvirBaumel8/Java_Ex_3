@@ -12,7 +12,7 @@ import java.util.List;
 public class RoadTrip {
     private LinkedList<SubTrip> completeTrip;
     private int totalCost;
-    private int requiredFuel;
+    private double requiredFuel;
     private Time startTime;
     private Time arrivalTime;
     private String RoadStory;
@@ -44,7 +44,7 @@ public class RoadTrip {
         return totalCost;
     }
 
-    public int getRequiredFuel() {
+    public double getRequiredFuel() {
         return requiredFuel;
     }
 
@@ -78,7 +78,7 @@ public class RoadTrip {
     }
 
     public void calcRequiredFuel() {
-        int fuel = 0;
+        double fuel = 0;
         for (SubTrip subTrip : completeTrip) {
             fuel += subTrip.getRequiredFuel();
         }

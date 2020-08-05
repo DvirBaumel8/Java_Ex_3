@@ -37,6 +37,15 @@ public class TripsUtil {
         return -1;
     }
 
+    public static double calcRequiredFuel(Station station1, Station station2, MapDescriptor mapDescriptor) {
+        for (Path path : mapDescriptor.getPaths().getPath()) {
+            if (path.getFrom().equals(station1.getName()) && path.getTo().equals(station2.getName()) || !path.isOneWay() && path.getFrom().equals(station2.getName()) && path.getTo().equals(station1.getName())) {
+                return (double) path.getLength() / path.getFuelConsumption();
+            }
+        }
+        return -1;
+    }
+
 
     public static double calcRequiredFuel(Route route, MapDescriptor mapDescriptor) {
         double sum = 0;

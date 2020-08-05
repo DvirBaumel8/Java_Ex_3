@@ -58,6 +58,7 @@ public class SubTrip {
         this.tripDay = closestDayFromAbove;
         this.isRanked = false;
         this.map = map;
+        this.requiredFuel = TripsUtil.calcRequiredFuel(station, station1, tripsuggest.getMapDescriptor());
     }
 
     public void buildSubTripStory() {
