@@ -11,11 +11,16 @@
 <body>
 
 
-<div style="resize: both; overflow: auto;" class="container" ng-controller="mapDetailsCtrl" ng-init="initMapDetailsPage()">
+<div style="resize: both; overflow: auto;" class="container" ng-controller="mapDetailsCtrl">
     <br>
 
     <form>
         <h1>Rating Window</h1>
+
+        &emsp;<button ng-click="showDriversWhichNotRank()" style="color:#0000FF;">
+        Show Trip Suggest ID To Rate
+    </button>
+<br>
 
         insert suggest id to rate: <input type="text" id="chosenDriver" name="chosenDriver" style="width: 70px;">
         insert rating number: <input type="text" id="ratingNumber" name="ratingNumber" style="width: 70px;">
@@ -37,11 +42,12 @@
         <tfoot>
         <tr ng-repeat="driver in driversWhichNotRank">
             <td class="noBorder">
-                <button style="width: 150px" ng-click="matchAction(driver)">  {{driver}}</button>
+                {{driver}}
             </td>
         </tr>
         </tfoot>
     </table>
+
 
 
     <br>

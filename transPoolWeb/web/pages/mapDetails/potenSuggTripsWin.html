@@ -39,9 +39,10 @@
         <tfoot>
         <tr ng-repeat="potentialTrip in potentialSuggestedTrips">
             <td class="noBorder">
-                <button style="width: 150px" ng-click="matchAction(potentialTrip.index)">  {{potentialTrip.index}}</button>
+                <button style="width: 150px" ng-click="matchAction(potentialTrip.index)">
+                    {{potentialTrip.index}} (click to match)</button>
             </td>
-            <td class="noBorder"> {{potentialTrip.roadStory}} </td>
+            <td class="noBorder"> {{potentialTrip.roadStory}}</td>
         </tr>
         </tfoot>
     </table>

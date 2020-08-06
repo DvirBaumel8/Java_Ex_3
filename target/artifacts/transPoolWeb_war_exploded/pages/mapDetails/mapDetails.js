@@ -283,35 +283,26 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
         $scope.openRatingWindow = function (requestId, isMatched) {
         if(isMatched) {
             matchWindow = window.open("ratingWin.html?myvar=" + encodeURI(requestId),"bfs","width=800,height=600,scrollbars=yes");
-            $scope.showDriversWhichNotRank(requestId);
         }
         else {
             $window.alert("This is request is not Match");
         }
         }
 
-
-        $scope.showDriversWhichNotRank = function(requestId) {
-
-            let errors;
+        $scope.showDriversWhichNotRank = function() {
             let notification;
             let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
-
+            let searchParams = new URLSearchParams(window.location.search)
+            let tripRequestId = searchParams.get('myvar');
 
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/ShowUnRankDriversServlet',
                 method: "GET",
-                params: {tripRequestId: requestId,
+                params: {tripRequestId: tripRequestId,
                 mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    $scope.driversWhichNotRank = response.data.driversWhichNotRank;
-                    errors = response.data.errors;
-
-                    if(errors != undefined) {
-                        $window.alert("errors:" + errors);
-                        errors = undefined;
-                    }
+                    $scope.driversWhichNotRank = response.data;
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess Matching");
