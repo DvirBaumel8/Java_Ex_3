@@ -38,7 +38,7 @@ public class RequestValidator extends ActionValidator {
         }
 
         if(!validateTimeParam(inputs[4])) {
-            addNewTripRequestErrorMessage.append("The fifth parameter is invalid, please insert a to choose arrival time or s to choose starting time.");
+            addNewTripRequestErrorMessage.append("You must to choose if the request is by starting time or arrival time\n");
             isValid = false;
         }
         if(!validateTripDay(inputs[5])) {

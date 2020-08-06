@@ -347,6 +347,7 @@ public class EngineManager {
         }
         catch (Exception ex) {
             error = "Amount of potentials trip isn't an integer";
+            return new PotentialTripsResponseDto(null, error);
         }
         TripRequest request = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, Integer.parseInt(requestId));
         MatchUtil matchUtil = new MatchUtil();

@@ -35,11 +35,11 @@ public class SuggestValidator extends ActionValidator {
         if (!validateTripScheduleType(inputTripSuggestString[4])) {
             isValid = false;
         }
-        if (!validatePPK(inputTripSuggestString[5])) {
+        if (!validatePPK(inputTripSuggestString[5], addNewTripSuggestErrorMessage)) {
             // check again if how the calc if this value valid
             isValid = false;
         }
-        if (!validatePossiblePassengerCapacity(inputTripSuggestString[6])) {
+        if (!validatePossiblePassengerCapacity(inputTripSuggestString[6], addNewTripSuggestErrorMessage)) {
             isValid = false;
         }
 
@@ -92,9 +92,17 @@ public class SuggestValidator extends ActionValidator {
         return res;
     }
 
-    public boolean validatePPK(String input) {
+    public boolean validatePPK(String input, StringBuilder errors) {
         boolean res = false;
-        res = checkIfANumberAndBiggerThanOne(input);
+        try {
+            Integer.parseInt(input);
+        }
+        catch (Exception ex) {
+            errors.append("PPk isn't an integer, please try again");
+            return false;
+        }
+        int ppk = Integer.parseInt(input);
+        res = checkIfANumberAndBiggerThanOne(input, ppk);
 
         if(!res) {
             addNewTripSuggestErrorMessage.append("PPK number is not valid," +
@@ -103,9 +111,17 @@ public class SuggestValidator extends ActionValidator {
         return res;
     }
 
-    public boolean validatePossiblePassengerCapacity(String input) {
+    public boolean validatePossiblePassengerCapacity(String input, StringBuilder errors) {
+        try {
+            Integer.parseInt(input);
+        }
+        catch (Exception ex) {
+            errors.append("Possible passengers isn't an integer, please try again");
+            return false;
+        }
         boolean res = false;
-        res = checkIfANumberAndBiggerThanOne(input);
+        int num = Integer.parseInt(input);
+        res = checkIfANumberAndBiggerThanOne(input, num);
 
         if(!res) {
             addNewTripSuggestErrorMessage.append("Possible passenger capacity number is not valid," +
@@ -122,11 +138,9 @@ public class SuggestValidator extends ActionValidator {
         return str.chars().allMatch(Character::isDigit);
     }
 
-    public boolean checkIfANumberAndBiggerThanOne(String input) {
-        int intInput = Integer.parseInt(input);
-
+    public boolean checkIfANumberAndBiggerThanOne(String input, int num) {
         if (isNumeric(input)) {
-            if (intInput >= 1) {
+            if (num >= 1) {
                 return true;
             }
         }
