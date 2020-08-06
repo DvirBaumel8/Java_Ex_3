@@ -64,7 +64,8 @@ public class SuggestValidator extends ActionValidator {
             }
         }
         catch (NumberFormatException e) {
-            addNewTripSuggestErrorMessage.append(e.getMessage());
+            addNewTripSuggestErrorMessage.append("Arrival day number is not valid," +
+                    " please try again, insert a number bigger than 0 \n");
         }
 
         return res;

@@ -2,13 +2,18 @@ package engine.validations;
 
 public class UsersValidations {
 
-    public static String validateLoadMoneyIntoAccountInput(String amountToLoad) {
+    public static String validateLoadMoneyIntoAccountInput(String amountToLoadStr) {
         try {
-            Double.parseDouble(amountToLoad);
+            Double.parseDouble(amountToLoadStr);
         }
         catch (Exception ex) {
             return "Please insert legal decimal number";
         }
+        double amountToLoad = Double.parseDouble(amountToLoadStr);
+        if(amountToLoad <= 0) {
+            return "Not possible to load minus number or zero.";
+        }
+
         return "";
     }
 
