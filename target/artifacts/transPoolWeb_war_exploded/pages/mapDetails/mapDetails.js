@@ -40,23 +40,6 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
                     $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
                     document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;
-
-                    /*
-                    errors = response.data.errors;
-                    notification = response.data.notification;
-
-
-                        if(errors != undefined) {
-                            $window.alert("errors:" + errors);
-                            errors = undefined;
-                        }
-                        if(notification!= undefined) {
-                            $window.alert("notification:" + notification);
-                            notification = undefined;
-                        }
-
-
-                     */
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess get request");
