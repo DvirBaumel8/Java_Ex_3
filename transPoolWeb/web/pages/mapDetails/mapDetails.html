@@ -156,7 +156,7 @@
                 <th>Owner Name</th>
                 <th>Source Station</th>
                 <th>Destination Station</th>
-                <th>Is Matched</th>
+                <th>Is Matched / Rate</th>
                 <th>Road Trip</th>
 
             </tr>
@@ -171,7 +171,7 @@
                 <td class="noBorder"> {{requestTrip.sourceStation}} </td>
                 <td class="noBorder"> {{requestTrip.destinationStation}} </td>
                 <td class="noBorder">
-                    <button style="width: 150px" ng-click="openRatingWindow(requestTrip.requestId)">
+                    <button style="width: 150px" ng-click="openRatingWindow(requestTrip.requestId,requestTrip.isMatched} )">
                         {{requestTrip.isMatched}}
                     </button></td>
                  </td>

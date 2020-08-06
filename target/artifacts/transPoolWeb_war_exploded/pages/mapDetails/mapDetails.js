@@ -297,9 +297,14 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
         }
 
-        $scope.openRatingWindow = function (requestId) {
+        $scope.openRatingWindow = function (requestId, isMatched) {
+        if(isMatched) {
             matchWindow = window.open("ratingWin.html?myvar=" + encodeURI(requestId),"bfs","width=800,height=600,scrollbars=yes");
             $scope.showDriversWhichNotRank(requestId);
+        }
+        else {
+            $window.alert("This is request is not Match");
+        }
         }
 
 

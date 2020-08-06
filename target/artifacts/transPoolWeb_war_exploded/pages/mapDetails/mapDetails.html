@@ -171,8 +171,8 @@
                 <td class="noBorder"> {{requestTrip.sourceStation}} </td>
                 <td class="noBorder"> {{requestTrip.destinationStation}} </td>
                 <td class="noBorder">
-                    <button style="width: 150px" ng-click="openRatingWindow(requestTrip.requestId)">
-                        {{requestTrip.isMatched}}
+                    <button style="width: 150px" ng-click="openRatingWindow(requestTrip.requestId,requestTrip.isMatched} )">
+                        {{requestTrip.isMatched}} / Rate
                     </button></td>
                  </td>
                 <td class="noBorder"> {{requestTrip.roadTrip}} </td>
