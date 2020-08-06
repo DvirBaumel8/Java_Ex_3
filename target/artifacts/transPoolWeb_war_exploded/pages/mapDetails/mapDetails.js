@@ -6,7 +6,7 @@ var transPoolApp = angular.module('transPoolApp', []);
 transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$window',
     function($scope, $http, $rootScope, $window) {
 
-    setInterval(
+    //setInterval(
     function initMapDetailsPage() {
         let errors;
         let notification;
@@ -38,7 +38,9 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 function successCallback(response) {
                     $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
                     $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
-                    document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;;
+                    document.getElementById("graphDesc").innerHTML = response.data.htmlGraph;
+
+                    /*
                     errors = response.data.errors;
                     notification = response.data.notification;
 
@@ -51,14 +53,16 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                             $window.alert("notification:" + notification);
                             notification = undefined;
                         }
+
+
+                     */
                 },
                 function errorCallback(response) {
                     $window.alert("UnSuccess get request");
                 }
             );
-
-
-    }, 300);
+    }
+    //, 300);
 
 
         $scope.addNewSuggestTrip = function () {

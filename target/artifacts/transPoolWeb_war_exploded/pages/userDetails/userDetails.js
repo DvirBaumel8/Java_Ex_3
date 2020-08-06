@@ -4,13 +4,12 @@ var transPoolApp = angular.module('transPoolApp', []);
 transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$rootScope','$window',
     function($scope, $http, $location, $rootScope, $window) {
 
-        setInterval(
+     //   setInterval(
     function init() {
         $scope.totalMapsInTheSystem = {};
         $scope.userNameInUserPage = $window.sessionStorage.getItem("userNameGlobalVar");
         document.getElementById('userName').value = $scope.userNameInUserPage;
-let errors;
-let notification;
+        let notification;
 
         $scope.createUser = function() {
             console.log("I've been pressed!");
@@ -21,17 +20,9 @@ let notification;
                 params: {userName: $scope.userNameInUserPage}
             }).then(
                 function successCallback(response) {
-                    //get all the needed valuse to diplay
-
                     $scope.totalMapsInTheSystem = response.data.mapsTableElementsInfo;
                     $scope.userTransactionsHistoryTable = response.data.userAccountTransactions;
                     $scope.userLoadingAccountBalance = response.data.userBalanceDto;
-                    errors = response.data.errors;
-
-                    if(errors != undefined) {
-                        $window.alert("errors:" + errors);
-                        errors = undefined;
-                    }
 
                 },
                 function errorCallback(response) {
@@ -39,7 +30,8 @@ let notification;
                 }
             );
         }
-    } , 2000);
+    }
+    //, 2000);
 
 
     $scope.redirectToMapPageApi = function (mapName) {
@@ -114,9 +106,9 @@ let notification;
                     userName: userName}
             }).then(
                 function successCallback(response) {
-                    $scope.userAccountBalance = response.data;
+                    $scope.userAccountBalance = response.data.newBalance;
 
-                    errors = response.data;
+                    errors = response.data.error;
 
                     if(errors != undefined) {
                         $window.alert("errors:" + errors);
