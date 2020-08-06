@@ -14,8 +14,14 @@
     <h1>Welcome to the Map Details Page</h1>
 
     <div>
-
     <br>
+
+
+    <div>
+        <!-- ng-show="isSuggestPassenger" -->
+
+
+
     <button type="button" class="collapsible">Add New Suggest Trip</button>
     <div class="content">
         <p>
@@ -50,13 +56,13 @@
 
             <br>
 
-            <div ng-show="isSuggestPassenger" style="margin-top: 10px;"  ng-click="addNewSuggestTrip()" class="button_cont">
+            <div style="margin-top: 10px;"  ng-click="addNewSuggestTrip()" class="button_cont">
                 <a class="example_d"   href="add-website-here" target="_blank"
                    rel="nofollow noopener">Add</a></div>
         </form>
         </p>
     </div>
-
+    </div>
 
         <table id="tripSuggestListPerMap">
         <thead>
@@ -97,7 +103,9 @@
 
 
 <div>
-    <button type="button" class="collapsible">Add New Request Trip</button>
+        <!-- ng-show="isRequestPassenger" -->
+
+        <button type="button" class="collapsible">Add New Request Trip</button>
     <div class="content">
     <p>
 
@@ -135,6 +143,8 @@
                                                                                               rel="nofollow noopener">Add</a></div>
     </form>
     </p>
+    </div>
+
     </div>
 
 

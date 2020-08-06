@@ -37,7 +37,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
 
     $scope.redirectToMapPageApi = function (mapName) {
         let userName = $scope.userNameInUserPage;
-        let errors;
+
         console.log("I've been pressed!");
         $http({
             url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/MapScreenServlet',
@@ -46,20 +46,11 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
             userName: userName}
         }).then(
             function successCallback(response) {
-                //$scope.totalMapsInTheSystem = response.data;
+                let successMessage = "Success Move Map Screen Page";
+                $window.sessionStorage.setItem("userMapGlobalVar",mapName);
+                $window.alert(successMessage);
+                $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
 
-                errors = response.data.errors;
-
-                if(errors == "") {
-                    let successMessage = "Success Move Map Screen Page";
-                    $window.sessionStorage.setItem("userMapGlobalVar",mapName);
-                    $window.alert(successMessage);
-                    $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
-                }
-                else {
-                    $window.alert("errors:" + errors);
-                    errors = undefined;
-                }
             },
             function errorCallback(response) {
                 $window.alert("UnSuccess get request");

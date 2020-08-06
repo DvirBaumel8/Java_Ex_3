@@ -1,7 +1,6 @@
 package manager.servlets;
 
 import com.google.gson.Gson;
-import engine.dto.mapPage.PotentialRoadTripDto;
 import engine.dto.mapPage.PotentialTripsResponseDto;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "MatchingTripRequestServlet", urlPatterns = {"/pages/mapDetails/MatchingTripRequestServlet"})
 public class MatchingTripRequestServlet extends HttpServlet {
