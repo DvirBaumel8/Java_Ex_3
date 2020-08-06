@@ -85,7 +85,7 @@ public class SuggestValidator extends ActionValidator {
             }
         }
         catch (Exception e) {
-
+            addNewTripSuggestErrorMessage.append("Schedule int isn't a number\n");
         }
 
         return res;

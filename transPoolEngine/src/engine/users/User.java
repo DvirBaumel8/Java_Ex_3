@@ -11,11 +11,11 @@ public class User {
     public User(String userName, String userTypeEnum) {
         this.userName = userName;
         switch (userTypeEnum) {
-            case "Requester": {
+            case "requestPassenger": {
                 this.userType = UserType.Requester;
                 break;
             }
-            case "Suggester": {
+            case "suggestPassenger": {
                 this.userType = UserType.Suggester;
                 break;
             }

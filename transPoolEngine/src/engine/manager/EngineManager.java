@@ -347,8 +347,12 @@ public class EngineManager {
     }
 
     public String makeMatch(int indexOfRoadTrip, String mapName, Integer requestId) {
+
         TripRequest tripRequest = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId);
         RoadTrip roadTrip = potentialCacheList.get(indexOfRoadTrip - 1);
+        if (!isRequesterHaveEnoughCash(roadTrip.getTotalCost(), mapName, requestId)) {
+            return "Not enough money exception";
+        }
         List<TripSuggest> driversInMatch = roadTrip.getAllTripSuggests();
         for(TripSuggest tripSuggest : driversInMatch) {
             tripSuggest.addPassenger(tripRequest.getNameOfOwner());
@@ -362,9 +366,6 @@ public class EngineManager {
             tripRequest.setStartTime(roadTrip.getStartTime());
         }
 
-        if (!isRequesterHaveEnoughCash(roadTrip.getTotalCost(), mapName, requestId)) {
-            return "Not enough money exception";
-        }
         transferMoneyFromRequesterToSuggesters(roadTrip, requestId,  mapName);
 
         updateMapTableEntityDetails(mapName);
