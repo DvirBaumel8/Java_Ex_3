@@ -98,7 +98,7 @@ public class RoadTrip {
             str.append(subTrip.getSubTripStory());
         }
         str.append(String.format("Total trip cost: %d\n",this.totalCost));
-        str.append(String.format("Total required fuel: %d\n", this.requiredFuel));
+        str.append(String.format("Total required fuel: %f\n", this.requiredFuel));
         if(tripRequest.isRequestByStartTime()) {
             str.append(String.format("Arrival time: %s", arrivalTime.toString()));
         }
