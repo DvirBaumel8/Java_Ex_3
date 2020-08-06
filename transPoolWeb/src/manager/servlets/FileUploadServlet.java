@@ -46,7 +46,7 @@ public class FileUploadServlet extends HttpServlet {
         }
 
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
-        String error = engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapName);
+        engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapName);
 
         response.sendRedirect(USER_DETAILS_URL);
     }

@@ -5,9 +5,8 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
     function($scope, $http, $location, $rootScope, $window) {
 
 
-        initUserDetailsPage();
 
-       // setInterval(
+        setInterval(
     function initUserDetailsPage() {
         var x;
         $scope.totalMapsInTheSystem = {};
@@ -33,7 +32,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
 
 
     }
-   // , 200);
+    , 200);
 
 
     $scope.redirectToMapPageApi = function (mapName) {

@@ -333,7 +333,6 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     mapName: mapName}
             }).then(
                 function successCallback(response) {
-                    $scope.isRatingSucceed = response.data.isRatingSucceed;
                     errors = response.data;
 
                     if(errors) {
