@@ -20,6 +20,7 @@ public class MapsManager {
     public void createNewMap(MapDescriptor mapDescriptor, String userName, String mapName, StringBuilder error) {
         if(mapNameToEntity.containsKey(mapName)) {
             error.append("Map already Exists Exception");
+            return;
         }
         MapEntity mapEntity = new MapEntity(mapDescriptor, userName, mapName, createHtmlGraph(mapDescriptor));
         mapNameToEntity.put(mapName, mapEntity);

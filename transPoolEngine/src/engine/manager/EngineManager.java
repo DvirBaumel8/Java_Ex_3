@@ -61,6 +61,7 @@ public class EngineManager {
             errors = new StringBuilder();
             for (String error : validationErrors) {
                 errors.append(error);
+                return errors.toString();
             }
         } else {
             mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName, errors);
