@@ -118,13 +118,13 @@ public class RoadTrip {
     }
 
     public List<String> getAllSubTripsDriversNamesStillNotRanked() {
-        List<String> names = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
         for(SubTrip subTrip : completeTrip) {
             if(!subTrip.getIsRanked()) {
-                names.add(subTrip.getTrip().getTripOwnerName());
+                ids.add(String.valueOf(subTrip.getTrip().getSuggestID()));
             }
         }
-        return names;
+        return ids;
     }
 
     public List<TripSuggest> getAllTripSuggests() {
