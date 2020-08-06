@@ -295,11 +295,14 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
 
             let errors;
             let notification;
+            let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
+
 
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/ShowUnRankDriversServlet',
                 method: "GET",
-                params: {tripRequestId: requestId}
+                params: {tripRequestId: requestId,
+                mapName: mapName}
             }).then(
                 function successCallback(response) {
                     $scope.driversWhichNotRank = response.data.driversWhichNotRank;

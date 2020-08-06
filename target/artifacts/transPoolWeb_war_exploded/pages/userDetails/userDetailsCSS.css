@@ -19,7 +19,7 @@
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     padding-top: 12px;
     padding-bottom: 12px;
-    background-color: #f5a35c;
+    background-color: #765502;
     color: white;
 }
 
@@ -88,8 +88,8 @@ input {
 }
 
 
-.userBalanceCollapsible {
-    background-color: #f5a35c;
+.userDetailsCollapsible {
+    background-color: #200f49;
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -104,10 +104,11 @@ input {
     background-color: #555;
 }
 
-.userBalanceContent {
+.userDetailsContent {
     padding: 0 10px;
     display: none;
     overflow: hidden;
     background-color: #f1f1f1;
     width:58%;
 }
+
