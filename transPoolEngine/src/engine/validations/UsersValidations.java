@@ -9,7 +9,7 @@ public class UsersValidations {
         catch (Exception ex) {
             return "Please insert legal decimal number";
         }
-        return null;
+        return "";
     }
 
     public static boolean validateUserType(String userType, StringBuilder errorStr) {

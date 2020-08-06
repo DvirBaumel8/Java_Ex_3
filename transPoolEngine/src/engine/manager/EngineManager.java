@@ -140,7 +140,7 @@ public class EngineManager {
 
     public LoadMoneyIntoAccountResponseDto loadMoneyIntoAccount(String userName, String moneyToLoad) {
         String error = UsersValidations.validateLoadMoneyIntoAccountInput(moneyToLoad);
-        if(error != null) {
+        if(error != "") {
             return new LoadMoneyIntoAccountResponseDto(getUserAccountBalance(userName), error);
         }
         usersManager.loadMoneyIntoUserAccount(userName, Double.parseDouble(moneyToLoad));
