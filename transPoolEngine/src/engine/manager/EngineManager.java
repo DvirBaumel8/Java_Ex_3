@@ -174,7 +174,7 @@ public class EngineManager {
         List<TripSuggestDto> suggestsDto = new ArrayList<>();
         List<TripSuggest> tripSuggests = entity.getTripSuggests();
         for (TripSuggest suggest : tripSuggests) {
-            if (suggest.getTripOwnerName().equals(userName)) {
+            if (!suggest.getTripOwnerName().equals(userName)) {
                 continue;
             }
             int suggestId = suggest.getSuggestID();
@@ -218,7 +218,7 @@ public class EngineManager {
         List<TripRequestDto> requestDto = new ArrayList<>();
         List<TripRequest> tripRequests = entity.getTripRequests();
         for (TripRequest request : tripRequests) {
-            if (request.getNameOfOwner().equals(userName)) {
+            if (!request.getNameOfOwner().equals(userName)) {
                 continue;
             }
             int requestId = request.getRequestID();
@@ -285,11 +285,12 @@ public class EngineManager {
         return mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId).getDriverRating().getDriverRatingInfo();
     }
 
-    public String rankDriver(String mapName, Integer requestId, Integer suggestId, String rateNum, String rateLiteral) {
-        String error = validateRatingNum(rateNum);
+    public String rankDriver(String mapName, Integer requestId, String suggestIdStr, String rateNum, String rateLiteral) {
+        String error = validateRatingParams(mapName, requestId, rateNum, suggestIdStr);
         if(error != null) {
             return error;
         }
+        Integer suggestId = Integer.parseInt(suggestIdStr);
         TripSuggest suggest = mapsManager.getMapTripSuggestByMapNameAndSuggestId(mapName, suggestId);
         TripRequest request = mapsManager.getMapTripRequestByMapNameAndRequestId(mapName, requestId);
         RoadTrip roadTrip = request.getMatchTrip();
@@ -310,13 +311,24 @@ public class EngineManager {
         return error;
     }
 
-    private String validateRatingNum(String rateNum) {
+    private String validateRatingParams(String mapName, Integer requestId, String rateNum, String suggestIdStr) {
         try {
             Integer.parseInt(rateNum);
         }
         catch (Exception ex) {
             return "Rating isn't an integer";
         }
+        try {
+            Integer.parseInt(suggestIdStr);
+        }
+        catch (Exception ex) {
+            return "Suggest id isn't an integer";
+        }
+        int suggestId = Integer.parseInt(suggestIdStr);
+        if(!getDriversToRating(mapName, requestId).contains(suggestIdStr)) {
+            return "Your choice of suggest Id was not found as possible driver rating";
+        }
+
         int num = Integer.parseInt(rateNum);
         if(num < 1 || num > 5) {
             return "Please rating with a number between 1 to 5";
