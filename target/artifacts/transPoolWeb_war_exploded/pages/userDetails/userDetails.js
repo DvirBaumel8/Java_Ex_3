@@ -4,9 +4,10 @@ var transPoolApp = angular.module('transPoolApp', []);
 transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$rootScope','$window',
     function($scope, $http, $location, $rootScope, $window) {
 
-     //   setInterval(
-        initUserDetailsPage();
 
+        //initUserDetailsPage();
+
+       // setInterval(
     function initUserDetailsPage() {
         var x;
         $scope.totalMapsInTheSystem = {};
@@ -32,7 +33,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
 
 
     }
-    //, 2000);
+   // , 200);
 
 
     $scope.redirectToMapPageApi = function (mapName) {
@@ -101,7 +102,6 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
             }).then(
                 function successCallback(response) {
                     $scope.userAccountBalance = response.data.newBalance;
-
                     errors = response.data.error;
 
                     if(errors == "") {
@@ -119,8 +119,6 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
                 }
             );
-
-
 
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserTransactionsHistoryServlet',

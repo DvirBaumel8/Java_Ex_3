@@ -4,10 +4,10 @@ import java.util.List;
 
 public class TripSuggestResponseDto {
     private List<TripSuggestDto> tripSuggestDtoList;
-    private String error;
+    private String errors;
 
     public TripSuggestResponseDto(List<TripSuggestDto> tripSuggestDtoList, String error) {
         this.tripSuggestDtoList = tripSuggestDtoList;
-        this.error = error;
+        this.errors = error;
     }
 }

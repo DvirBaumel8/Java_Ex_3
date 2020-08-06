@@ -16,23 +16,26 @@
 
     <form>
         <h1>Rating Window</h1>
-
-        &emsp;<button ng-click="showDriversWhichNotRank()" style="color:#0000FF;">
-        Show Trip Suggest ID To Rate
-    </button>
 <br>
 
-        insert suggest id to rate: <input type="text" id="chosenDriver" name="chosenDriver" style="width: 70px;">
-        insert rating number: <input type="text" id="ratingNumber" name="ratingNumber" style="width: 70px;">
-        insert rating notes: <input type="text" id="ratingNotes" name="ratingNotes" style="width: 70px;">
+        <button ng-click="showDriversWhichNotRank()" style="color:#00001d;">
+            Click to show available Trip Suggest ID to Rate
+        </button>
+        <br>
+        <br>
+        Please insert following details to Rate:
+        <br>
+        suggest id to rate: <input type="text" id="chosenDriver" name="chosenDriver" style="width: 70px;">
+        rating number: <input type="text" id="ratingNumber" name="ratingNumber" style="width: 70px;">
+        rating notes: <input type="text" id="ratingNotes" name="ratingNotes" style="width: 70px;">
 
         &emsp;<button ng-click="ratingActionByRequestPass()" style="color:#0000FF;">
         Go Rate
     </button>
-        <br>
-        <br>
     </form>
 
+    <br>
+    <br>
     <table id="driversWhichNotRankTable">
         <thead>
         <tr align="center">
@@ -41,7 +44,7 @@
         </thead>
         <tfoot>
         <tr ng-repeat="driver in driversWhichNotRank">
-            <td class="noBorder">
+            <td align="center" class="noBorder">
                 {{driver}}
             </td>
         </tr>

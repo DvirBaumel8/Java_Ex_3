@@ -36,8 +36,8 @@ public class RatingDriversServlet extends HttpServlet {
         String mapName = request.getParameter(Constants.MAP_NAME);
 
         EngineManager engine = ServletUtils.getEngineManager(getServletContext());
-        String error = engine.rankDriver(mapName, Integer.parseInt(tripRequestId), tripSuggestId, ratingNumber, ratingNotes);
-        String errorJson = new Gson().toJson(error);
+        String errors = engine.rankDriver(mapName, Integer.parseInt(tripRequestId), tripSuggestId, ratingNumber, ratingNotes);
+        String errorJson = new Gson().toJson(errors);
         response.getWriter().write(errorJson);
     }
 

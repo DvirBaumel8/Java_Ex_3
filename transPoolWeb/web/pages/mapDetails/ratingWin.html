@@ -22,11 +22,12 @@
             Click to show available Trip Suggest ID to Rate
         </button>
         <br>
-        Insert following details to Rate:
         <br>
-        insert suggest id to rate: <input type="text" id="chosenDriver" name="chosenDriver" style="width: 70px;">
-        insert rating number: <input type="text" id="ratingNumber" name="ratingNumber" style="width: 70px;">
-        insert rating notes: <input type="text" id="ratingNotes" name="ratingNotes" style="width: 70px;">
+        Please insert following details to Rate:
+        <br>
+        suggest id to rate: <input type="text" id="chosenDriver" name="chosenDriver" style="width: 70px;">
+        rating number: <input type="text" id="ratingNumber" name="ratingNumber" style="width: 70px;">
+        rating notes: <input type="text" id="ratingNotes" name="ratingNotes" style="width: 70px;">
 
         &emsp;<button ng-click="ratingActionByRequestPass()" style="color:#0000FF;">
         Go Rate
@@ -43,7 +44,7 @@
         </thead>
         <tfoot>
         <tr ng-repeat="driver in driversWhichNotRank">
-            <td class="noBorder">
+            <td align="center" class="noBorder">
                 {{driver}}
             </td>
         </tr>
