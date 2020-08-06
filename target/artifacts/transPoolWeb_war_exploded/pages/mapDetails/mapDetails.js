@@ -322,6 +322,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             let chosenDriver = document.getElementsByName("chosenDriver")[0].value;
             let ratingNumber = document.getElementsByName("ratingNumber")[0].value;
             let ratingNotes = document.getElementsByName("ratingNotes")[0].value;
+            let mapName = $window.sessionStorage.getItem("userMapGlobalVar");
 
             $http({
                 url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/RatingDriversServlet',
@@ -329,7 +330,8 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 params: { tripRequestId: tripRequestId,
                     chosenDriver:chosenDriver,
                     ratingNumber:ratingNumber,
-                    ratingNotes:ratingNotes }
+                    ratingNotes:ratingNotes,
+                    mapName: mapName}
             }).then(
                 function successCallback(response) {
                     $scope.isRatingSucceed = response.data.isRatingSucceed;

@@ -101,10 +101,10 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                     userName: userName}
             }).then(
                 function successCallback(response) {
-                    $scope.userAccountBalance = response.data.newBalance;
+                    $scope.userLoadingAccountBalance = response.data.newBalance;
                     errors = response.data.error;
 
-                    if(errors == "") {
+                    if(errors == undefined) {
                         $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
                         let successMessage = "Success Adding Cash";
                         $window.alert(successMessage);
