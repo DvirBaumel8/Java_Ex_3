@@ -31,6 +31,7 @@ public class SubTrip {
         this.startTime = subTrip.getStartTime();
         this.arrivalTime = subTrip.getArrivalTime();
         this.isRanked = subTrip.getIsRanked();
+        this.map = trip.getMapDescriptor();
     }
 
     public boolean getIsRanked() {
