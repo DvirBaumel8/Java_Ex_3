@@ -77,17 +77,17 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             }).then(
                 function successCallback(response) {
                     $scope.tripSuggestListPerMap = response.data.tripSuggestDtoList;
-                    $scope.errors = response.data.errors;
+                    errors = response.data.errors;
                     $scope.notification = response.data.notification;
 
-                        if(errors == undefined) {
-                            let successMessage = "Success Adding Trip Suggest";
-                            $window.alert(successMessage);
+                        if(errors) {
+                            $window.alert("errors:" + errors);
+                            errors = undefined;
                         }
 
                     else {
-                            $window.alert("errors:" + errors);
-                            errors = undefined;
+                            let successMessage = "Success Adding Trip Suggest";
+                            $window.alert(successMessage);
                     }
 
                 },
@@ -156,13 +156,13 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     $scope.tripRequestListPerMap = response.data.tripRequestDtoList;
                     errors = response.data.errors;
 
-                    if(errors == undefined) {
-                        let successMessage = "Success Adding Trip Suggest";
-                        $window.alert(successMessage);
-                    }
-                    else {
+                    if(errors) {
                         $window.alert("errors:" + errors);
                         errors = undefined;
+                    }
+                    else {
+                        let successMessage = "Success Adding Trip Suggest";
+                        $window.alert(successMessage);
                     }
                 },
                 function errorCallback(response) {
