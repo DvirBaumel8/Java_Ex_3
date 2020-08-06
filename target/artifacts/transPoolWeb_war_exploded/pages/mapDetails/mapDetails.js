@@ -337,7 +337,6 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     if(errors) {
                         $window.alert("errors:" + errors);
                         $scope.isRatingSucceed = false;
-                        window.close();
                     }
                     else {
                         let successMessage = "Rating Succeed";
