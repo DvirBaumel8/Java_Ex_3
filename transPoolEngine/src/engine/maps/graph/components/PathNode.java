@@ -1,10 +1,5 @@
 package engine.maps.graph.components;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-
 public class PathNode {
     private double startX;
     private double startY;
@@ -13,8 +8,9 @@ public class PathNode {
     private int length;
     private String from;
     private String to;
+    private boolean isOneWay;
 
-    public PathNode(double startX, double startY, double endX, double endY, int length, String from, String to){
+    public PathNode(double startX, double startY, double endX, double endY, int length, String from, String to, boolean isOneWay){
         this.startX = startX;
         this.startY = startY;
         this.endX = endX;
@@ -22,6 +18,7 @@ public class PathNode {
         this.length = length;
         this.from = from;
         this.to = to;
+        this.isOneWay = isOneWay;
     }
 
     public double getStartX() {
@@ -78,5 +75,13 @@ public class PathNode {
 
     public void setTo(String to) {
         this.to = to;
+    }
+
+    public boolean isOneWay() {
+        return isOneWay;
+    }
+
+    public void setOneWay(boolean oneWay) {
+        isOneWay = oneWay;
     }
 }

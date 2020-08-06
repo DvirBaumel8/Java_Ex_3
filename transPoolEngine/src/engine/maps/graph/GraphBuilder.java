@@ -171,7 +171,7 @@ public class GraphBuilder {
             }
         }
 
-        return new PathNode(logicStartX, logicStartY, logicEndX, logicEndY, path.getLength(), from, to);
+        return new PathNode(logicStartX, logicStartY, logicEndX, logicEndY, path.getLength(), from, to, path.isOneWay());
     }
 
     private List<StationNode> createStationsNodes(List<CoordinateNode> coordinateNodes) {
@@ -257,7 +257,7 @@ public class GraphBuilder {
     private boolean isNodePartOfRoute(PathNode node, Route tripRoute) {
         String[] stations = tripRoute.getPath().split(",");
         for(int i = 0; i < stations.length - 1; i++) {
-            if(stations[i].equals(node.getFrom()) && stations[i + 1].equals(node.getTo())) {
+            if(stations[i].equals(node.getFrom()) && stations[i + 1].equals(node.getTo()) || !node.isOneWay() && stations[i].equals(node.getTo()) && stations[i+1].equals(node.getFrom())) {
                 return true;
             }
         }
