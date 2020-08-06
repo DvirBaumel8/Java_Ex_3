@@ -72,14 +72,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                         userName: userName}
             }).then(
                 function successCallback(response) {
-                    errors = response.data;
 
-                    if(errors == "") {
-                    }
-                    else {
-                        $window.alert("errors:" + errors);
-                        errors = undefined;
-                    }
                 },
                 function errorCallback(response) {
                     console.log("Unable to perform get request");

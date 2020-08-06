@@ -47,8 +47,6 @@ public class FileUploadServlet extends HttpServlet {
 
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
         String error = engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapName);
-        String errorJson = new Gson().toJson(error);
-        response.getWriter().write(errorJson);
 
         response.sendRedirect(USER_DETAILS_URL);
     }
