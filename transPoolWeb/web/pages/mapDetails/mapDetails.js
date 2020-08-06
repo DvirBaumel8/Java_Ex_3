@@ -6,8 +6,8 @@ var transPoolApp = angular.module('transPoolApp', []);
 transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$window',
     function($scope, $http, $rootScope, $window) {
 
-       initMapDetailsPage();
-    //setInterval(
+     //  initMapDetailsPage();
+    setInterval(
     function initMapDetailsPage() {
         let errors;
         let notification;
@@ -46,7 +46,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 }
             );
     }
-//    , 200);
+    , 200);
 
 //-----------------------------Add New SuggestTrip Section -------------------------------------
         $scope.addNewSuggestTrip = function () {
