@@ -4,7 +4,7 @@ var transPoolApp = angular.module('transPoolApp', []);
 transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$rootScope','$window',
     function($scope, $http, $location, $rootScope, $window) {
 
-        setInterval(
+     //   setInterval(
     function init() {
         $scope.totalMapsInTheSystem = {};
         $scope.userNameInUserPage = $window.sessionStorage.getItem("userNameGlobalVar");
@@ -30,7 +30,8 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                 }
             );
         }
-    } , 2000);
+    }
+    //, 2000);
 
 
     $scope.redirectToMapPageApi = function (mapName) {
