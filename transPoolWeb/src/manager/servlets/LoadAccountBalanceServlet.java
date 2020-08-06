@@ -34,8 +34,5 @@ public class LoadAccountBalanceServlet extends HttpServlet {
         LoadMoneyIntoAccountResponseDto loadMoneyIntoAccountResponseDto = engine.loadMoneyIntoAccount(userName, amountToLoad);
         String LoadMoneyIntoAccountResponseDtoJson = new Gson().toJson(loadMoneyIntoAccountResponseDto);
         response.getWriter().write(LoadMoneyIntoAccountResponseDtoJson);
-
-
-        response.sendRedirect(USER_DETAILS_URL);
     }
 }

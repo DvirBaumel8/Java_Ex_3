@@ -5,31 +5,32 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
     function($scope, $http, $location, $rootScope, $window) {
 
      //   setInterval(
-    function init() {
+        initUserDetailsPage();
+
+    function initUserDetailsPage() {
+        var x;
         $scope.totalMapsInTheSystem = {};
         $scope.userNameInUserPage = $window.sessionStorage.getItem("userNameGlobalVar");
         document.getElementById('userName').value = $scope.userNameInUserPage;
         let notification;
 
-        $scope.createUser = function() {
-            console.log("I've been pressed!");
+        $http({
+            url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserMapDetailsServlet',
+            method: "GET",
+            params: {userName: $scope.userNameInUserPage}
+        }).then(
+            function successCallback(response) {
+                $scope.totalMapsInTheSystem = response.data.mapsTableElementsInfo;
+                $scope.userTransactionsHistoryTable = response.data.userAccountTransactions;
+                $scope.userLoadingAccountBalance = response.data.userBalanceDto;
 
-            $http({
-                url: 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/UserMapDetailsServlet',
-                method: "GET",
-                params: {userName: $scope.userNameInUserPage}
-            }).then(
-                function successCallback(response) {
-                    $scope.totalMapsInTheSystem = response.data.mapsTableElementsInfo;
-                    $scope.userTransactionsHistoryTable = response.data.userAccountTransactions;
-                    $scope.userLoadingAccountBalance = response.data.userBalanceDto;
+            },
+            function errorCallback(response) {
+                console.log("Unable to perform get request");
+            }
+        );
 
-                },
-                function errorCallback(response) {
-                    console.log("Unable to perform get request");
-                }
-            );
-        }
+
     }
     //, 2000);
 
