@@ -17,9 +17,9 @@ public class MapsManager {
         mapNameToEntity = new HashMap<>();
     }
 
-    public void createNewMap(MapDescriptor mapDescriptor, String userName, String mapName) throws Exception {
+    public void createNewMap(MapDescriptor mapDescriptor, String userName, String mapName, StringBuilder error) {
         if(mapNameToEntity.containsKey(mapName)) {
-            throw new Exception("Map already Exists Exception");
+            error.append("Map already Exists Exception");
         }
         MapEntity mapEntity = new MapEntity(mapDescriptor, userName, mapName, createHtmlGraph(mapDescriptor));
         mapNameToEntity.put(mapName, mapEntity);

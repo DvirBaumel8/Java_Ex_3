@@ -50,21 +50,23 @@ public class EngineManager {
         usersManager = new UsersManager();
     }
 
-    public void handleFileUploadProcess(String fileContent, String userName, String mapName) throws Exception {
+    public String handleFileUploadProcess(String fileContent, String userName, String mapName) {
+        StringBuilder errors = new StringBuilder();
         SchemaBasedJAXBMain schemaBasedJAXBMain = new SchemaBasedJAXBMain();
         InputStream stream = new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8));
         TransPool transPool = schemaBasedJAXBMain.deserializeFrom(stream);
         XMLValidationsImpl xmlValidator = new XMLValidationsImpl(transPool);
         List<String> validationErrors = new ArrayList<>();
         if (!xmlValidator.validateXmlFile(validationErrors)) {
-            StringBuilder errors = new StringBuilder();
+            errors = new StringBuilder();
             for (String error : validationErrors) {
                 errors.append(error);
             }
-            throw new Exception(errors.toString());
         } else {
-            mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName);
+            mapsManager.createNewMap(transPool.getMapDescriptor(), userName, mapName, errors);
         }
+
+        return errors.toString();
     }
 
     public TripRequestResponseDto createNewTripRequest(String mapName, String[] inputsArr, String userName) {

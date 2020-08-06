@@ -48,16 +48,13 @@ public class LoginServlet extends HttpServlet {
             if(isValid) {
                 userName = userName.trim();
                 synchronized (this) {
-                    try {
-                        if(!engine.isUserExist(userName)) {
-                            engine.addUser(userName, userType);
-                        }
+                    if(!engine.isUserExist(userName)) {
+                        engine.addUser(userName, userType);
                         json = new Gson().toJson(PopupTypesMess.SUCCESSFUL_SIGN_IN);
                         response.getWriter().write(json);
                     }
-
-                    catch (Exception exception) {
-                        json = new Gson().toJson(exception.getMessage());
+                    else {
+                        json = new Gson().toJson(PopupTypesMess.USER_EXISTS_ERROR);
                         response.getWriter().write(json);
                     }
                 }

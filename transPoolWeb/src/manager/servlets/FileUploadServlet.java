@@ -1,6 +1,7 @@
 package manager.servlets;
 //taken from: http://www.servletworld.com/servlet-tutorials/servlet3/multipartconfig-file-upload-example.html
 // and http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
+import com.google.gson.Gson;
 import engine.manager.EngineManager;
 import manager.constans.Constants;
 import manager.utils.ServletUtils;
@@ -45,13 +46,9 @@ public class FileUploadServlet extends HttpServlet {
         }
 
         EngineManager engineManager = ServletUtils.getEngineManager(getServletContext());
-        try {
-            engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapName);
-        }
-        catch (Exception ex) {
-            String error = ex.getMessage();
-            //Display error to user
-        }
+        String error = engineManager.handleFileUploadProcess(fileContent.toString(), userName, mapName);
+        String errorJson = new Gson().toJson(error);
+        response.getWriter().write(errorJson);
 
         response.sendRedirect(USER_DETAILS_URL);
     }
