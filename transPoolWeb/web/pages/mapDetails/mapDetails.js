@@ -6,8 +6,8 @@ var transPoolApp = angular.module('transPoolApp', []);
 transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$window',
     function($scope, $http, $rootScope, $window) {
 
-     //  initMapDetailsPage();
-    setInterval(
+       initMapDetailsPage();
+    //setInterval(
     function initMapDetailsPage() {
         let errors;
         let notification;
@@ -46,7 +46,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 }
             );
     }
-    , 200);
+   // , 200);
 
 //-----------------------------Add New SuggestTrip Section -------------------------------------
         $scope.addNewSuggestTrip = function () {
@@ -220,13 +220,13 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     $scope.potentialSuggestedTrips = response.data.potentialRoadTripDto;
                     errors = response.data.errors;
 
-                    if(errors == undefined) {
-                        let successMessage = "Success Adding Trip Request";
-                        $window.alert(successMessage);
-                    }
-                    else {
+                    if(errors) {
                         $window.alert("errors:" + errors);
                         errors = undefined;
+                    }
+                    else {
+                        let successMessage = "Success display potential Suggested Trips";
+                        $window.alert(successMessage);
                     }
                 },
                 function errorCallback(response) {
@@ -262,16 +262,15 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 function successCallback(response) {
                     errors =  response.data;
 
-                    if(errors == undefined) {
+                    if(errors) {
+                        $scope.isMatchSucceed = false;
+                        $window.alert("errors:" + errors);
+                    }
+                    else {
                         $scope.isMatchSucceed = true;
                         let successMessage = "Match Succeed";
                         $window.alert(successMessage);
                         window.close();
-                    }
-                    else {
-                        $scope.isMatchSucceed = false;
-                        $window.alert("errors:" + errors);
-                        errors = undefined;
                     }
                 },
                 function errorCallback(response) {
@@ -335,15 +334,16 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
             }).then(
                 function successCallback(response) {
                     $scope.isRatingSucceed = response.data.isRatingSucceed;
-                    errors = response.data.errors;
+                    errors = response.data;
 
-                    if(errors != undefined) {
+                    if(errors) {
                         $window.alert("errors:" + errors);
-                        errors = undefined;
+                        $scope.isRatingSucceed = false;
                     }
                     else {
                         let successMessage = "Rating Succeed";
                         $window.alert(successMessage);
+                        $scope.isRatingSucceed = true;
                     }
                 },
                 function errorCallback(response) {
