@@ -45,7 +45,7 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 }
             );
     }
-    , 200);
+    , 2000);
 
 //-----------------------------Add New SuggestTrip Section -------------------------------------
         $scope.addNewSuggestTrip = function () {
@@ -337,7 +337,6 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                     if(errors) {
                         $window.alert("errors:" + errors);
                         $scope.isRatingSucceed = false;
-                        window.close();
                     }
                     else {
                         let successMessage = "Rating Succeed";

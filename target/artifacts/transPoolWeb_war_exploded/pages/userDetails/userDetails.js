@@ -5,9 +5,8 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
     function($scope, $http, $location, $rootScope, $window) {
 
 
-        initUserDetailsPage();
 
-       // setInterval(
+        setInterval(
     function initUserDetailsPage() {
         var x;
         $scope.totalMapsInTheSystem = {};
@@ -24,7 +23,6 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                 $scope.totalMapsInTheSystem = response.data.mapsTableElementsInfo;
                 $scope.userTransactionsHistoryTable = response.data.userAccountTransactions;
                 $scope.userLoadingAccountBalance = response.data.userBalanceDto;
-
             },
             function errorCallback(response) {
                 console.log("Unable to perform get request");
@@ -33,7 +31,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
 
 
     }
-   // , 200);
+    , 2000);
 
 
     $scope.redirectToMapPageApi = function (mapName) {
