@@ -50,15 +50,15 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
 
                 errors = response.data.errors;
 
-                if(errors != undefined) {
-                    $window.alert("errors:" + errors);
-                    errors = undefined;
-                }
-                else {
+                if(errors == "") {
                     let successMessage = "Success Move Map Screen Page";
                     $window.sessionStorage.setItem("userMapGlobalVar",mapName);
                     $window.alert(successMessage);
                     $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/mapDetails/mapDetails.html';
+                }
+                else {
+                    $window.alert("errors:" + errors);
+                    errors = undefined;
                 }
             },
             function errorCallback(response) {
@@ -82,7 +82,9 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                 function successCallback(response) {
                     errors = response.data;
 
-                    if(errors != undefined) {
+                    if(errors == "") {
+                    }
+                    else {
                         $window.alert("errors:" + errors);
                         errors = undefined;
                     }
@@ -111,14 +113,14 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
 
                     errors = response.data.error;
 
-                    if(errors != undefined) {
-                        $window.alert("errors:" + errors);
-                        errors = undefined;
-                    }
-                    else {
+                    if(errors == "") {
                         $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
                         let successMessage = "Success Adding Cash";
                         $window.alert(successMessage);
+                    }
+                    else {
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
                     }
                 },
                 function errorCallback(response) {
@@ -138,12 +140,14 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
                 function successCallback(response) {
                     errors = response.data;
 
-                    if(errors != undefined) {
+                    if(errors == "") {
+                        $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
                         $window.alert("errors:" + errors);
                         errors = undefined;
                     }
                     else {
-                        $window.location.href = 'http://localhost:8080/transPoolWeb_war_exploded/pages/userDetails/userDetails.html';
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
                     }
                 },
                 function errorCallback(response) {
