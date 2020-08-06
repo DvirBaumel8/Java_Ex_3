@@ -5,7 +5,7 @@ transPoolApp.controller('userDetailsCtrl',[ '$scope', '$http', '$location', '$ro
     function($scope, $http, $location, $rootScope, $window) {
 
 
-        //initUserDetailsPage();
+        initUserDetailsPage();
 
        // setInterval(
     function initUserDetailsPage() {
