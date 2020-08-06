@@ -234,17 +234,17 @@ transPoolApp.controller('mapDetailsCtrl',[ '$scope', '$http', '$rootScope','$win
                 }
             }).then(
                 function successCallback(response) {
-                    $scope.potentialSuggestedTrips = response.data.potentialSuggestedTrips;
+                    $scope.potentialSuggestedTrips = response.data.potentialRoadTripDto;
                     errors = response.data.errors;
                     //window.open("potenSuggTripsWin.html","bfs","width=500,height=400,scrollbars=yes");
                     //$scope.highlightTripDetailsForTripRequest(requestId);
-                    if(errors != undefined) {
-                        $window.alert("errors:" + errors);
-                        errors = undefined;
-                    }
-                    else {
+                    if(errors == "") {
                         let successMessage = "Success Adding Trip Request";
                         $window.alert(successMessage);
+                    }
+                    else {
+                        $window.alert("errors:" + errors);
+                        errors = undefined;
                     }
                 },
                 function errorCallback(response) {
